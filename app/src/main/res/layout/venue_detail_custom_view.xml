@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/view_default_padding_x2"
+    android:layout_marginLeft="@dimen/view_default_padding_x2"
+    android:layout_marginTop="@dimen/view_default_padding"
+    android:layout_marginEnd="@dimen/view_default_padding_x2"
+    android:layout_marginRight="@dimen/view_default_padding_x2"
+    android:layout_marginBottom="@dimen/view_default_padding"
+    android:background="@drawable/venue_recycler_selector_back"
+    android:gravity="center_vertical"
+    android:minHeight="32dp"
+    android:orientation="horizontal"
+    android:padding="@dimen/view_default_padding_x2">
+
+    <ImageView
+        android:id="@+id/venue_detail_custom_view_image_view"
+        android:layout_width="18dp"
+        android:layout_height="36dp"
+        android:layout_margin="@dimen/view_default_padding_x2"
+        android:textColor="@color/colorWhite"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/venue_detail_custom_view_text_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/view_default_padding_x2"
+        android:autoLink="web"
+        android:gravity="start|center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:linksClickable="true"
+        android:textColor="@color/colorWhite"
+        android:textColorLink="@color/colorVeryLightBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/venue_detail_custom_view_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

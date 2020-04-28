@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style
+        name="dialog_animation_fade" >
+        <item name="android:windowEnterAnimation">@anim/fade_in_anim</item>
+        <item name="android:windowExitAnimation">@anim/fade_out_anim</item>
+    </style>
+
 </resources>

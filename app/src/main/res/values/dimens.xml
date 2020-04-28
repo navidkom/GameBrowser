@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="appbar_height">232dp</dimen>
+
+    <dimen name="view_default_padding">4dp</dimen>
+    <dimen name="view_default_padding_x2">8dp</dimen>
+    <dimen name="view_default_padding_x3">12dp</dimen>
+    <dimen name="view_default_padding_x4">16dp</dimen>
+</resources>
