@@ -6,8 +6,8 @@ import ir.artapps.gamebrowser.remote.GamesRemoteDataSource
 import ir.artapps.gamebrowser.remote.GamesRemoteDataSourceImpl
 import ir.artapps.gamebrowser.repo.GamesRepository
 import ir.artapps.gamebrowser.repo.GamesRepositoryImpl
-import ir.artapps.gamebrowser.ui.detail.VenueDetailViewModel
 import ir.artapps.gamebrowser.ui.main.MainViewModel
+import ir.artapps.moviedb.ui.detail.DetailViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -29,6 +29,6 @@ class Module {
         single<GamesRepository> { GamesRepositoryImpl(get(), get()) }
 
         viewModel { MainViewModel(get()) }
-        viewModel { VenueDetailViewModel(get()) }
+        viewModel { DetailViewModel(get()) }
     }
 }

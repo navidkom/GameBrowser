@@ -2,6 +2,7 @@ package ir.artapps.gamebrowser.ui.main.viewholder
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import ir.artapps.gamebrowser.R
@@ -11,15 +12,16 @@ import ir.artapps.gamebrowser.util.DistanceUtil
 
 class VenueRecyclerViewViewHolder(val v: View) : BaseViewHolder(v),
     View.OnClickListener {
-    var name: TextView
-    var distance: TextView
+    var title: TextView
+    var number: TextView
+    var rating: RatingBar
     var imageView: ImageView
     var listener: MainRecyclerViewAdapter.OnItemClickListener? = null
     override fun onBind(model: Game, i: Int) {
-        name.text = model.name
-//        distance.text = DistanceUtil.distanceToString( model.distance )
+        title.text = model.name
+        rating.rating = model.rate?.rate!!
         imageView.setImageBitmap(null)
-//        Glide.with(v).load(model.categories?.get(0)?.icon?.url).into(imageView)
+        Glide.with(v).load(model.preview).into(imageView)
     }
 
     override fun setClickListener(listener: MainRecyclerViewAdapter.OnItemClickListener) {
@@ -32,9 +34,11 @@ class VenueRecyclerViewViewHolder(val v: View) : BaseViewHolder(v),
 
     init {
         v.setOnClickListener(this)
-        name = v.findViewById(R.id.venue_recycler_item_name_text_view)
-        distance = v.findViewById(R.id.venue_recycler_item_distance_text_view)
+        title = v.findViewById(R.id.recycler_item_title_text_view)
+        number = v.findViewById(R.id.recycler_item_number_text_view)
         imageView =
-            v.findViewById(R.id.venue_recycler_item_category_image_view)
+            v.findViewById(R.id.recycler_item_image_view)
+
+        rating = v.findViewById(R.id.recycler_item_rating_bar)
     }
 }

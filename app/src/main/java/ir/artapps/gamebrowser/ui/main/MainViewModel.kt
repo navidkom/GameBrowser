@@ -29,7 +29,7 @@ class MainViewModel(private val gamesRepository: GamesRepository) : ViewModel() 
             val responseCode = gamesRepository.getGames(firstPage)
 
             // check if this is last page or not
-            if (responseCode == 1) {
+            if (responseCode == 1 || responseCode == 2) {
                 lastPage = true
             }
 
@@ -39,6 +39,7 @@ class MainViewModel(private val gamesRepository: GamesRepository) : ViewModel() 
                 _errorLiveData.postValue(
                     when (responseCode) {
                         0 -> "AN ERROR OCCURRED: Network Error"
+                        2 -> "NOTHING INSERTED"
                         else -> "AN ERROR OCCURRED: Error Code $responseCode"
                     }
                 )

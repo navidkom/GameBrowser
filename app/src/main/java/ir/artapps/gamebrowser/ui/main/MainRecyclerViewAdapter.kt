@@ -32,7 +32,7 @@ class MainRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         return when (viewType) {
             VIEW_TYPE_VENUE -> VenueRecyclerViewViewHolder(
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.venues_recycler_view_view_holder,
+                    R.layout.recycler_view_view_holder,
                     parent,
                     false
                 )

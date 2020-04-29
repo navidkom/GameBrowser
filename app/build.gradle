@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "ir.artapps.gamebrowser"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

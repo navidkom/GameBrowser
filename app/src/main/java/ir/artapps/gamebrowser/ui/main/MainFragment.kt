@@ -1,28 +1,22 @@
 package ir.artapps.gamebrowser.ui.main
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
 import ir.artapps.gamebrowser.R
-import ir.artapps.gamebrowser.ui.detail.VenueDetailFragment
-import ir.artapps.gamebrowser.util.DistanceUtil
+import ir.artapps.gamebrowser.ui.detail.DetailFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener {
 
-    private val linearLayoutManager = LinearLayoutManager(context)
+    private val linearLayoutManager = GridLayoutManager(context, 3)
     private lateinit var mAdapter: MainRecyclerViewAdapter
 
     private val venueViewModel: MainViewModel by viewModel()
@@ -101,8 +95,8 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener {
 
     // handle venue item clicks and show detail fragment
     override fun onItemClick(view: View?, position: Int) {
-//        val detailFragment: VenueDetailFragment =
-//            VenueDetailFragment.newInstance(mAdapter.items[position])
-//        detailFragment.show(childFragmentManager, position.toString())
+        val detailFragment =
+            DetailFragment.newInstance(mAdapter.items[position])
+        detailFragment.show(childFragmentManager, position.toString())
     }
 }
