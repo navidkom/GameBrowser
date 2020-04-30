@@ -10,6 +10,6 @@ import ir.artapps.gamebrowser.entities.Game
 
 interface GamesRepository {
      fun getGamesLiveData(): LiveData<List<Game>>
-     suspend fun getGames(firstPage: Boolean): Int
+     suspend fun getGames(firstPage: Boolean, filter: String?): Int
      suspend fun getGame(gameId: String): Game
 }

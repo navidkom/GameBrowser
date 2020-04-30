@@ -14,16 +14,16 @@ import java.lang.Exception
  */
 class DetailViewModel(private val repository: GamesRepository) : ViewModel() {
 
-    private val _movieLiveData = MutableLiveData<Game>()
-    val movieLiveData: LiveData<Game> = _movieLiveData
+    private val _gameLiveData = MutableLiveData<Game>()
+    val gameLiveData: LiveData<Game> = _gameLiveData
 
     private val _errorLiveData: MutableLiveData<String> = MutableLiveData()
     val errorLiveData: LiveData<String> = _errorLiveData
 
-    fun getMovieDetail(id: Int) {
+    fun getDetail(id: Int) {
         viewModelScope.launch {
             try {
-                _movieLiveData.value = repository.getGame(id.toString())
+                _gameLiveData.value = repository.getGame(id.toString())
             } catch (e: Exception) {
                 _errorLiveData.value = "AN ERROR OCCURRED"
             }

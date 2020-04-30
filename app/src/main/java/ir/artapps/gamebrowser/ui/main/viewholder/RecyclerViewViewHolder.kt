@@ -8,9 +8,8 @@ import com.bumptech.glide.Glide
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.ui.main.MainRecyclerViewAdapter
-import ir.artapps.gamebrowser.util.DistanceUtil
 
-class VenueRecyclerViewViewHolder(val v: View) : BaseViewHolder(v),
+class RecyclerViewViewHolder(val v: View) : BaseViewHolder(v),
     View.OnClickListener {
     var title: TextView
     var number: TextView

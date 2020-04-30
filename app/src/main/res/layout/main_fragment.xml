@@ -3,7 +3,7 @@
     android:id="@+id/mainParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#cca53d30">
+    android:background="@color/colorPrimaryDark">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"

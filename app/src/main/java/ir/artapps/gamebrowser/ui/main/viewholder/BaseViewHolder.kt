@@ -7,6 +7,6 @@ import ir.artapps.gamebrowser.ui.main.MainRecyclerViewAdapter
 
 abstract class BaseViewHolder(itemView: View) :
     RecyclerView.ViewHolder(itemView) {
-    abstract fun onBind(venue: Game, position: Int)
+    abstract fun onBind(game: Game, position: Int)
     abstract fun setClickListener(listener: MainRecyclerViewAdapter.OnItemClickListener)
 }

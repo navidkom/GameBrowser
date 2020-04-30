@@ -8,7 +8,7 @@ import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.ui.main.viewholder.BaseViewHolder
 import ir.artapps.gamebrowser.ui.main.viewholder.LoadingViewHolder
-import ir.artapps.gamebrowser.ui.main.viewholder.VenueRecyclerViewViewHolder
+import ir.artapps.gamebrowser.ui.main.viewholder.RecyclerViewViewHolder
 
 /**
  * Created by navid
@@ -24,13 +24,13 @@ class MainRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         }
     }
 
-    private val VIEW_TYPE_VENUE = 0
+    private val VIEW_TYPE_GAME = 0
     private val VIEW_TYPE_LOADING = 1
     var items: List<Game> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
-            VIEW_TYPE_VENUE -> VenueRecyclerViewViewHolder(
+            VIEW_TYPE_GAME -> RecyclerViewViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.recycler_view_view_holder,
                     parent,
@@ -49,17 +49,17 @@ class MainRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     var itemClickListener: OnItemClickListener? = null
 
-    fun setVenues(venues: List<Game>) {
+    fun setGames(venues: List<Game>) {
         items = venues
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(baseViewHolder: BaseViewHolder, i: Int) {
-        var venue: Game? = null
-        if (getItemViewType(i) == VIEW_TYPE_VENUE) {
-            venue = items[i]
+        var game: Game? = null
+        if (getItemViewType(i) == VIEW_TYPE_GAME) {
+            game = items[i]
         }
-        venue?.let {  baseViewHolder.onBind(venue , i) }
+        game?.let {  baseViewHolder.onBind(game , i) }
         itemClickListener?.let { baseViewHolder.setClickListener(it) }
     }
 
@@ -72,7 +72,7 @@ class MainRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return if (position == items.size) {
             VIEW_TYPE_LOADING
-        } else VIEW_TYPE_VENUE
+        } else VIEW_TYPE_GAME
     }
 
     interface OnItemClickListener {

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val gamesRepository: GamesRepository) : ViewModel() {
 
-    val venuesLiveData: LiveData<List<Game>> = gamesRepository.getGamesLiveData()
+    val gamesLiveData: LiveData<List<Game>> = gamesRepository.getGamesLiveData()
     private val _errorLiveData: MutableLiveData<String> = MutableLiveData()
     val errorLiveData: LiveData<String> = _errorLiveData
 
@@ -20,13 +20,13 @@ class MainViewModel(private val gamesRepository: GamesRepository) : ViewModel() 
 
     // this method requests venues from repository and handle returned error
     // result of venus will post on venuesLiveData and we dose not get result here
-    fun getVenues(
-        firstPage: Boolean
+    fun getGames(
+        firstPage: Boolean, filter: String? = null
     ) {
 
         if (firstPage) lastPage = false
         viewModelScope.launch {
-            val responseCode = gamesRepository.getGames(firstPage)
+            val responseCode = gamesRepository.getGames(firstPage, filter)
 
             // check if this is last page or not
             if (responseCode == 1 || responseCode == 2) {
@@ -39,7 +39,7 @@ class MainViewModel(private val gamesRepository: GamesRepository) : ViewModel() 
                 _errorLiveData.postValue(
                     when (responseCode) {
                         0 -> "AN ERROR OCCURRED: Network Error"
-                        2 -> "NOTHING INSERTED"
+                        2 -> if(firstPage) "LIST IS EMPTY" else "NOTHING ADDED"
                         else -> "AN ERROR OCCURRED: Error Code $responseCode"
                     }
                 )

@@ -4,6 +4,6 @@
     <string name="loading">Loading</string>
     <string name="item_category_image">item category image</string>
     <string name="distance_image">distance image</string>
-    <string name="venue_image">venue image</string>
+    <string name="game_image">game image</string>
 
 </resources>

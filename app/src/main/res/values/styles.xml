@@ -6,12 +6,20 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:fontFamily">@font/iranian_sans</item>
+        <item name="fontFamily">@font/iranian_sans</item>
     </style>
 
     <style
         name="dialog_animation_fade" >
         <item name="android:windowEnterAnimation">@anim/fade_in_anim</item>
         <item name="android:windowExitAnimation">@anim/fade_out_anim</item>
+    </style>
+
+    <style
+        name="RatingBar" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlActivated">@color/duskYellow</item>
     </style>
 
 </resources>

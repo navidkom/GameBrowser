@@ -1,9 +1,8 @@
 package ir.artapps.gamebrowser.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,12 +13,12 @@ import ir.artapps.gamebrowser.ui.detail.DetailFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener {
+class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener{
 
     private val linearLayoutManager = GridLayoutManager(context, 3)
     private lateinit var mAdapter: MainRecyclerViewAdapter
 
-    private val venueViewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModel()
 
     companion object {
         fun newInstance() = MainFragment()
@@ -33,7 +32,9 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        val view = inflater.inflate(R.layout.main_fragment, container, false)
+        setHasOptionsMenu(true)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,16 +42,14 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener {
         mAdapter = MainRecyclerViewAdapter()
         mAdapter.itemClickListener = this
 
-
-        venueViewModel.apply {
-
-            getVenues(true)
+        viewModel.apply {
+            getGames(true)
 
             // observe updates of venues
-            venuesLiveData.observe(viewLifecycleOwner,
+            gamesLiveData.observe(viewLifecycleOwner,
                 Observer {
 
-                    mAdapter.setVenues(it)
+                    mAdapter.setGames(it)
                     refreshLayout.isRefreshing = false
                     mAdapter.loading = false
                     loading = false
@@ -75,11 +74,11 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener {
 
                         // check if recycler view moves to end and send request for next page
                         if (childCount + findFirstVisibleItemPosition() >= itemCount
-                            && !venueViewModel.loading
-                            && !venueViewModel.lastPage && dy > 0
+                            && !viewModel.loading
+                            && !viewModel.lastPage && dy > 0
                         ) {
-                            venueViewModel.getVenues(false)
-                            venueViewModel.loading = true
+                            viewModel.getGames(false)
+                            viewModel.loading = true
                             mAdapter.loading = true
                         }
                     }
@@ -89,11 +88,37 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener {
 
         // pull to refresh
         refreshLayout.setOnRefreshListener {
-            venueViewModel.getVenues(true)
+            viewModel.getGames(true)
         }
     }
 
-    // handle venue item clicks and show detail fragment
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+
+        val searchMenuItem = menu.findItem(R.id.search)
+        val searchView = searchMenuItem.actionView as SearchView
+
+        searchView.isSubmitButtonEnabled = false
+        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener,
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.getGames(true, query)
+                refreshLayout.isRefreshing = true
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+        searchView.setOnCloseListener {
+            viewModel.getGames(true)
+            refreshLayout.isRefreshing = true
+            false
+        }
+    }
+
+    // handle game item clicks and show detail fragment
     override fun onItemClick(view: View?, position: Int) {
         val detailFragment =
             DetailFragment.newInstance(mAdapter.items[position])

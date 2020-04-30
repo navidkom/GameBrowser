@@ -16,14 +16,14 @@ import ir.artapps.gamebrowser.base.BaseDialogFragment
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.moviedb.ui.detail.DetailViewModel
 
-import kotlinx.android.synthetic.main.movie_detail_fragment.*
+import kotlinx.android.synthetic.main.detail_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * Created by navid
  */
 class DetailFragment : BaseDialogFragment() {
-    private var movie: Game? = null
+    private var game: Game? = null
     private val detailViewModel: DetailViewModel by viewModel()
 
     override fun onCreateView(
@@ -31,15 +31,8 @@ class DetailFragment : BaseDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.movie_detail_fragment, container, false)
-        setHasOptionsMenu(true);
+        val v = inflater.inflate(R.layout.detail_fragment, container, false)
         return v
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     override fun onViewCreated(
@@ -50,12 +43,12 @@ class DetailFragment : BaseDialogFragment() {
 
         arguments?.apply {
             if (containsKey(MODEL_ARG_KEY)) {
-                movie = getParcelable(MODEL_ARG_KEY)
+                game = getParcelable(MODEL_ARG_KEY)
             }
         }
 
         toolbar?.apply {
-            title = movie?.name
+            title = game?.name
             context?.let {
                 setTitleTextColor(ContextCompat.getColor(it, R.color.colorWhite))
             }
@@ -73,11 +66,11 @@ class DetailFragment : BaseDialogFragment() {
         appBarLayout?.setExpanded(false)
 
         detailViewModel.apply {
-            movieLiveData.observe(
+            gameLiveData.observe(
                 viewLifecycleOwner,
-                Observer { movie -> setNetData(movie) })
-            movie?.id?.let {
-                getMovieDetail(it)
+                Observer { game -> setNetData(game) })
+            game?.id?.let {
+                getDetail(it)
             }
             errorLiveData.observe(viewLifecycleOwner, Observer {
                 Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
@@ -85,9 +78,9 @@ class DetailFragment : BaseDialogFragment() {
         }
     }
 
-    // set the detail movie data that fetched from remote server
-    private fun setNetData(movie: Game?) {
-        movie?.apply {
+    // set the detail game data that fetched from remote server
+    private fun setNetData(game: Game?) {
+        game?.apply {
             banner?.let {
                 Glide.with(this@DetailFragment).load( it)
 
@@ -127,19 +120,7 @@ class DetailFragment : BaseDialogFragment() {
                 summeryTextView.text = it
             }
 
-            preview?.let {
-                Glide.with(this@DetailFragment).load( it)
-                    .into(posterImageView)
-            }
-
-//            genres?.let {
-//                var genresText: String = ""
-//                it.forEach {
-//                    genresText += "${it.name} "
-//                }
-//                setDetailTextView(getString(R.string.genres), genresText)
-//            }
-//            originalLanguage?.let {
+//            ?.let {
 //                setDetailTextView(getString(R.string.language), it)
 //            }
 //
@@ -163,10 +144,10 @@ class DetailFragment : BaseDialogFragment() {
 
     companion object {
         private const val MODEL_ARG_KEY = "ModelKey"
-        fun newInstance(movie: Game?): DetailFragment {
+        fun newInstance(game: Game?): DetailFragment {
             val detailFragment = DetailFragment()
             val bundle = Bundle()
-            bundle.putParcelable(MODEL_ARG_KEY, movie)
+            bundle.putParcelable(MODEL_ARG_KEY, game)
             detailFragment.arguments = bundle
             return detailFragment
         }

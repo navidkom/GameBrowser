@@ -21,16 +21,21 @@ class GamesRepositoryImpl(
         return gamesDAO.loadAll()
     }
 
-    override suspend fun getGames(firstPage: Boolean): Int {
+    override suspend fun getGames(firstPage: Boolean, filter: String?): Int {
         var games: List<Game> = listOf()
         var responseCode: Int
+        var _firstPage = firstPage
+        if(!filter.isNullOrEmpty()) {
+            _firstPage = true
+        }
+
         try {
 
             // calculate first item number of next page that will request
             val remoteRespone = remote.getGames(
                 PAGE_SIZE,
-                if (firstPage) 0 else gamesDAO.getCount(),
-                ""
+                if (_firstPage) 0 else gamesDAO.getCount(),
+                if(filter.isNullOrEmpty()) "" else filter
             )
 
             remoteRespone.game?.let {
@@ -58,8 +63,8 @@ class GamesRepositoryImpl(
         }
 
         // persist data or clean db if response is ok
-        if (responseCode == 200 || responseCode == 1) {
-            if (firstPage) {
+        if (responseCode == 200 || responseCode == 1 || responseCode == 2) {
+            if (_firstPage) {
                 gamesDAO.invalidate()
             }
             gamesDAO.insertGames(games)
