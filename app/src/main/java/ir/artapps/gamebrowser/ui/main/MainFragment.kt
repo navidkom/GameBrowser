@@ -24,10 +24,6 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener{
         fun newInstance() = MainFragment()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,7 +41,7 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener{
         viewModel.apply {
             getGames(true)
 
-            // observe updates of venues
+            // observe updates of games
             gamesLiveData.observe(viewLifecycleOwner,
                 Observer {
 

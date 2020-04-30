@@ -49,8 +49,8 @@ class MainRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     var itemClickListener: OnItemClickListener? = null
 
-    fun setGames(venues: List<Game>) {
-        items = venues
+    fun setGames(games: List<Game>) {
+        items = games
         notifyDataSetChanged()
     }
 

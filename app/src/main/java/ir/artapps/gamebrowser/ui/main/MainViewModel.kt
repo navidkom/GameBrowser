@@ -18,12 +18,11 @@ class MainViewModel(private val gamesRepository: GamesRepository) : ViewModel() 
     var loading = false
     var lastPage = false
 
-    // this method requests venues from repository and handle returned error
-    // result of venus will post on venuesLiveData and we dose not get result here
+    // this method requests games from repository and handle returned error
+    // result of games will post on gamesLiveData and we dose not get result here
     fun getGames(
         firstPage: Boolean, filter: String? = null
     ) {
-
         if (firstPage) lastPage = false
         viewModelScope.launch {
             val responseCode = gamesRepository.getGames(firstPage, filter)

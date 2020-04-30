@@ -37,7 +37,6 @@ class RecyclerViewViewHolder(val v: View) : BaseViewHolder(v),
         number = v.findViewById(R.id.recycler_item_number_text_view)
         imageView =
             v.findViewById(R.id.recycler_item_image_view)
-
         rating = v.findViewById(R.id.recycler_item_rating_bar)
     }
 }

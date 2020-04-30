@@ -6,8 +6,6 @@ import ir.artapps.gamebrowser.entities.ResponseModel
  * Created by navid
  */
 class GamesRemoteDataSourceImpl: GamesRemoteDataSource {
-    var PAGE_SIZE = 20
-
     val service by lazy {
         ServiceGenerator.create()
     }

@@ -30,8 +30,6 @@ class GamesRepositoryImpl(
         }
 
         try {
-
-            // calculate first item number of next page that will request
             val remoteRespone = remote.getGames(
                 PAGE_SIZE,
                 if (_firstPage) 0 else gamesDAO.getCount(),

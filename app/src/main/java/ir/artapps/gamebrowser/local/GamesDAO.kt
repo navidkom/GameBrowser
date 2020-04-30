@@ -10,7 +10,7 @@ import ir.artapps.gamebrowser.entities.Game
 @Dao
 interface GamesDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertGames(venues: List<Game>)
+    suspend fun insertGames(games: List<Game>)
 
     @Query("SELECT * FROM response order by id_ asc")
     fun loadAll(): LiveData<List<Game>>
