@@ -31,8 +31,7 @@ class DetailFragment : BaseDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.detail_fragment, container, false)
-        return v
+        return inflater.inflate(R.layout.detail_fragment, container, false)
     }
 
     override fun onViewCreated(
@@ -112,29 +111,33 @@ class DetailFragment : BaseDialogFragment() {
                     .into(photoImageView)
             }
 
-            name?.let {
-                titleTextView.text = it
+            rate?.rate?.let {
+                ratingText.text = String.format("%.1f", it);
+                ratingBar.rating = it
+            }
+
+            description?.let {
+                summaryParent.visibility = View.VISIBLE
+                summaryTextView.text = String.format("%s\n%s",getString(R.string.description), it )
             }
 
             gamePlayDesc?.let {
-                summeryTextView.text = it
+                gameplayParent.visibility = View.VISIBLE
+                gameplayTextView.text = String.format("%s\n%s",getString(R.string.gameplay), it )
+                    "%s\n%s"
             }
 
-//            ?.let {
-//                setDetailTextView(getString(R.string.language), it)
-//            }
-//
-//            budget?.let {
-//                setDetailTextView(getString(R.string.budget), it)
-//            }
-//
-//            releaseDate?.let {
-//                setDetailTextView(getString(R.string.release_date), it)
-//            }
-//
-//            voteAverage?.let {
-//                setDetailTextView(getString(R.string.average_vote), it)
-//            }
+            lobby?.name?.let{
+                setDetailTextView(getString(R.string.game_type), it)
+            }
+
+            changelog?.let{
+                setDetailTextView(getString(R.string.changelog), it)
+            }
+
+            apkSize?.let{
+                setDetailTextView(getString(R.string.apksize), it)
+            }
         }
     }
 

@@ -5,5 +5,12 @@
     <string name="item_category_image">item category image</string>
     <string name="distance_image">distance image</string>
     <string name="game_image">game image</string>
+    <string name="game_type">نوع بازی:</string>
+    <string name="changelog">آخرین تغییرات:</string>
+    <string name="apksize">حجم بازی:</string>
+    <string name="description">توضیحات:</string>
+    <string name="gameplay">نحوه انجام بازی:</string>
+    <string name="_3_8">3.8</string>
+    <string name="score">امتیاز</string>
 
 </resources>
