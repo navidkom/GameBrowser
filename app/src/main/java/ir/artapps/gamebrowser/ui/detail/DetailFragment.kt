@@ -1,5 +1,6 @@
 package ir.artapps.gamebrowser.ui.detail
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
@@ -14,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
 import ir.artapps.gamebrowser.entities.Game
+import ir.artapps.gamebrowser.ui.WebViewActivity
 import ir.artapps.moviedb.ui.detail.DetailViewModel
 
 import kotlinx.android.synthetic.main.detail_fragment.*
@@ -49,20 +51,20 @@ class DetailFragment : BaseDialogFragment() {
         toolbar?.apply {
             title = game?.name
             context?.let {
-                setTitleTextColor(ContextCompat.getColor(it, R.color.colorWhite))
+                setTitleTextColor(ContextCompat.getColor(it, R.color.white))
             }
             setNavigationIcon(R.drawable.ic_nav_back)
             setNavigationOnClickListener { dismiss() }
         }
 
-        collapsingToolbarLayout?.apply {
-            context?.let {
-                setCollapsedTitleTextColor(ContextCompat.getColor(it, R.color.colorWhite))
-                setExpandedTitleColor(ContextCompat.getColor(it, R.color.colorWhite))
-            }
-        }
-
-        appBarLayout?.setExpanded(false)
+//        collapsingToolbarLayout?.apply {
+//            context?.let {
+//                setCollapsedTitleTextColor(ContextCompat.getColor(it, R.color.white))
+//                setExpandedTitleColor(ContextCompat.getColor(it, R.color.white))
+//            }
+//        }
+//
+//        appBarLayout?.setExpanded(false)
 
         detailViewModel.apply {
             gameLiveData.observe(
@@ -74,6 +76,11 @@ class DetailFragment : BaseDialogFragment() {
             errorLiveData.observe(viewLifecycleOwner, Observer {
                 Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
             })
+        }
+
+        play_btn.setOnClickListener {
+            val intent = Intent( activity , WebViewActivity::class.java )
+            activity?.startActivity(intent)
         }
     }
 
@@ -94,7 +101,7 @@ class DetailFragment : BaseDialogFragment() {
                             dataSource: DataSource?,
                             isFirstResource: Boolean
                         ): Boolean {
-                            appBarLayout?.setExpanded(true)
+//                            appBarLayout?.setExpanded(true)
                             return false
                         }
 

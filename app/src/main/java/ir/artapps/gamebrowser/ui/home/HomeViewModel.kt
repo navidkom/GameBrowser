@@ -1,4 +1,4 @@
-package ir.artapps.gamebrowser.ui.main
+package ir.artapps.gamebrowser.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import ir.artapps.gamebrowser.repo.GamesRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val gamesRepository: GamesRepository) : ViewModel() {
+class HomeViewModel(private val gamesRepository: GamesRepository) : ViewModel() {
 
     val gamesLiveData: LiveData<List<Game>> = gamesRepository.getGamesLiveData()
     private val _errorLiveData: MutableLiveData<String> = MutableLiveData()

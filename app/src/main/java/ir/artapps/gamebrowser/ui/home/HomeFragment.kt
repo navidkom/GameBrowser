@@ -1,4 +1,4 @@
-package ir.artapps.gamebrowser.ui.main
+package ir.artapps.gamebrowser.ui.home
 
 import android.os.Bundle
 import android.view.*
@@ -13,15 +13,16 @@ import ir.artapps.gamebrowser.ui.detail.DetailFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener{
+class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.OnItemClickListener{
 
-    private val linearLayoutManager = GridLayoutManager(context, 3)
-    private lateinit var mAdapter: MainRecyclerViewAdapter
+    private val linearLayoutManager = GridLayoutManager(context, 2)
 
-    private val viewModel: MainViewModel by viewModel()
+    private lateinit var mAdapter: HomeRecyclerViewAdapter
+
+    private val viewModel: HomeViewModel by viewModel()
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = HomeFragment()
     }
 
     override fun onCreateView(
@@ -35,7 +36,7 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mAdapter = MainRecyclerViewAdapter()
+        mAdapter = HomeRecyclerViewAdapter()
         mAdapter.itemClickListener = this
 
         viewModel.apply {
@@ -58,6 +59,15 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener{
                 refreshLayout.isRefreshing = false
                 Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
             })
+        }
+
+        linearLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                when (position) {
+                    0, 7,18 -> return 2
+                    else -> return 1
+                }
+            }
         }
 
         recyclerView?.apply {
@@ -88,31 +98,31 @@ class MainFragment : Fragment(), MainRecyclerViewAdapter.OnItemClickListener{
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
-
-        val searchMenuItem = menu.findItem(R.id.search)
-        val searchView = searchMenuItem.actionView as SearchView
-
-        searchView.isSubmitButtonEnabled = false
-        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener,
-            SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.getGames(true, query)
-                refreshLayout.isRefreshing = true
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
-        searchView.setOnCloseListener {
-            viewModel.getGames(true)
-            refreshLayout.isRefreshing = true
-            false
-        }
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.main_menu, menu)
+//
+//        val searchMenuItem = menu.findItem(R.id.search)
+//        val searchView = searchMenuItem.actionView as SearchView
+//
+//        searchView.isSubmitButtonEnabled = false
+//        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener,
+//            SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                viewModel.getGames(true, query)
+//                refreshLayout.isRefreshing = true
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                return false
+//            }
+//        })
+//        searchView.setOnCloseListener {
+//            viewModel.getGames(true)
+//            refreshLayout.isRefreshing = true
+//            false
+//        }
+//    }
 
     // handle game item clicks and show detail fragment
     override fun onItemClick(view: View?, position: Int) {

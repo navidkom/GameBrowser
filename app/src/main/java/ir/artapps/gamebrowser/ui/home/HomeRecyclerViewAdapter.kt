@@ -1,4 +1,4 @@
-package ir.artapps.gamebrowser.ui.main
+package ir.artapps.gamebrowser.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.entities.Game
-import ir.artapps.gamebrowser.ui.main.viewholder.BaseViewHolder
-import ir.artapps.gamebrowser.ui.main.viewholder.LoadingViewHolder
-import ir.artapps.gamebrowser.ui.main.viewholder.RecyclerViewViewHolder
+import ir.artapps.gamebrowser.ui.home.viewholder.BaseViewHolder
+import ir.artapps.gamebrowser.ui.home.viewholder.LoadingViewHolder
+import ir.artapps.gamebrowser.ui.home.viewholder.RecyclerViewViewHolder
 
 /**
  * Created by navid
  */
-class MainRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
+class HomeRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     var loading = false
     set(value) {
         field = value
