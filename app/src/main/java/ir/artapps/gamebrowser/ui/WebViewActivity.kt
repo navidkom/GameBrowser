@@ -29,7 +29,7 @@ class WebViewActivity : Activity() {
         mWebView!!.settings.pluginState = WebSettings.PluginState.ON
         mWebView!!.settings.allowFileAccess = true
         mWebView!!.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-        mWebView!!.loadUrl("http://hexgl.bkcore.com/play")
+        mWebView!!.loadUrl(intent.getStringExtra("url"))
         //        mWebView.loadUrl("http://fe.bmqb.com/tower_game/index.html");
 
 //        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){

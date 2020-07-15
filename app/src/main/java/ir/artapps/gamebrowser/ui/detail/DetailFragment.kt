@@ -57,6 +57,8 @@ class DetailFragment : BaseDialogFragment() {
             setNavigationOnClickListener { dismiss() }
         }
 
+            Glide.with(this@DetailFragment).load(game?.banner).into(photoImageView)
+
 //        collapsingToolbarLayout?.apply {
 //            context?.let {
 //                setCollapsedTitleTextColor(ContextCompat.getColor(it, R.color.white))
@@ -79,8 +81,12 @@ class DetailFragment : BaseDialogFragment() {
         }
 
         play_btn.setOnClickListener {
-            val intent = Intent( activity , WebViewActivity::class.java )
-            activity?.startActivity(intent)
+
+            if(game?.downloadLink != null) {
+                val intent = Intent(activity, WebViewActivity::class.java)
+                intent.putExtra("url", game?.downloadLink)
+                activity?.startActivity(intent)
+            }
         }
     }
 
