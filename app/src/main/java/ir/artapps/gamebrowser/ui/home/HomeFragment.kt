@@ -123,14 +123,14 @@ class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.O
                         downloadLink = "https://soundboard.heihei.resn.co/"
                     }
 
-                    val g9 = Game().apply {
-                        name = "snoopdogs"
-                        rate = Rate(4.7f, 10, null)
-                        preview =
-                            "https://assets.awwwards.com/awards/submissions/2019/01/5c3e0a6444c29.png"
-                        banner = preview
-                        downloadLink = "https://snoopdogs.dogstudio.co/"
-                    }
+//                    val g9 = Game().apply {
+//                        name = "snoopdogs"
+//                        rate = Rate(4.7f, 10, null)
+//                        preview =
+//                            "https://assets.awwwards.com/awards/submissions/2019/01/5c3e0a6444c29.png"
+//                        banner = preview
+//                        downloadLink = "https://snoopdogs.dogstudio.co/"
+//                    }
 
 //                    val g10 = Game().apply {
 //                        name = "Get Mean Game"
@@ -153,7 +153,7 @@ class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.O
                     list.add(g6)
                     list.add(g7)
                     list.add(g8)
-                    list.add(g9)
+//                    list.add(g9)
                     list.addAll(it)
 
                     mAdapter.setGames(list)
