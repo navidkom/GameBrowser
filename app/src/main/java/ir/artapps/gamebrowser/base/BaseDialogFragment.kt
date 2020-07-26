@@ -1,6 +1,7 @@
 package ir.artapps.gamebrowser.base
 
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager

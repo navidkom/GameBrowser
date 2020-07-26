@@ -1,6 +1,8 @@
 package ir.artapps.gamebrowser
 
 import android.app.Application
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
@@ -20,6 +22,17 @@ class App: Application() {
             androidContext(this@App)
             androidFileProperties()
             modules(Module().appModule )
+        }
+    }
+
+    companion object {
+
+        var loggedIn : MutableLiveData<Boolean> = MutableLiveData()
+
+        var token = ""
+        set(value) {
+            field = value
+            loggedIn.value = value != ""
         }
     }
 }
