@@ -1,5 +1,6 @@
 package ir.artapps.gamebrowser.repo
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.local.GamesDAO
@@ -11,6 +12,7 @@ import ir.artapps.gamebrowser.remote.GamesRemoteDataSource
  */
 
 class GamesRepositoryImpl(
+    val context: Context,
     private var gamesDAO: GamesDAO,
     private val remote: GamesRemoteDataSource
 ) : GamesRepository {
@@ -25,7 +27,7 @@ class GamesRepositoryImpl(
         var games: List<Game> = listOf()
         var responseCode: Int
         var _firstPage = firstPage
-        if(!filter.isNullOrEmpty()) {
+        if (!filter.isNullOrEmpty()) {
             _firstPage = true
         }
 
@@ -33,7 +35,7 @@ class GamesRepositoryImpl(
             val remoteRespone = remote.getGames(
                 PAGE_SIZE,
                 if (_firstPage) 0 else gamesDAO.getCount(),
-                if(filter.isNullOrEmpty()) "" else filter
+                if (filter.isNullOrEmpty()) "" else filter
             )
 
             remoteRespone.game?.let {
@@ -67,11 +69,12 @@ class GamesRepositoryImpl(
             }
             gamesDAO.insertGames(games)
         }
-
         return responseCode
     }
 
-    override suspend fun getGame(gameId: String): Game {
+    override suspend fun getGame(
+        gameId: String
+    ): Game {
         return gamesDAO.getGame(gameId)
     }
 }

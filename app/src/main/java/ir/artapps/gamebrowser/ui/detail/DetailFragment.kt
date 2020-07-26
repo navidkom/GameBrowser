@@ -3,7 +3,9 @@ package ir.artapps.gamebrowser.ui.detail
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -16,8 +18,6 @@ import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.ui.WebViewActivity
-import ir.artapps.moviedb.ui.detail.DetailViewModel
-
 import kotlinx.android.synthetic.main.detail_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -57,7 +57,7 @@ class DetailFragment : BaseDialogFragment() {
             setNavigationOnClickListener { dismiss() }
         }
 
-            Glide.with(this@DetailFragment).load(game?.banner).into(photoImageView)
+        Glide.with(this@DetailFragment).load(game?.banner).into(photoImageView)
 
 //        collapsingToolbarLayout?.apply {
 //            context?.let {
@@ -81,12 +81,12 @@ class DetailFragment : BaseDialogFragment() {
         }
 
         play_btn.setOnClickListener {
-
-            if(game?.downloadLink != null) {
+            detailViewModel.getGamePlayURL(game!!).observe(viewLifecycleOwner, Observer {
                 val intent = Intent(activity, WebViewActivity::class.java)
-                intent.putExtra("url", game?.downloadLink)
+                intent.putExtra("url", it)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 activity?.startActivity(intent)
-            }
+            })
         }
     }
 
@@ -94,11 +94,10 @@ class DetailFragment : BaseDialogFragment() {
     private fun setNetData(game: Game?) {
         game?.apply {
             banner?.let {
-                Glide.with(this@DetailFragment).load( it)
+                Glide.with(this@DetailFragment).load(it)
 
                     // use glide listener to expand appBarLayout when resource is ready
                     .listener(object : RequestListener<Drawable> {
-
 
                         override fun onResourceReady(
                             resource: Drawable?,
@@ -131,24 +130,24 @@ class DetailFragment : BaseDialogFragment() {
 
             description?.let {
                 summaryParent.visibility = View.VISIBLE
-                summaryTextView.text = String.format("%s\n%s",getString(R.string.description), it )
+                summaryTextView.text = String.format("%s\n%s", getString(R.string.description), it)
             }
 
             gamePlayDesc?.let {
                 gameplayParent.visibility = View.VISIBLE
-                gameplayTextView.text = String.format("%s\n%s",getString(R.string.gameplay), it )
-                    "%s\n%s"
+                gameplayTextView.text = String.format("%s\n%s", getString(R.string.gameplay), it)
+                "%s\n%s"
             }
 
-            lobby?.name?.let{
+            lobby?.name?.let {
                 setDetailTextView(getString(R.string.game_type), it)
             }
 
-            changelog?.let{
+            changelog?.let {
                 setDetailTextView(getString(R.string.changelog), it)
             }
 
-            apkSize?.let{
+            apkSize?.let {
                 setDetailTextView(getString(R.string.apksize), it)
             }
         }

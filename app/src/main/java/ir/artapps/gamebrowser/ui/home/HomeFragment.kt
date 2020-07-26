@@ -18,10 +18,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.OnItemClickListener {
 
-    private val linearLayoutManager = GridLayoutManager(context, 2)
-
     private lateinit var mAdapter: HomeRecyclerViewAdapter
-
     private val viewModel: HomeViewModel by viewModel()
 
     companion object {
@@ -91,7 +88,8 @@ class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.O
                     val g5 = Game().apply {
                         name = "Seeds of dreams"
                         rate = Rate(4.7f, 10, null)
-                        preview = "https://assets.awwwards.com/awards/submissions/2019/11/5dcc0d9bf3b68110049925.jpg"
+                        preview =
+                            "https://assets.awwwards.com/awards/submissions/2019/11/5dcc0d9bf3b68110049925.jpg"
                         banner = preview
                         downloadLink = "https://gb.loccitane-seeds-of-dreams.com/en/"
                     }
@@ -123,27 +121,6 @@ class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.O
                         downloadLink = "https://soundboard.heihei.resn.co/"
                     }
 
-//                    val g9 = Game().apply {
-//                        name = "snoopdogs"
-//                        rate = Rate(4.7f, 10, null)
-//                        preview =
-//                            "https://assets.awwwards.com/awards/submissions/2019/01/5c3e0a6444c29.png"
-//                        banner = preview
-//                        downloadLink = "https://snoopdogs.dogstudio.co/"
-//                    }
-
-//                    val g10 = Game().apply {
-//                        name = "Get Mean Game"
-//                        rate = Rate(4.7f, 10, null)
-//                        preview =
-//                            "https://assets.awwwards.com/awards/submissions/2019/02/5c6df5e28bc81837535775.jpg"
-//                        banner = preview
-//                        downloadLink = "https://getmean.com.au/game"
-//                    }
-//
-
-
-
                     val list: ArrayList<Game> = ArrayList()
                     list.add(g1)
                     list.add(g2)
@@ -153,7 +130,6 @@ class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.O
                     list.add(g6)
                     list.add(g7)
                     list.add(g8)
-//                    list.add(g9)
                     list.addAll(it)
 
                     mAdapter.setGames(list)
@@ -171,16 +147,17 @@ class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.O
             })
         }
 
-        linearLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                when (position) {
-                    0, 7, 18 -> return 2
-                    else -> return 1
+        recyclerView?.apply {
+            val linearLayoutManager = GridLayoutManager(context, 2)
+            linearLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    when (position) {
+                        0, 7, 18 -> return 2
+                        else -> return 1
+                    }
                 }
             }
-        }
 
-        recyclerView?.apply {
             layoutManager = linearLayoutManager
             adapter = mAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -208,36 +185,12 @@ class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.O
         }
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.main_menu, menu)
-//
-//        val searchMenuItem = menu.findItem(R.id.search)
-//        val searchView = searchMenuItem.actionView as SearchView
-//
-//        searchView.isSubmitButtonEnabled = false
-//        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener,
-//            SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                viewModel.getGames(true, query)
-//                refreshLayout.isRefreshing = true
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                return false
-//            }
-//        })
-//        searchView.setOnCloseListener {
-//            viewModel.getGames(true)
-//            refreshLayout.isRefreshing = true
-//            false
-//        }
-//    }
-
     // handle game item clicks and show detail fragment
     override fun onItemClick(view: View?, position: Int) {
+
+        val item  = mAdapter.items[position]
         val detailFragment =
-            DetailFragment.newInstance(mAdapter.items[position])
+            DetailFragment.newInstance(item)
         detailFragment.show(childFragmentManager, position.toString())
     }
 }

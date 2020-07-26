@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fanap.gameCenter.TIS.Service
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.repo.GamesRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val gamesRepository: GamesRepository) : ViewModel() {
+class HomeViewModel(private val gamesRepository: GamesRepository, private val service: Service) : ViewModel() {
 
     val gamesLiveData: LiveData<List<Game>> = gamesRepository.getGamesLiveData()
     private val _errorLiveData: MutableLiveData<String> = MutableLiveData()

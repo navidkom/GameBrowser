@@ -1,13 +1,15 @@
 package ir.artapps.gamebrowser
 
 import androidx.room.Room
+import com.fanap.gameCenter.TIS.Service
 import ir.artapps.gamebrowser.local.AppDatabase
 import ir.artapps.gamebrowser.remote.GamesRemoteDataSource
 import ir.artapps.gamebrowser.remote.GamesRemoteDataSourceImpl
 import ir.artapps.gamebrowser.repo.GamesRepository
 import ir.artapps.gamebrowser.repo.GamesRepositoryImpl
 import ir.artapps.gamebrowser.ui.home.HomeViewModel
-import ir.artapps.moviedb.ui.detail.DetailViewModel
+import ir.artapps.gamebrowser.ui.detail.DetailViewModel
+import org.json.JSONObject
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -26,9 +28,13 @@ class Module {
         }
         single { get<AppDatabase>().gamesDAO }
         single<GamesRemoteDataSource> { GamesRemoteDataSourceImpl() }
-        single<GamesRepository> { GamesRepositoryImpl(get(), get()) }
 
-        viewModel { HomeViewModel(get()) }
-        viewModel { DetailViewModel(get()) }
+        single<Service> { Service.getInstance(JSONObject().put("context", androidApplication())) }
+
+        single<GamesRepository> { GamesRepositoryImpl( androidApplication(), get(), get()) }
+
+
+        viewModel { HomeViewModel(get(), get()) }
+        viewModel { DetailViewModel(get(), get()) }
     }
 }

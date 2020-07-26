@@ -44,7 +44,6 @@ class SigninActivity : AppCompatActivity() {
         val reqData = JSONObject()
         reqData.put("context", this)
 
-
         val service = Service(reqData)
         service.on("ready", object : EventCallback() {
             override fun onFire(msg: JSONObject) {
@@ -54,8 +53,6 @@ class SigninActivity : AppCompatActivity() {
 //                onsetDataLogin()
 //                onSetOfflineMode()
 //                readyState.postValue(true)
-
-
 
 //                "id":394218,"name":"navidkom","token":"ddefe52b44a84324897255b2670d2d91","tokenIssuer":0,"guest":false,"ssoLogin":true,"thing":false}
 
@@ -72,7 +69,6 @@ class SigninActivity : AppCompatActivity() {
                         }
                     })
 
-
                 val gameData = JSONObject()
                 gameData.put("id", 8204)
                 service.getGamesInfo(
@@ -82,11 +78,8 @@ class SigninActivity : AppCompatActivity() {
                             println("getEnrolledLeagues method : $result")
                         }
                     })
-
-
             }
         })
-
     }
 
 }
