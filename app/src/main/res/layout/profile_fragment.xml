@@ -19,6 +19,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:layout_margin="12dp"
+            android:textSize="14sp"
             android:text="کیدزی ای عزیز!\n برای مشاهده اطلاعات پروفایل نیاز است ابتدا وارد حساب کاربری خود شوید." />
 
         <Button
@@ -43,6 +44,21 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"/>
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120sp"
+            android:src="@drawable/profile"/>
+
+        <TextView
+            android:id="@+id/loginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:layout_margin="12dp"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/signout"

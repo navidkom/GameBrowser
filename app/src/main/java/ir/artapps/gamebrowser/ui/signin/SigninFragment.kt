@@ -9,10 +9,12 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.lifecycle.Observer
 import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
 import kotlinx.android.synthetic.main.login_fragment.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class SigninFragment private constructor() : BaseDialogFragment() {
@@ -20,6 +22,8 @@ class SigninFragment private constructor() : BaseDialogFragment() {
     companion object {
         fun newInstance() = SigninFragment()
     }
+
+    val viewModel : SignInViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +39,10 @@ class SigninFragment private constructor() : BaseDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.profileLiveData.observe(viewLifecycleOwner, Observer {
+            dismiss()
+        })
 
         toolbar.title = "ورود"
         toolbar.setNavigationIcon(R.drawable.ic_nav_back)
@@ -59,8 +67,8 @@ class SigninFragment private constructor() : BaseDialogFragment() {
                 ): Boolean {
                     if(url.startsWith("http://www.kidzy.ir/redirect_app?code=")) {
                         Log.d("token" , url)
-                        App.token = url.substring(url.indexOf("?code=") + 6)
-                        this@SigninFragment.dismiss()
+                        val token =  url.substring(url.indexOf("?code=") + 6)
+                        viewModel.getUserProfile(token)
                         return true
                     }
                     return false

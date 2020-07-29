@@ -1,7 +1,6 @@
 package ir.artapps.gamebrowser.repo
 
-import ir.artapps.gamebrowser.entities.pod.GetProfileResponseModel
-import ir.artapps.gamebrowser.entities.pod.GetProfileResult
+import ir.artapps.gamebrowser.entities.pod.UserProfile
 
 /**
  *   Created by Navid Komijani
@@ -9,5 +8,5 @@ import ir.artapps.gamebrowser.entities.pod.GetProfileResult
  */
 
 interface PodRepository {
-     suspend fun getUserProfile(token: String): GetProfileResponseModel
+     suspend fun getUserProfile(token: String) : UserProfile?
 }

@@ -38,35 +38,35 @@ class ProfileFragment private constructor() : Fragment() {
         }
 
         signout.setOnClickListener {
-            App.token = ""
+            App.profile.value = null
+            App.token = null
         }
 
-        App.loggedIn.observe(viewLifecycleOwner, Observer { isLogIn ->
-            if (!isLogIn) {
+        App.profile.observe(viewLifecycleOwner, Observer { response ->
+
+            if (response == null) {
                 signinParent.visibility = View.VISIBLE
                 profileParent.visibility = View.GONE
-            } else {
-                viewModel.getUserProfile()
+                return@Observer
             }
-        })
 
-        viewModel.profileLiveData.observe(viewLifecycleOwner, Observer { response ->
             signinParent.visibility = View.GONE
             profileParent.visibility = View.VISIBLE
 
-            response.result.firstName?.let {
-                profileViewContainer.addView(
-                    ProfileItemsCustomView(requireContext(), "نام", it, null)
-                )
-            }
+            loginText.setText(String.format("%s %s عزیز، به کیدزی خوش آمدی", response.firstName, response.lastName))
 
-            response.result.lastName?.let {
-                profileViewContainer.addView(
-                    ProfileItemsCustomView(requireContext(), "نام خانوادگی", it, null)
-                )
-            }
+//            response?.firstName?.let {
+//                profileViewContainer.addView(
+//                    ProfileItemsCustomView(requireContext(), "نام", it, null)
+//                )
+//            }
+//
+//            response?.lastName?.let {
+//                profileViewContainer.addView(
+//                    ProfileItemsCustomView(requireContext(), "نام خانوادگی", it, null)
+//                )
+//            }
 
         })
     }
-
 }

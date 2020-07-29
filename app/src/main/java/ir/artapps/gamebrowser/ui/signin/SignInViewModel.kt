@@ -1,4 +1,4 @@
-package ir.artapps.gamebrowser.ui.profile
+package ir.artapps.gamebrowser.ui.signin
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 /**
  * Created by navid
  */
-class ProfileViewModel(private val repository: PodRepository, private val service: Service) :
+class SignInViewModel(private val repository: PodRepository, private val service: Service) :
     ViewModel() {
 
     private val _profileLiveData = MutableLiveData<UserProfile>()
@@ -23,7 +23,7 @@ class ProfileViewModel(private val repository: PodRepository, private val servic
 
     fun getUserProfile(token: String) {
         viewModelScope.launch {
-            repository.getUserProfile(token)
+            _profileLiveData.value = repository.getUserProfile(token)
         }
     }
 }

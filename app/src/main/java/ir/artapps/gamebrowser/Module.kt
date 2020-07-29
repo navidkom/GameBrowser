@@ -14,6 +14,7 @@ import ir.artapps.gamebrowser.repo.PodRepositoryImpl
 import ir.artapps.gamebrowser.ui.home.HomeViewModel
 import ir.artapps.gamebrowser.ui.detail.DetailViewModel
 import ir.artapps.gamebrowser.ui.profile.ProfileViewModel
+import ir.artapps.gamebrowser.ui.signin.SignInViewModel
 import org.json.JSONObject
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
@@ -44,5 +45,6 @@ class Module {
         viewModel { HomeViewModel(get(), get()) }
         viewModel { DetailViewModel(get(), get()) }
         viewModel { ProfileViewModel(get(), get()) }
+        viewModel { SignInViewModel(get(), get()) }
     }
 }

@@ -3,6 +3,8 @@ package ir.artapps.gamebrowser.ui.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.ui.home.HomeFragment
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             val fragment: Fragment = when (it.itemId) {
                 R.id.navigation_home -> homeFragment
                 R.id.navigation_sms -> socialFragment
-                R.id.navigation_notifications ->  ProfileFragment.newInstance()
+                R.id.navigation_notifications ->  profileFragment
                 else -> HomeFragment.newInstance()
             }
             supportFragmentManager.beginTransaction()
@@ -45,5 +47,16 @@ class MainActivity : AppCompatActivity() {
                 .commitNow()
             true
         }
+
+        App.profile.observe(this, Observer {
+
+            if(it == null){
+                my_toolbar.name = "کاربر مهمان"
+            }
+            else {
+                my_toolbar.name = it.firstName + " " + it.lastName
+                Snackbar.make(root, "ورود با موفقیت انجام شد", Snackbar.LENGTH_SHORT).show()
+            }
+        })
     }
 }

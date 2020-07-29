@@ -1,6 +1,8 @@
 package ir.artapps.gamebrowser.remote
 
 import ir.artapps.gamebrowser.entities.pod.GetProfileResponseModel
+import ir.artapps.gamebrowser.entities.pod.TokenResponseModel
+import java.lang.Exception
 
 /**
  * Created by navid
@@ -22,9 +24,34 @@ class PodRemoteDataSourceImpl: PodRemoteDataSource {
         ServiceGenerator.createPodSandboxService()
     }
 
-    override suspend fun getUserProfile(token: String): GetProfileResponseModel {
-        val token = service.getUserToken(CONTENT_TYPE, GRANT_TYPE, token, REDIRECT_URL, CLIENT_ID, CLIENT_SECRET)
-        return sandboxService.getUserProfile(token.access_token, TOKEN_ISSUER, CLIENT_ID, CLIENT_SECRET)
+    override suspend fun getUserToken(token: String): TokenResponseModel? {
+        return try {
+            service.getUserToken(
+                CONTENT_TYPE,
+                GRANT_TYPE,
+                token,
+                REDIRECT_URL,
+                CLIENT_ID,
+                CLIENT_SECRET
+            )
+        } catch (e:Exception) {
+            null
+        }
+    }
+
+    override suspend fun getUserProfile(accessToken: String): GetProfileResponseModel? {
+
+        return try {
+            sandboxService.getUserProfile(
+                accessToken,
+                TOKEN_ISSUER,
+                CLIENT_ID,
+                CLIENT_SECRET
+            )
+        } catch (e:Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
 }
