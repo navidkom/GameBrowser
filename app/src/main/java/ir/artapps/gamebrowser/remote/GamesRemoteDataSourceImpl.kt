@@ -7,7 +7,7 @@ import ir.artapps.gamebrowser.entities.ResponseModel
  */
 class GamesRemoteDataSourceImpl: GamesRemoteDataSource {
     val service by lazy {
-        ServiceGenerator.create()
+        ServiceGenerator.createPlayPodService()
     }
 
     override suspend fun getGames(size: Int, offset: Int, filter: String): ResponseModel {

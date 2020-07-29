@@ -1,6 +1,7 @@
 package ir.artapps.gamebrowser.ui.signin
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,8 @@ class SigninFragment private constructor() : BaseDialogFragment() {
                     url: String
                 ): Boolean {
                     if(url.startsWith("http://www.kidzy.ir/redirect_app?code=")) {
-                        App.token = url
+                        Log.d("token" , url)
+                        App.token = url.substring(url.indexOf("?code=") + 6)
                         this@SigninFragment.dismiss()
                         return true
                     }

@@ -8,7 +8,7 @@ import retrofit2.http.Query
 /**
  * Created by navid
  */
-interface FoursquareApi {
+interface PlayPodApi {
     companion object {
         const val SIZE_KEY = "size"
         const val OFFSET_KEY = "offset"

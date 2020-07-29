@@ -11,18 +11,41 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class ServiceGenerator {
     companion object {
-        var BASE_URL = "https://service-play.pod.ir/"
+        var PLAYPOD_BASE_URL = "https://service-play.pod.ir/"
+        var POD_Account_BASE_URL = "http://accounts.pod.ir"
+        var POD_SANDBOX_BASE_URL = "http://sandbox.pod.ir:8080"
 
-        fun create(): FoursquareApi {
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+        fun createPlayPodService(): PlayPodApi {
             val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(PLAYPOD_BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            return retrofit.create(FoursquareApi::class.java)
+            return retrofit.create(PlayPodApi::class.java)
+        }
+
+        fun createPodAccountService(): PodApi {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(POD_Account_BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            return retrofit.create(PodApi::class.java)
+        }
+
+        fun createPodSandboxService(): PodApi {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(POD_SANDBOX_BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            return retrofit.create(PodApi::class.java)
         }
     }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import ir.artapps.bazarreview.ui.customview.ProfileItemsCustomView
 import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.ui.signin.SigninFragment
@@ -45,9 +46,26 @@ class ProfileFragment private constructor() : Fragment() {
                 signinParent.visibility = View.VISIBLE
                 profileParent.visibility = View.GONE
             } else {
-                signinParent.visibility = View.GONE
-                profileParent.visibility = View.VISIBLE
+                viewModel.getUserProfile()
             }
+        })
+
+        viewModel.profileLiveData.observe(viewLifecycleOwner, Observer { response ->
+            signinParent.visibility = View.GONE
+            profileParent.visibility = View.VISIBLE
+
+            response.result.firstName?.let {
+                profileViewContainer.addView(
+                    ProfileItemsCustomView(requireContext(), "نام", it, null)
+                )
+            }
+
+            response.result.lastName?.let {
+                profileViewContainer.addView(
+                    ProfileItemsCustomView(requireContext(), "نام خانوادگی", it, null)
+                )
+            }
+
         })
     }
 

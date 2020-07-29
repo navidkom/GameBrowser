@@ -5,8 +5,12 @@ import com.fanap.gameCenter.TIS.Service
 import ir.artapps.gamebrowser.local.AppDatabase
 import ir.artapps.gamebrowser.remote.GamesRemoteDataSource
 import ir.artapps.gamebrowser.remote.GamesRemoteDataSourceImpl
+import ir.artapps.gamebrowser.remote.PodRemoteDataSource
+import ir.artapps.gamebrowser.remote.PodRemoteDataSourceImpl
 import ir.artapps.gamebrowser.repo.GamesRepository
 import ir.artapps.gamebrowser.repo.GamesRepositoryImpl
+import ir.artapps.gamebrowser.repo.PodRepository
+import ir.artapps.gamebrowser.repo.PodRepositoryImpl
 import ir.artapps.gamebrowser.ui.home.HomeViewModel
 import ir.artapps.gamebrowser.ui.detail.DetailViewModel
 import ir.artapps.gamebrowser.ui.profile.ProfileViewModel
@@ -29,10 +33,12 @@ class Module {
         }
         single { get<AppDatabase>().gamesDAO }
         single<GamesRemoteDataSource> { GamesRemoteDataSourceImpl() }
+        single<PodRemoteDataSource> { PodRemoteDataSourceImpl() }
 
         single<Service> { Service.getInstance(JSONObject().put("context", androidApplication())) }
 
         single<GamesRepository> { GamesRepositoryImpl( androidApplication(), get(), get()) }
+        single<PodRepository> { PodRepositoryImpl( androidApplication(), get()) }
 
 
         viewModel { HomeViewModel(get(), get()) }

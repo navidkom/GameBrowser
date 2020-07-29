@@ -1,26 +1,29 @@
 package ir.artapps.gamebrowser.ui.profile
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fanap.gameCenter.TIS.Base.RequestCallback
 import com.fanap.gameCenter.TIS.Service
-import com.fanap.gameCenter.TIS.Share.ConfigData
-import ir.artapps.gamebrowser.entities.Game
-import ir.artapps.gamebrowser.repo.GamesRepository
+import ir.artapps.gamebrowser.App
+import ir.artapps.gamebrowser.entities.pod.GetProfileResponseModel
+import ir.artapps.gamebrowser.entities.pod.GetProfileResult
+import ir.artapps.gamebrowser.repo.PodRepository
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
 
 /**
  * Created by navid
  */
-class ProfileViewModel(private val repository: GamesRepository, private val service: Service) : ViewModel() {
+class ProfileViewModel(private val repository: PodRepository, private val service: Service) :
+    ViewModel() {
 
-    fun isLoggedIn() : Boolean {
-        return true
+    private val _profileLiveData = MutableLiveData<GetProfileResponseModel>()
+    val profileLiveData : LiveData<GetProfileResponseModel> = _profileLiveData
+
+
+    fun getUserProfile() {
+        viewModelScope.launch {
+            _profileLiveData.postValue(repository.getUserProfile(App.token))
+        }
     }
-
 }
