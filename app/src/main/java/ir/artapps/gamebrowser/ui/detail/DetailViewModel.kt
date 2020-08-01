@@ -40,7 +40,7 @@ class DetailViewModel(private val repository: GamesRepository, private val servi
 
         val ld = MutableLiveData<String> ()
 
-        if(item.downloadLink != null){
+        if(item.isLocal ){
             ld.postValue(item.downloadLink)
         }
         else if(item.entityId != null) {

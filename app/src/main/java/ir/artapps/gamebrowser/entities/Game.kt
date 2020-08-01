@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_NAME, indices = [Index(value = ["id"], unique = true)])
 
 @Parcelize
-data class Game (
+data class Game(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_")
     @Transient
@@ -165,8 +165,11 @@ data class Game (
     var canComment: Boolean? = null,
     @SerializedName("canLike")
     @Expose
-    var canLike: Boolean? = null
-) :Parcelable {
+    var canLike: Boolean? = null,
+    @SerializedName("isLocal")
+    @Expose
+    var isLocal: Boolean = false
+) : Parcelable {
     companion object {
         @Ignore
         @Transient
