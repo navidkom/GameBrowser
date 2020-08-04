@@ -32,14 +32,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         homeFragment =  HomeFragment.newInstance()
-//        socialFragment = SocialFragment.newInstance()
+        socialFragment = ChatFragment.newInstance()
         profileFragment = ProfileFragment.newInstance()
 
         bottom_nav.itemIconTintList = null;
         bottom_nav.setOnNavigationItemSelectedListener {
             val fragment: Fragment = when (it.itemId) {
                 R.id.navigation_home -> homeFragment
-                R.id.navigation_sms -> SocialFragment.newInstance()
+                R.id.navigation_sms -> socialFragment
                 R.id.navigation_notifications ->  profileFragment
                 else -> HomeFragment.newInstance()
             }
