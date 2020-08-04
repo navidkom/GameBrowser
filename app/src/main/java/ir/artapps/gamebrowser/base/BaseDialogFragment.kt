@@ -34,11 +34,4 @@ open class BaseDialogFragment : DialogFragment() {
             )
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        dialog!!.window!!.setWindowAnimations(
-            R.style.dialog_animation_fade
-        )
-    }
 }

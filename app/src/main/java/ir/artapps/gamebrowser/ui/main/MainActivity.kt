@@ -10,6 +10,7 @@ import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.ui.home.HomeFragment
 import ir.artapps.gamebrowser.ui.profile.ProfileFragment
 import ir.artapps.gamebrowser.ui.signin.SigninFragment
+import ir.artapps.gamebrowser.ui.social.ChatFragment
 import ir.artapps.gamebrowser.ui.social.SocialFragment
 import kotlinx.android.synthetic.main.main_activity.*
 
@@ -31,14 +32,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         homeFragment =  HomeFragment.newInstance()
-        socialFragment = SocialFragment.newInstance()
+//        socialFragment = SocialFragment.newInstance()
         profileFragment = ProfileFragment.newInstance()
 
         bottom_nav.itemIconTintList = null;
         bottom_nav.setOnNavigationItemSelectedListener {
             val fragment: Fragment = when (it.itemId) {
                 R.id.navigation_home -> homeFragment
-                R.id.navigation_sms -> socialFragment
+                R.id.navigation_sms -> SocialFragment.newInstance()
                 R.id.navigation_notifications ->  profileFragment
                 else -> HomeFragment.newInstance()
             }

@@ -27,6 +27,7 @@ class App: Application() {
     }
 
     companion object {
+        var loginCode : String? = null
         var token : String? = null
         var profile : MutableLiveData<UserProfile?> = MutableLiveData()
     }

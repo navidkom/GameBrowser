@@ -6,10 +6,107 @@
     <color name="colorAccent">#ffffff</color>
 
     <color name="colorVeryLightBlue">#e6e6ff</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
     <color name="colorLightWhite">#FFFFFF</color>
     <color name="colorDarkBlue">#0B0032</color>
     <color name="duskYellow">#ffc922</color>
     <color name="lightGrey">#cccccc</color>
+
+    <color name="red_50">#FFEBEE</color>
+    <color name="red_100">#FFCDD2</color>
+    <color name="red_200">#EF9A9A</color>
+    <color name="red_300">#E57373</color>
+    <color name="red_400">#EF5350</color>
+    <color name="red_500">#F44336</color>
+    <color name="red_600">#E53935</color>
+    <color name="red_700">#D32F2F</color>
+    <color name="red_800">#C62828</color>
+    <color name="red_900">#B71C1C</color>
+
+    <color name="red_500_transparent_15">#26F44336</color>
+    <color name="red_500_transparent_30">#4DF44336</color>
+    <color name="red_900_transparent_50">#80B71C1C</color>
+
+    <color name="gray_background">#f2f2f2</color>
+
+    <color name="blue_gray_50">#ECEFF1</color>
+    <color name="blue_gray_100">#CFD8DC</color>
+    <color name="blue_gray_200">#B0BEC5</color>
+    <color name="blue_gray_300">#90A4AE</color>
+    <color name="blue_gray_400">#78909C</color>
+    <color name="blue_gray_500">#607D8B</color>
+    <color name="blue_gray_600">#546E7A</color>
+    <color name="blue_gray_700">#455A64</color>
+    <color name="blue_gray_800">#37474F</color>
+    <color name="blue_gray_900">#263238</color>
+
+
+    <color name="blue_gray_50_transparent_60">#99ECEFF1</color>
+    <color name="blue_gray_100_transparent_15">#26CFD8DC</color>
+    <color name="blue_gray_200_transparent_30">#4DB0BEC5</color>
+    <color name="blue_gray_900_transparent_30">#4D263238</color>
+    <color name="blue_gray_900_transparent_50">#80263238</color>
+    <color name="blue_gray_900_transparent_70">#B3263238</color>
+    <color name="blue_gray_900_transparent_90">#E6263238</color>
+    <color name="blue_gray_900_transparent_80">#CC263238</color>
+    <color name="blue_gray_900_transparent_15">#26263238</color>
+
+    <color name="blue_gray_800_transparent_60">#9637474F</color>
+
+    <color name="white_transparent_60">#96FFFFFF</color>
+    <color name="white_transparent_80">#CCFFFFFF</color>
+
+    <!--Map Colors -->
+
+    <color name="color_map_transparent_A0">#CCFFFFFF</color>
+    <color name="color_map_divider_transparent_CC">#CCCCCCCC</color>
+
+
+    <color name="color_lava_red">#D41415</color>
+    <color name="color_iron">#D8D8D8</color>
+
+    <color name="description">#787878</color>
+    <color name="alert_error_action_color">#827B70</color>
+
+    <color name="cyan_500">#00BCD4</color>
+    <color name="cyan_200">#7FDDE9</color>
+
+    <color name="amber_a200">#FFD63F</color>
+
+    <color name="light_green_400">#9bcb64</color>
+    <color name="light_green_500">#8ac249</color>
+    <color name="green">#1DD1A1</color>
+    <color name="orange">#FF8C00</color>
+
+    <color name="blue">#2672EC</color>
+    <color name="blue_light">#2E8DEF</color>
+    <color name="blue_sky">#094AB2</color>
+    <color name="blue_sky_light">#0A5BC4</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent_80_blue_gray_200">#80B0BEC5</color>
+
+    <color name="blue_button_color">@color/cyan_500</color>
+    <color name="row_file_image_bg">@color/cyan_200</color>
+    <color name="editText_hint_color">@color/blue_gray_300</color>
+    <color name="editText_text_color">@color/blue_gray_800</color>
+    <color name="fab_color">@color/amber_a200</color>
+    <color name="ripple_transparent">@color/transparent_80_blue_gray_200</color>
+
+
+    <color name="transparent">#00000000</color>
+
+
+    <!-- Group Sender Text Color -->
+    <color name="group_sender_red">@color/red_300</color>
+    <color name="group_sender_pink">#F06292</color>
+    <color name="group_sender_purple">#BA68C8</color>
+    <color name="group_sender_blue">#64B5F6</color>
+    <color name="group_sender_green">#81C784</color>
+    <color name="group_sender_brown">#A1887F</color>
+    <color name="group_sender_indigo">#7986CB</color>
+    <color name="group_sender_teal">#4DB6AC</color>
+    <color name="group_sender_lime">#AFB42B</color>
+    <color name="group_sender_orange">#FFB74D</color>
 </resources>
