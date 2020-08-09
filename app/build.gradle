@@ -79,5 +79,5 @@ dependencies {
     implementation 'org.koin:koin-androidx-fragment:2.1.1'
     implementation "org.koin:koin-android-viewmodel:2.1.1"
 
-    implementation 'com.fanap.chat:podchat:0.5.4.0'
+    implementation 'com.fanap.chat:podchat:0.8.0.0'
 }

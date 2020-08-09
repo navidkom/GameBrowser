@@ -77,7 +77,7 @@ class SigninFragment private constructor() : BaseDialogFragment() {
             }
 
             val url =
-                "https://accounts.pod.ir/oauth2/authorize/?client_id=18060069b4bf248759168bc24000d57c7&response_type=code&redirect_uri=http://www.kidzy.ir/redirect_app&scope=profile social"
+                "https://accounts.pod.ir/oauth2/authorize/?client_id=18060069b4bf248759168bc24000d57c7&response_type=code&redirect_uri=http://www.kidzy.ir/redirect_app&scope=profile social social:write"
             loadUrl(url)
         }
     }

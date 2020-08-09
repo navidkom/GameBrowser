@@ -1,16 +1,29 @@
 package ir.artapps.gamebrowser.repo
 
 import android.content.Context
-import androidx.lifecycle.Observer
 import com.fanap.podchat.chat.Chat
 import com.fanap.podchat.chat.ChatAdapter
+import com.fanap.podchat.chat.ChatHandler
+import com.fanap.podchat.chat.bot.result_model.CreateBotResult
+import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult
+import com.fanap.podchat.chat.bot.result_model.StartStopBotResult
+import com.fanap.podchat.chat.messge.ResultUnreadMessagesCount
 import com.fanap.podchat.chat.pin.pin_message.model.ResultPinMessage
 import com.fanap.podchat.chat.pin.pin_thread.model.ResultPinThread
+import com.fanap.podchat.chat.thread.public_thread.RequestCreatePublicThread
+import com.fanap.podchat.chat.thread.public_thread.RequestJoinPublicThread
+import com.fanap.podchat.chat.thread.public_thread.ResultIsNameAvailable
+import com.fanap.podchat.chat.thread.public_thread.ResultJoinPublicThread
+import com.fanap.podchat.chat.user.profile.ResultUpdateProfile
 import com.fanap.podchat.chat.user.user_roles.model.ResultCurrentUserRoles
 import com.fanap.podchat.mainmodel.ResultDeleteMessage
 import com.fanap.podchat.model.*
 import com.fanap.podchat.requestobject.RequestConnect
+import com.fanap.podchat.requestobject.RequestGetContact
+import com.fanap.podchat.requestobject.RequestGetHistory
+import com.fanap.podchat.requestobject.RequestThread
 import ir.artapps.gamebrowser.App
+
 
 class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
 
@@ -42,7 +55,6 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
         }
 
         chat.addListener(this)
-
     }
 
     override fun onSent(content: String?, chatResponse: ChatResponse<ResultMessage>?) {
@@ -202,6 +214,48 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
         super.onUserInfo(content, outPutUserInfo)
     }
 
+    override fun onCreateThread(response: ChatResponse<ResultThread>?) {
+        super.onCreateThread(response)
+    }
+
+    override fun onChatProfileUpdated(response: ChatResponse<ResultUpdateProfile>?) {
+        super.onChatProfileUpdated(response)
+    }
+
+    override fun onJoinPublicThread(response: ChatResponse<ResultJoinPublicThread>?) {
+        super.onJoinPublicThread(response)
+
+
+    }
+
+    override fun onUniqueNameIsAvailable(response: ChatResponse<ResultIsNameAvailable>?) {
+        super.onUniqueNameIsAvailable(response)
+    }
+
+    override fun onContactsLastSeenUpdated(response: ChatResponse<ResultNotSeenDuration>?) {
+        super.onContactsLastSeenUpdated(response)
+    }
+
+    override fun onBotStopped(response: ChatResponse<StartStopBotResult>?) {
+        super.onBotStopped(response)
+    }
+
+    override fun onBotStarted(response: ChatResponse<StartStopBotResult>?) {
+        super.onBotStarted(response)
+    }
+
+    override fun onBotCreated(response: ChatResponse<CreateBotResult>?) {
+        super.onBotCreated(response)
+    }
+
+    override fun onGetUnreadMessagesCount(response: ChatResponse<ResultUnreadMessagesCount>?) {
+        super.onGetUnreadMessagesCount(response)
+    }
+
+    override fun onBotCommandsDefined(response: ChatResponse<DefineBotCommandResult>?) {
+        super.onBotCommandsDefined(response)
+    }
+
     override fun OnClearHistory(content: String?, chatResponse: ChatResponse<ResultClearHistory>?) {
         super.OnClearHistory(content, chatResponse)
     }
@@ -231,7 +285,7 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
     }
 
     override fun onLogEvent(log: String?) {
-        super.onLogEvent(log)
+                super.onLogEvent(log)
     }
 
     override fun onLogEvent(logName: String?, json: String?) {
@@ -265,9 +319,9 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
         super.onPinMessage(response)
     }
 
-    override fun onLastSeenUpdated(content: String?) {
-        super.onLastSeenUpdated(content)
-    }
+//    override fun onLastSeenUpdated(content: String?) {
+//        super.onLastSeenUpdated(content)
+//    }
 
     override fun onGetMentionList(response: ChatResponse<ResultHistory>?) {
         super.onGetMentionList(response)
@@ -279,6 +333,20 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
 
     override fun onChatState(state: String?) {
         super.onChatState(state)
+
+        when (state) {
+            "CHAT_READY" -> {
+                val count = 50L
+                val offset = 0L
+
+                val requestGetContact = RequestGetContact.Builder()
+                    .count(count)
+                    .offset(offset)
+                    .build()
+                chat.getContacts(requestGetContact, null)
+
+            }
+        }
     }
 
     override fun onRemoveRoleFromUser(outputSetRoleToUser: ChatResponse<ResultSetAdmin>?) {
@@ -310,6 +378,24 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
 
     override fun onGetContacts(content: String?, outPutContact: ChatResponse<ResultContact>?) {
         super.onGetContacts(content, outPutContact)
+
+        val request = RequestJoinPublicThread.Builder("kidzy").build()
+        chat.joinPublicThread(request)
+
+
+        val requestThread =  RequestThread.Builder()
+            .build();
+
+        chat.getThreads(requestThread , null)
+
+//        val requestGetHistory =  RequestGetHistory.Builder("kidzy")
+//            .fromTime()
+//            .fromTimeNanos()
+//            .id()
+//            .toTime()
+//            .toTimeNanos()
+//            .build();
+//        chat.getHistory(requestGetHistory , null)
     }
 
     override fun onError(content: String?, error: ErrorOutPut?) {
