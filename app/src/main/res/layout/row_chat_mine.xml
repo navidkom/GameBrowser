@@ -8,26 +8,39 @@
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_margin="4dp"
-        android:layout_weight="1"
         app:cardCornerRadius="16dp"
-        app:cardBackgroundColor="@color/blue_gray_200"
+        app:cardBackgroundColor="@color/orangeLight"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/conversation_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="22dp"
+                android:textColor="@color/colorPrimaryLight"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:text="متن پیام"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/conversation_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:minHeight="22dp"
-                android:textColor="@color/black"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 android:text="متن پیام" />
 
         </LinearLayout>
@@ -41,6 +54,7 @@
         android:padding="12dp"
         android:text="22:13 1398/03/28"
         android:textSize="10sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone"/>
 
 </LinearLayout>

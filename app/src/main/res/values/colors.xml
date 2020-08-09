@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#bf360c</color>
     <color name="colorPrimaryDark">#870000</color>
+    <color name="colorPrimaryVeryDark">#540000</color>
     <color name="colorPrimaryLight">#f9683a</color>
     <color name="colorAccent">#ffffff</color>
 
@@ -10,6 +11,8 @@
     <color name="colorDarkBlue">#0B0032</color>
     <color name="duskYellow">#ffc922</color>
     <color name="lightGrey">#cccccc</color>
+
+    <color name="orangeLight">#f5ae08</color>
 
     <color name="red_50">#FFEBEE</color>
     <color name="red_100">#FFCDD2</color>

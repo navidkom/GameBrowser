@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -19,7 +20,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:layout_margin="12dp"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:text="کیدزی ای عزیز!\n برای مشاهده اطلاعات پروفایل نیاز است ابتدا وارد حساب کاربری خود شوید." />
 
         <Button
@@ -27,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="ورود به حساب کاربری" />
     </LinearLayout>
 
@@ -58,13 +60,14 @@
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:layout_margin="12dp"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/signout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="خروج از حساب کاربری" />
 
     </LinearLayout>

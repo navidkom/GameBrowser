@@ -48,13 +48,13 @@
 <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="40dp"
-        android:visibility="visible" />
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progress"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_margin="40dp"-->
+<!--        android:visibility="visible" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_recycler_view"
@@ -85,8 +85,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimaryVeryDark"
+            android:textStyle="bold"
             android:background="@drawable/shape_fill_transparent"
+            android:hint="اینجا بنویس ..."
+            android:textColorHint="@color/lightGrey"
             android:minHeight="36dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"

@@ -36,6 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(ChatViewHolder holder, int position) {
         Message model = items.get( position );
         holder.detail.setText(model.getMessage());
+        holder.name.setText(model.getSenderName());
     }
 
     @Override
@@ -55,10 +56,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     static class ChatViewHolder extends RecyclerView.ViewHolder {
         public TextView detail;
         public TextView time;
+        public TextView name;
 
         public ChatViewHolder(View v) {
             super(v);
             detail = v.findViewById(R.id.conversation_detail);
+            name = v.findViewById(R.id.conversation_name);
             time = v.findViewById(R.id.conversation_timestamp);
         }
     }

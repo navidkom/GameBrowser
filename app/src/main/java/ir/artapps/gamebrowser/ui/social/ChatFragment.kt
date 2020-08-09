@@ -14,9 +14,11 @@ import com.fanap.podchat.chat.Chat
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
 import ir.artapps.gamebrowser.entities.chat.Message
+import kotlinx.android.synthetic.main.fragment_chat.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.net.Socket
 import java.util.*
+import kotlin.math.min
 
 class ChatFragment : BaseDialogFragment(),
     Toolbar.OnMenuItemClickListener, View.OnClickListener {
@@ -27,6 +29,11 @@ class ChatFragment : BaseDialogFragment(),
     private var editText: AppCompatEditText? = null
     private val chat: Chat? = null
     private val mSocket: Socket? = null
+
+    val items: ArrayList<Message?> =
+        ArrayList<Message?>()
+
+    var adapter = ChatAdapter(ArrayList())
 
     //    private NetworkRepository networkRepository = NetworkRepositoryImpl.getInstance();
     private var progress: ProgressBar? = null
@@ -53,26 +60,7 @@ class ChatFragment : BaseDialogFragment(),
             return
         }
         val arguments = arguments
-        if (arguments != null) {
-//            if (arguments.containsKey(projectsModelKey)) {
-//                model = arguments.getParcelable(projectsModelKey);
-//            }
-//        }
-//        val toolbar: Toolbar = getView()!!.findViewById(R.id.toolbar)
-//        if (toolbar != null) {
 
-//            TextView titleName = toolbar.findViewById(R.id.chat_title_name);
-
-//            if (chat != null && chat.getLastSender() != null) {
-//                titleName.setText(chat.getTitle());
-//            } else {
-//                titleName.setText("پژوهشگر");
-//            }
-//            toolbar.setTitleTextColor(resources.getColor(R.color.white))
-//            toolbar.setNavigationIcon(R.drawable.ic_nav_back)
-//            toolbar.setNavigationOnClickListener { dismiss() }
-//            toolbar.setOnMenuItemClickListener(this)
-        }
         recyclerView = view.findViewById(R.id.chat_recycler_view)
         editText = view.findViewById(R.id.message_edit_text)
         editText = view.findViewById(R.id.message_edit_text)
@@ -87,9 +75,26 @@ class ChatFragment : BaseDialogFragment(),
 
     private val messages: Unit
         private get() {
-            val items: List<Message?> =
-                ArrayList<Message?>()
-            val adapter =
+
+            items.add(0 , Message().apply {
+                senderName = "رضا"
+                message = "سلام بچه ها "
+                mine = false
+            })
+
+            items.add(0, Message().apply {
+                senderName = "نوید"
+                message = "سلام خوبی ؟"
+                mine = true
+            })
+
+            items.add(0 ,Message().apply {
+                senderName = "احمد"
+                message = String.format("%s\n%s", "مرسی خوبم، تو خوبی؟", "چه خبرا؟")
+                mine = false
+            })
+
+            adapter =
                 ChatAdapter(items)
             recyclerView?.layoutManager = LinearLayoutManager(
                 context,
@@ -108,6 +113,16 @@ class ChatFragment : BaseDialogFragment(),
     override fun onClick(v: View) {
         when (v.id) {
             R.id.send_message -> {
+
+                if( !message_edit_text.text.isNullOrEmpty() ) {
+                    items.add(0, Message().apply {
+                        mine = true
+                        message = message_edit_text.text.toString()
+                    })
+
+                    message_edit_text.text = null
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
     }
