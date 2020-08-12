@@ -1,5 +1,6 @@
 package ir.artapps.gamebrowser
 
+import android.util.Log
 import androidx.room.Room
 import com.fanap.gameCenter.TIS.Service
 import ir.artapps.gamebrowser.local.AppDatabase
@@ -10,6 +11,7 @@ import ir.artapps.gamebrowser.remote.PodRemoteDataSourceImpl
 import ir.artapps.gamebrowser.repo.*
 import ir.artapps.gamebrowser.ui.home.HomeViewModel
 import ir.artapps.gamebrowser.ui.detail.DetailViewModel
+import ir.artapps.gamebrowser.ui.main.MainViewModel
 import ir.artapps.gamebrowser.ui.profile.ProfileViewModel
 import ir.artapps.gamebrowser.ui.signin.SignInViewModel
 import ir.artapps.gamebrowser.ui.social.SocialViewModel
@@ -36,15 +38,16 @@ class Module {
 
         single<Service> { Service.getInstance(JSONObject().put("context", androidApplication())) }
 
-        single<GamesRepository> { GamesRepositoryImpl( androidApplication(), get(), get()) }
-        single<PodRepository> { PodRepositoryImpl( androidApplication(), get()) }
-        single<ChatRepository> { ChatRepositoryImpl( androidApplication()) }
+        single<PodRepository> { PodRepositoryImpl(androidApplication(), get()) }
+        single<GamesRepository> { GamesRepositoryImpl(androidApplication(), get(), get(), get()) }
+        single<ChatRepository> { ChatRepositoryImpl(androidApplication(), get()) }
 
 
         viewModel { HomeViewModel(get(), get()) }
-        viewModel { DetailViewModel(get(), get()) }
+        viewModel { DetailViewModel(get(), get(), get()) }
         viewModel { ProfileViewModel(get(), get()) }
         viewModel { SignInViewModel(get(), get()) }
-        viewModel { SocialViewModel(get()) }
+        viewModel { SocialViewModel(get(), get()) }
+        viewModel { MainViewModel(get(), get()) }
     }
 }

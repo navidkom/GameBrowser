@@ -16,7 +16,7 @@ import ir.artapps.gamebrowser.ui.detail.DetailFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HomeFragment private constructor() : Fragment(), HomeRecyclerViewAdapter.OnItemClickListener {
+class HomeFragment  constructor() : Fragment(), HomeRecyclerViewAdapter.OnItemClickListener {
 
     private lateinit var mAdapter: HomeRecyclerViewAdapter
     private val viewModel: HomeViewModel by viewModel()

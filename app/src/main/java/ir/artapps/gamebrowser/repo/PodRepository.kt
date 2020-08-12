@@ -1,5 +1,6 @@
 package ir.artapps.gamebrowser.repo
 
+import androidx.lifecycle.MutableLiveData
 import ir.artapps.gamebrowser.entities.pod.UserProfile
 
 /**
@@ -8,5 +9,16 @@ import ir.artapps.gamebrowser.entities.pod.UserProfile
  */
 
 interface PodRepository {
-     suspend fun getUserProfile(token: String) : UserProfile?
+    suspend fun getUserProfile(token: String): UserProfile?
+    suspend fun getUserProfile(): UserProfile?
+    fun signOut()
+    var profileLiveData: MutableLiveData<UserProfile?>
+    var token: String?
+    var profile: UserProfile?
+
+
+    companion object{
+        var token: String? = null
+        var profile: UserProfile? = null
+    }
 }

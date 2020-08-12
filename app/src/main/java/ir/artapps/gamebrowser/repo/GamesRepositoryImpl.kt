@@ -14,7 +14,8 @@ import ir.artapps.gamebrowser.remote.GamesRemoteDataSource
 class GamesRepositoryImpl(
     val context: Context,
     private var gamesDAO: GamesDAO,
-    private val remote: GamesRemoteDataSource
+    private val remote: GamesRemoteDataSource,
+    private val podRepository: PodRepository
 ) : GamesRepository {
 
     val PAGE_SIZE = 20

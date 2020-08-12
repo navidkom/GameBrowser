@@ -1,46 +1,45 @@
 package ir.artapps.gamebrowser.ui.social
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fanap.podchat.chat.Chat
+import com.fanap.podchat.mainmodel.MessageVO
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
-import ir.artapps.gamebrowser.entities.chat.Message
 import kotlinx.android.synthetic.main.fragment_chat.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.net.Socket
 import java.util.*
-import kotlin.math.min
 
 class ChatFragment : BaseDialogFragment(),
     Toolbar.OnMenuItemClickListener, View.OnClickListener {
 
-    val viewModel : SocialViewModel by viewModel()
+    val viewModel: SocialViewModel by viewModel()
 
     private var recyclerView: RecyclerView? = null
     private var editText: AppCompatEditText? = null
     private val chat: Chat? = null
     private val mSocket: Socket? = null
 
-    val items: ArrayList<Message?> =
-        ArrayList<Message?>()
+    val items: ArrayList<MessageVO?> =
+        ArrayList<MessageVO?>()
 
     var adapter = ChatAdapter(ArrayList())
 
     //    private NetworkRepository networkRepository = NetworkRepositoryImpl.getInstance();
-    private var progress: ProgressBar? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.dummy
     }
 
     override fun onCreateView(
@@ -64,38 +63,19 @@ class ChatFragment : BaseDialogFragment(),
         recyclerView = view.findViewById(R.id.chat_recycler_view)
         editText = view.findViewById(R.id.message_edit_text)
         editText = view.findViewById(R.id.message_edit_text)
-        messages
         view.findViewById<View>(R.id.send_message).setOnClickListener(this)
         recyclerView?.addOnLayoutChangeListener(View.OnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             if (recyclerView != null && recyclerView!!.adapter != null) recyclerView!!.scrollToPosition(
                 0
             )
         })
-    }
 
-    private val messages: Unit
-        private get() {
+        viewModel.chatLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
 
-            items.add(0 , Message().apply {
-                senderName = "رضا"
-                message = "سلام بچه ها "
-                mine = false
-            })
-
-            items.add(0, Message().apply {
-                senderName = "نوید"
-                message = "سلام خوبی ؟"
-                mine = true
-            })
-
-            items.add(0 ,Message().apply {
-                senderName = "احمد"
-                message = String.format("%s\n%s", "مرسی خوبم، تو خوبی؟", "چه خبرا؟")
-                mine = false
-            })
+            Log.d("observe", "chatLiveData")
 
             adapter =
-                ChatAdapter(items)
+                ChatAdapter(it)
             recyclerView?.layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.VERTICAL,
@@ -104,7 +84,23 @@ class ChatFragment : BaseDialogFragment(),
             recyclerView?.adapter = adapter
             recyclerView?.scrollToPosition(0)
             progress?.visibility = View.GONE
-        }
+
+        })
+
+        viewModel.profileLiveData.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer { response ->
+                if (response == null) {
+                    signinParent.visibility = View.VISIBLE
+                    chatParent.visibility = View.GONE
+                    return@Observer
+                }
+
+                signinParent.visibility = View.GONE
+                chatParent.visibility = View.VISIBLE
+
+            })
+    }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         return false
@@ -113,15 +109,9 @@ class ChatFragment : BaseDialogFragment(),
     override fun onClick(v: View) {
         when (v.id) {
             R.id.send_message -> {
-
-                if( !message_edit_text.text.isNullOrEmpty() ) {
-                    items.add(0, Message().apply {
-                        mine = true
-                        message = message_edit_text.text.toString()
-                    })
-
+                if (!message_edit_text.text.isNullOrEmpty()) {
+                    viewModel.sendMessage(message_edit_text.text.toString())
                     message_edit_text.text = null
-                    adapter.notifyDataSetChanged()
                 }
             }
         }

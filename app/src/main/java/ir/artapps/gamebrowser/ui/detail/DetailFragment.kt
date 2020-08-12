@@ -1,6 +1,5 @@
 package ir.artapps.gamebrowser.ui.detail
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -16,7 +15,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
-import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
 import ir.artapps.gamebrowser.entities.Game
@@ -30,7 +28,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
  */
 class DetailFragment : BaseDialogFragment() {
     private var game: Game? = null
-    private val detailViewModel: DetailViewModel by viewModel()
+    private val viewModel: DetailViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,7 +70,7 @@ class DetailFragment : BaseDialogFragment() {
 //
 //        appBarLayout?.setExpanded(false)
 
-        detailViewModel.apply {
+        viewModel.apply {
             gameLiveData.observe(
                 viewLifecycleOwner,
                 Observer { game -> setNetData(game) })
@@ -86,7 +84,7 @@ class DetailFragment : BaseDialogFragment() {
 
         play_btn.setOnClickListener {
 
-            if(App.profile.value == null && game!!.physicalUrl != null) {
+            if(viewModel.podRepository.profile == null && game!!.physicalUrl != null) {
                 val dialog = AlertDialog.Builder(requireContext()).create()
                 dialog.setTitle("ورود به حساب کاربری")
                 dialog.setMessage("برای ورود به این بازی نیاز است وارد حساب کاربری خود شوید")
@@ -106,7 +104,7 @@ class DetailFragment : BaseDialogFragment() {
                 dialog.show()
             } else {
 
-                detailViewModel.getGamePlayURL(game!!).observe(viewLifecycleOwner, Observer {
+                viewModel.getGamePlayURL(game!!).observe(viewLifecycleOwner, Observer {
                     val intent = Intent(activity, WebViewActivity::class.java)
                     intent.putExtra("url", it)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

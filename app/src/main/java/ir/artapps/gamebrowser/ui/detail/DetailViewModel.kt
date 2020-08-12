@@ -10,6 +10,7 @@ import com.fanap.gameCenter.TIS.Service
 import com.fanap.gameCenter.TIS.Share.ConfigData
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.repo.GamesRepository
+import ir.artapps.gamebrowser.repo.PodRepository
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
@@ -17,7 +18,7 @@ import org.json.JSONObject
 /**
  * Created by navid
  */
-class DetailViewModel(private val repository: GamesRepository, private val service: Service) :
+class DetailViewModel(private val repository: GamesRepository, private val service: Service,  val podRepository: PodRepository) :
     ViewModel() {
 
     private val _gameLiveData = MutableLiveData<Game>()

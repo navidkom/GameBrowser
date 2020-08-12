@@ -1,7 +1,6 @@
 package ir.artapps.gamebrowser.base
 
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -19,6 +18,7 @@ open class BaseDialogFragment : DialogFragment() {
         ft.add(this, tag)
         ft.commitAllowingStateLoss()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

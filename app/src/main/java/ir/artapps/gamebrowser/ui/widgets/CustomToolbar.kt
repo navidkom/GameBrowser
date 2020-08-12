@@ -3,6 +3,7 @@ package ir.artapps.gamebrowser.ui.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import ir.artapps.gamebrowser.R
 import kotlinx.android.synthetic.main.custom_toolbar.view.*
@@ -18,11 +19,23 @@ class CustomToolbar : Toolbar {
 //        init()
     }
 
+    var signIn: Boolean = false
+        set(value) {
+            field = value
+            if (value) {
+                profileParent.visibility = View.VISIBLE
+                signinBtn.visibility = View.GONE
+            } else {
+                profileParent.visibility = View.GONE
+                signinBtn.visibility = View.VISIBLE
+            }
+        }
+
     var name = ""
-    set(value){
-        field = value
-        toolbarProfileName.setText(value)
-    }
+        set(value) {
+            field = value
+            toolbarProfileName.setText(value)
+        }
 //    private fun init() {
 //        toolbarProfileName
 //    }

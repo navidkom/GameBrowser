@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
+import ir.artapps.gamebrowser.repo.PodRepository
 import kotlinx.android.synthetic.main.login_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -68,7 +69,6 @@ class SigninFragment private constructor() : BaseDialogFragment() {
                     if(url.startsWith("http://www.kidzy.ir/redirect_app?code=")) {
                         Log.d("token" , url)
                         val token =  url.substring(url.indexOf("?code=") + 6)
-                        App.loginCode = token
                         viewModel.getUserProfile(token)
                         return true
                     }

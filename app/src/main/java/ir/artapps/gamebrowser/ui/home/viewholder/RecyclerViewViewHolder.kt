@@ -20,7 +20,7 @@ class RecyclerViewViewHolder(val v: View) : BaseViewHolder(v),
         title.text = model.name
         rating.rating = model.rate?.rate!!
         imageView.setImageBitmap(null)
-//        Glide.with(v).load(model.preview).into(imageView)
+        Glide.with(v).load(model.preview).into(imageView)
     }
 
     override fun setClickListener(listener: HomeRecyclerViewAdapter.OnItemClickListener) {

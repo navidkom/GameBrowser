@@ -1,31 +1,28 @@
 package ir.artapps.gamebrowser.repo
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.fanap.podchat.chat.Chat
 import com.fanap.podchat.chat.ChatAdapter
-import com.fanap.podchat.chat.ChatHandler
 import com.fanap.podchat.chat.bot.result_model.CreateBotResult
 import com.fanap.podchat.chat.bot.result_model.DefineBotCommandResult
 import com.fanap.podchat.chat.bot.result_model.StartStopBotResult
 import com.fanap.podchat.chat.messge.ResultUnreadMessagesCount
 import com.fanap.podchat.chat.pin.pin_message.model.ResultPinMessage
 import com.fanap.podchat.chat.pin.pin_thread.model.ResultPinThread
-import com.fanap.podchat.chat.thread.public_thread.RequestCreatePublicThread
 import com.fanap.podchat.chat.thread.public_thread.RequestJoinPublicThread
 import com.fanap.podchat.chat.thread.public_thread.ResultIsNameAvailable
 import com.fanap.podchat.chat.thread.public_thread.ResultJoinPublicThread
 import com.fanap.podchat.chat.user.profile.ResultUpdateProfile
 import com.fanap.podchat.chat.user.user_roles.model.ResultCurrentUserRoles
+import com.fanap.podchat.mainmodel.MessageVO
 import com.fanap.podchat.mainmodel.ResultDeleteMessage
 import com.fanap.podchat.model.*
-import com.fanap.podchat.requestobject.RequestConnect
-import com.fanap.podchat.requestobject.RequestGetContact
-import com.fanap.podchat.requestobject.RequestGetHistory
-import com.fanap.podchat.requestobject.RequestThread
-import ir.artapps.gamebrowser.App
+import com.fanap.podchat.requestobject.*
 
 
-class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
+class ChatRepositoryImpl(context: Context, podRepository: PodRepository) : ChatAdapter(), ChatRepository {
 
     val chat = Chat.init(context)
 
@@ -36,14 +33,15 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
     val platformHost = "https://sandbox.pod.ir:8043/srv/basic-platform/"
     val fileServer = "https://sandbox.pod.ir:8443"
 
+    val chatLiveData = MutableLiveData<List<MessageVO>>()
 
     init {
-        App.profile.observeForever {
+        podRepository.profileLiveData.observeForever {
             val requestConnect = RequestConnect.Builder(
                 serverAddress,
                 appId,
                 severName,
-                App.token,
+                podRepository.token ,
                 ssoHost,
                 platformHost,
                 fileServer
@@ -55,6 +53,17 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
         }
 
         chat.addListener(this)
+    }
+
+    override fun getHistoryLiveData(): LiveData<List<MessageVO>> {
+        return chatLiveData
+    }
+
+    override fun sendMessage(message: String) {
+
+        val reqMessage = RequestMessage.Builder(message, 8716)
+            .build();
+        chat.sendTextMessage(reqMessage, null)
     }
 
     override fun onSent(content: String?, chatResponse: ChatResponse<ResultMessage>?) {
@@ -135,6 +144,8 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
 
     override fun onGetHistory(content: String?, history: ChatResponse<ResultHistory>?) {
         super.onGetHistory(content, history)
+
+        chatLiveData.postValue(history?.result?.history)
     }
 
     override fun onPinThread(response: ChatResponse<ResultPinThread>?) {
@@ -282,10 +293,13 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
     override fun onNewMessage(content: String?, outPutNewMessage: ChatResponse<ResultNewMessage>?) {
         super.onNewMessage(content, outPutNewMessage)
 
+        val requestGetHistory = RequestGetHistory.Builder(8716)
+            .build();
+        chat.getHistory(requestGetHistory, null)
     }
 
     override fun onLogEvent(log: String?) {
-                super.onLogEvent(log)
+        super.onLogEvent(log)
     }
 
     override fun onLogEvent(logName: String?, json: String?) {
@@ -383,19 +397,22 @@ class ChatRepositoryImpl(context: Context) : ChatAdapter(), ChatRepository {
         chat.joinPublicThread(request)
 
 
-        val requestThread =  RequestThread.Builder()
+        val requestThread = RequestThread.Builder()
             .build();
 
-        chat.getThreads(requestThread , null)
+        chat.getThreads(requestThread, null)
 
-//        val requestGetHistory =  RequestGetHistory.Builder("kidzy")
-//            .fromTime()
-//            .fromTimeNanos()
-//            .id()
-//            .toTime()
-//            .toTimeNanos()
+//        val requestJoinPublicThread =  RequestJoinPublicThread.Builder("kidzy")
 //            .build();
-//        chat.getHistory(requestGetHistory , null)
+//        chat.joinPublicThread(requestJoinPublicThread)
+
+//        val requestCreatePublicThread = RequestCreatePublicThread.Builder(2, listOf(Invitee(18136, 2)), "kidzy").build()
+//        chat.createThread(requestCreatePublicThread)
+
+
+        val requestGetHistory = RequestGetHistory.Builder(8716)
+            .build();
+        chat.getHistory(requestGetHistory, null)
     }
 
     override fun onError(content: String?, error: ErrorOutPut?) {

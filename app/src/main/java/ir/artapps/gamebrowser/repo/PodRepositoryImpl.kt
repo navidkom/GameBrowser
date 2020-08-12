@@ -1,11 +1,12 @@
 package ir.artapps.gamebrowser.repo
 
 import android.content.Context
-import ir.artapps.gamebrowser.App
+import androidx.lifecycle.MutableLiveData
 import ir.artapps.gamebrowser.entities.pod.UserProfile
 import ir.artapps.gamebrowser.remote.PodRemoteDataSource
+import ir.artapps.gamebrowser.ui.util.preferences.SharedPref
+import ir.artapps.gamebrowser.ui.util.preferences.SharedPrefKeys
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 
 /**
@@ -18,14 +19,46 @@ class PodRepositoryImpl(
     private val remote: PodRemoteDataSource
 ) : PodRepository {
 
-    override suspend fun getUserProfile(token: String) : UserProfile? {
+    override var profileLiveData: MutableLiveData<UserProfile?> = MutableLiveData()
+    override var token: String? = null
+    override var profile: UserProfile? = null
 
-            withContext(Dispatchers.IO) {
-                App.token = remote.getUserToken(token)?.access_token
-            }
+    override suspend fun getUserProfile(): UserProfile? {
+        if( !SharedPref.DEFAULT.getString(SharedPrefKeys.TOKEN, "").isNullOrBlank() ){
+            token = SharedPref.DEFAULT.getString(SharedPrefKeys.TOKEN, "")
+            PodRepository.token = token
+            profile = SharedPref.DEFAULT.getParcelable(SharedPrefKeys.PROFILE, null, UserProfile::class.java)
+            PodRepository.profile = profile
+            profileLiveData.postValue(profile)
+            return profile
+        }
 
-            val result = remote.getUserProfile(App.token!!)?.result
-            App.profile.value = result
-            return result
+        profileLiveData.postValue(null)
+        return null
+    }
+
+    override suspend fun getUserProfile(tk: String): UserProfile? {
+
+        withContext(Dispatchers.IO) {
+            token = remote.getUserToken(tk)?.access_token
+            PodRepository.token = token
+            SharedPref.DEFAULT.storeString(SharedPrefKeys.TOKEN, token)
+        }
+
+        val result = remote.getUserProfile(token!!)?.result
+        profile = result
+        SharedPref.DEFAULT.storeParcelable(SharedPrefKeys.PROFILE, profile)
+        PodRepository.profile = profile
+        profileLiveData.postValue(result)
+        return result
+    }
+
+    override fun signOut() {
+        token = ""
+        PodRepository.token = ""
+        profile = null
+        PodRepository.profile = null
+        SharedPref.DEFAULT.clear()
+        profileLiveData.postValue(null)
     }
 }
