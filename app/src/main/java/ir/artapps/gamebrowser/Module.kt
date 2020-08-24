@@ -1,6 +1,5 @@
 package ir.artapps.gamebrowser
 
-import android.util.Log
 import androidx.room.Room
 import com.fanap.gameCenter.TIS.Service
 import ir.artapps.gamebrowser.local.AppDatabase
@@ -9,8 +8,9 @@ import ir.artapps.gamebrowser.remote.GamesRemoteDataSourceImpl
 import ir.artapps.gamebrowser.remote.PodRemoteDataSource
 import ir.artapps.gamebrowser.remote.PodRemoteDataSourceImpl
 import ir.artapps.gamebrowser.repo.*
-import ir.artapps.gamebrowser.ui.home.HomeViewModel
+import ir.artapps.gamebrowser.ui.home.FavoriteViewModel
 import ir.artapps.gamebrowser.ui.detail.DetailViewModel
+import ir.artapps.gamebrowser.ui.home.HomeViewModel
 import ir.artapps.gamebrowser.ui.main.MainViewModel
 import ir.artapps.gamebrowser.ui.profile.ProfileViewModel
 import ir.artapps.gamebrowser.ui.signin.SignInViewModel
@@ -43,11 +43,12 @@ class Module {
         single<ChatRepository> { ChatRepositoryImpl(androidApplication(), get()) }
 
 
+        viewModel { FavoriteViewModel(get(), get()) }
         viewModel { HomeViewModel(get(), get()) }
         viewModel { DetailViewModel(get(), get(), get()) }
         viewModel { ProfileViewModel(get(), get()) }
         viewModel { SignInViewModel(get(), get()) }
         viewModel { SocialViewModel(get(), get()) }
-        viewModel { MainViewModel(get(), get()) }
+        viewModel { MainViewModel(get(), get(), get()) }
     }
 }

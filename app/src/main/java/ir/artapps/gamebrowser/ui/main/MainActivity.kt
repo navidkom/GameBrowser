@@ -1,18 +1,25 @@
 package ir.artapps.gamebrowser.ui.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import ir.artapps.gamebrowser.R
+import ir.artapps.gamebrowser.entities.EventBus
 import ir.artapps.gamebrowser.ui.home.HomeFragment
 import ir.artapps.gamebrowser.ui.profile.ProfileFragment
+
 import ir.artapps.gamebrowser.ui.signin.SigninFragment
 import ir.artapps.gamebrowser.ui.social.ChatFragment
 import kotlinx.android.synthetic.main.custom_toolbar.view.*
+import kotlinx.android.synthetic.main.custom_toolbar.view.profileParent
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.profile_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,14 +63,15 @@ class MainActivity : AppCompatActivity() {
             SigninFragment.newInstance().show(supportFragmentManager, "")
         }
 
-        viewModel.profileLiveData.observe(this, Observer {
-            if (it == null) {
+
+        viewModel.profileLiveData.observe(this, Observer { response ->
+            if (response == null) {
                 my_toolbar.signIn = false
-            } else {
-                my_toolbar.signIn = true
-                my_toolbar.name = it.name
-                Snackbar.make(root, "ورود با موفقیت انجام شد", Snackbar.LENGTH_SHORT).show()
+                return@Observer
             }
+
+            my_toolbar.signIn = true
+            my_toolbar.name = response.name
         })
     }
 }

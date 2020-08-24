@@ -7,13 +7,13 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Rate (
+    @SerializedName("myRate")
+    @Expose
+    var myRate: Float? = null,
     @SerializedName("rate")
     @Expose
     var rate: Float? = null,
     @SerializedName("rateCount")
     @Expose
-    var rateCount: Int? = null,
-    @SerializedName("myRate")
-    @Expose
-    var myRate: Float? = null
+    var rateCount: Int? = null
 ) : Parcelable

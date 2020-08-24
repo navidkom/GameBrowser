@@ -1,6 +1,7 @@
 package ir.artapps.gamebrowser.ui.social
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -12,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fanap.podchat.chat.Chat
 import com.fanap.podchat.mainmodel.MessageVO
+import com.google.android.material.snackbar.Snackbar
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
+import ir.artapps.gamebrowser.entities.chat.Message
 import kotlinx.android.synthetic.main.fragment_chat.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.net.Socket
@@ -26,16 +29,8 @@ class ChatFragment : BaseDialogFragment(),
 
     private var recyclerView: RecyclerView? = null
     private var editText: AppCompatEditText? = null
-    private val chat: Chat? = null
-    private val mSocket: Socket? = null
-
-    val items: ArrayList<MessageVO?> =
-        ArrayList<MessageVO?>()
 
     var adapter = ChatAdapter(ArrayList())
-
-    //    private NetworkRepository networkRepository = NetworkRepositoryImpl.getInstance();
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +65,12 @@ class ChatFragment : BaseDialogFragment(),
             )
         })
 
-        viewModel.chatLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-
+        viewModel.chatLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { list ->
             Log.d("observe", "chatLiveData")
 
-            adapter =
-                ChatAdapter(it)
+            adapter = ChatAdapter(list.map {  Message(it,
+                it.participant?.coreUserId?.toLong() == viewModel.profileLiveData.value?.userId?.toLong()
+            ) })
             recyclerView?.layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.VERTICAL,
@@ -83,9 +78,35 @@ class ChatFragment : BaseDialogFragment(),
             )
             recyclerView?.adapter = adapter
             recyclerView?.scrollToPosition(0)
-            progress?.visibility = View.GONE
-
+//            progress?.visibility = View.GONE
+            connectionStateParent.visibility = View.GONE
         })
+
+        viewModel.chatStateLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                "CHAT_READY" -> {
+                    connectionStateTV?.text = "Updating..."
+
+                    Handler().postDelayed( Runnable {
+                        connectionStateParent?.visibility = View.GONE
+                    },  3000 )
+                }
+                "CLOSED" -> {
+                    connectionStateParent?.visibility = View.VISIBLE
+                    connectionStateTV?.text = "Disconnected"
+                }
+                "OPEN" -> {
+                    connectionStateParent?.visibility = View.VISIBLE
+                    connectionStateTV?.text = "Connecting..."
+                }
+
+                "ASYNC_READY" -> {
+                    connectionStateParent?.visibility = View.VISIBLE
+                    connectionStateTV?.text = "Connecting..."
+                }
+            }
+        })
+
 
         viewModel.profileLiveData.observe(
             viewLifecycleOwner,
@@ -110,8 +131,14 @@ class ChatFragment : BaseDialogFragment(),
         when (v.id) {
             R.id.send_message -> {
                 if (!message_edit_text.text.isNullOrEmpty()) {
-                    viewModel.sendMessage(message_edit_text.text.toString())
-                    message_edit_text.text = null
+
+                    if(viewModel.chatStateLiveData.value == "CHAT_READY"){
+                        viewModel.sendMessage(message_edit_text.text.toString())
+                        message_edit_text.text = null
+                    } else {
+                        Snackbar.make(requireView() , "ارسال پیام ممکن نیست ،لطفا اتصال خود را بررسی کنید", Snackbar.LENGTH_SHORT).show()
+
+                    }
                 }
             }
         }

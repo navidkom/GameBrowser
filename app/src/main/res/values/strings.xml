@@ -6,10 +6,14 @@
     <string name="distance_image">distance image</string>
     <string name="game_image">game image</string>
     <string name="game_type">نوع بازی:</string>
+    <string name="age_range">مناسب برای </string>
+    <string name="game_genre">ژانر بازی:</string>
+    <string name="game_tags">تگ ها:</string>
     <string name="changelog">آخرین تغییرات:</string>
     <string name="apksize">حجم بازی:</string>
     <string name="description">توضیحات:</string>
     <string name="gameplay">نحوه انجام بازی:</string>
+    <string name="parentalInfo">اطلاعات والدین:</string>
     <string name="_3_8">3.8</string>
     <string name="score">امتیاز</string>
 

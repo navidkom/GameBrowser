@@ -1,22 +1,24 @@
 package ir.artapps.gamebrowser
 
-import android.app.Application
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import ir.artapps.gamebrowser.entities.pod.UserProfile
-import ir.artapps.gamebrowser.ui.util.preferences.SharedPref
-import ir.artapps.gamebrowser.ui.util.preferences.SharedPrefKeys
+import androidx.multidex.MultiDex
+import androidx.multidex.MultiDexApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
+
 /**
  *   Created by Navid Komijani
  *   on 29,February,2020
  */
-class App : Application() {
+class App : MultiDexApplication() {
 
+    override fun attachBaseContext(context: Context?) {
+        super.attachBaseContext(context)
+        MultiDex.install(this)
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -34,6 +36,5 @@ class App : Application() {
 
     companion object {
         var context: Context? = null
-        var instance = App()
     }
 }

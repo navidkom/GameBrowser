@@ -5,14 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.fanap.podchat.mainmodel.MessageVO
-import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
-import ir.artapps.gamebrowser.repo.PodRepository
+import ir.artapps.gamebrowser.entities.chat.Message
 import ir.artapps.gamebrowser.ui.social.ChatAdapter.ChatViewHolder
 
 class ChatAdapter // Provide a suitable constructor (depends on the kind of dataset)
-    (private val items: List<MessageVO?>) :
+    (private val items: List<Message?>) :
     RecyclerView.Adapter<ChatViewHolder>() {
 
     // Create new views (invoked by the layout manager)
@@ -34,16 +32,12 @@ class ChatAdapter // Provide a suitable constructor (depends on the kind of data
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val model = items[position]
-        holder.detail.text = model?.message
-        holder.name.text = model?.participant?.name
+        holder.detail.text = model?.message?.message
+        holder.name.text = model?.message?.participant?.name
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (items[position]?.participant?.coreUserId?.toLong() == PodRepository.profile?.userId?.toLong()) {
-            1
-        } else {
-            0
-        }
+        return if (items[position]?.isMine!!) 1 else 0
     }
 
     override fun getItemCount(): Int {

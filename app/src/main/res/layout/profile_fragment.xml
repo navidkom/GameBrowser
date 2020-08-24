@@ -64,10 +64,20 @@
             android:textSize="16sp" />
 
         <Button
+            android:id="@+id/favoriteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="12"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="مشاهده علاقه‌مندی ها" />
+
+        <Button
             android:id="@+id/signout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:ems="12"
             android:backgroundTint="@color/colorPrimaryDark"
             android:text="خروج از حساب کاربری" />
 

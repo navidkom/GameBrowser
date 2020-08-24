@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ir.artapps.gamebrowser.entities.Game
+import ir.artapps.gamebrowser.entities.product.ProductGame
 
 /**
  * Created by navid

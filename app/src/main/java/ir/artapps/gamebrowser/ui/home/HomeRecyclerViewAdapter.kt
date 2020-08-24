@@ -6,9 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.entities.Game
-import ir.artapps.gamebrowser.ui.home.viewholder.BaseViewHolder
-import ir.artapps.gamebrowser.ui.home.viewholder.LoadingViewHolder
-import ir.artapps.gamebrowser.ui.home.viewholder.RecyclerViewViewHolder
+import ir.artapps.gamebrowser.ui.home.viewholder.*
 
 /**
  * Created by navid

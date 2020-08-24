@@ -1,6 +1,7 @@
 package ir.artapps.gamebrowser.ui.profile
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
+import ir.artapps.gamebrowser.entities.EventBus
 import ir.artapps.gamebrowser.repo.PodRepository
+import ir.artapps.gamebrowser.ui.home.FavoriteFragment
+import ir.artapps.gamebrowser.ui.signin.SignInActivity
 import ir.artapps.gamebrowser.ui.signin.SigninFragment
 import kotlinx.android.synthetic.main.profile_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
-class ProfileFragment private constructor() : Fragment() {
+class ProfileFragment : Fragment() {
 
     private val viewModel: ProfileViewModel by viewModel()
 
@@ -35,7 +40,7 @@ class ProfileFragment private constructor() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        viewModel.getUserProfile()
+        viewModel.getUserProfile()
 
         signin.setOnClickListener {
             SigninFragment.newInstance().show(childFragmentManager, "")
@@ -45,8 +50,11 @@ class ProfileFragment private constructor() : Fragment() {
             viewModel.signOut()
         }
 
-        viewModel.profileLiveData.observe(viewLifecycleOwner, Observer { response ->
+        favoriteBtn.setOnClickListener {
+            FavoriteFragment.newInstance().show(childFragmentManager, "")
+        }
 
+        viewModel.profileLiveData.observe(viewLifecycleOwner, Observer { response ->
             if (response == null) {
                 signinParent.visibility = View.VISIBLE
                 profileParent.visibility = View.GONE
@@ -56,7 +64,7 @@ class ProfileFragment private constructor() : Fragment() {
             signinParent.visibility = View.GONE
             profileParent.visibility = View.VISIBLE
 
-            loginText.setText(String.format("%s عزیز، به کیدزی خوش آمدی", response.name))
+            loginText.setText(String.format( Locale("fa"),"%s\n%s", response.name, " به کیدزی خوش آمدی"))
         })
     }
 }

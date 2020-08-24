@@ -12,6 +12,7 @@ public class SharedPrefKeys {
     public static final String server_token = "token";
     public static final String LOGIN_CODE = "loginCode";
     public static final String TOKEN = "token";
+    public static final String REFRESH_TOKEN = "refreshToken";
     public static final String PROFILE = "profile";
 
 }

@@ -14,17 +14,19 @@ import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
 import ir.artapps.gamebrowser.repo.PodRepository
+import ir.artapps.gamebrowser.ui.main.MainActivity
 import kotlinx.android.synthetic.main.login_fragment.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class SigninFragment private constructor() : BaseDialogFragment() {
+class SigninFragment: BaseDialogFragment() {
 
     companion object {
         fun newInstance() = SigninFragment()
     }
 
-    val viewModel : SignInViewModel by viewModel()
+    val viewModel : SignInViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,14 +43,12 @@ class SigninFragment private constructor() : BaseDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.profileLiveData.observe(viewLifecycleOwner, Observer {
-            dismiss()
-        })
-
-        toolbar.title = "ورود"
-        toolbar.setNavigationIcon(R.drawable.ic_nav_back)
-        toolbar.setNavigationOnClickListener {
-            this@SigninFragment.dismiss()
+        toolbar.title = "ورود به کیدزی"
+        if(activity is MainActivity) {
+            toolbar.setNavigationIcon(R.drawable.ic_nav_back)
+            toolbar.setNavigationOnClickListener {
+                this@SigninFragment.dismiss()
+            }
         }
 
         webview.apply {
@@ -80,6 +80,13 @@ class SigninFragment private constructor() : BaseDialogFragment() {
                 "https://accounts.pod.ir/oauth2/authorize/?client_id=18060069b4bf248759168bc24000d57c7&response_type=code&redirect_uri=http://www.kidzy.ir/redirect_app&scope=profile social social:write"
             loadUrl(url)
         }
+
+
+        viewModel.profileLiveData.observe(viewLifecycleOwner, Observer {
+            if(it != null ) {
+                dismiss()
+            }
+        })
     }
 
 }

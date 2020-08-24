@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fanap.gameCenter.TIS.Service
 import ir.artapps.gamebrowser.entities.Game
+import ir.artapps.gamebrowser.entities.product.ProductGame
 import ir.artapps.gamebrowser.repo.GamesRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

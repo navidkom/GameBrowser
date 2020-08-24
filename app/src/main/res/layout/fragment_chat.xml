@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <!--    <com.google.android.material.appbar.AppBarLayout-->
@@ -52,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
         <TextView
@@ -78,7 +80,39 @@
         android:id="@+id/chatParent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/connectionStateParent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:cardBackgroundColor="@color/white"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:id="@+id/connectionStateTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@color/colorPrimaryVeryDark"
+                    android:text="connecting..." />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chat_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progress"
@@ -86,13 +120,9 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_margin="40dp"
+            android:visibility="gone"
             android:indeterminateDrawable="@drawable/progress_shape" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chat_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -112,7 +142,7 @@
             android:orientation="horizontal"
             android:padding="8dp">
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <EditText
                 android:id="@+id/message_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

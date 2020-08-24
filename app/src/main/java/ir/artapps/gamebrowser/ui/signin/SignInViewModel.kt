@@ -1,9 +1,6 @@
 package ir.artapps.gamebrowser.ui.signin
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.fanap.gameCenter.TIS.Service
 import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.SingleLiveEvent
@@ -18,12 +15,13 @@ import kotlinx.coroutines.launch
 class SignInViewModel(private val repository: PodRepository, private val service: Service) :
     ViewModel() {
 
-    private val _profileLiveData = MutableLiveData<UserProfile>()
-    val profileLiveData : LiveData<UserProfile> = _profileLiveData
+    var profileLiveData : LiveData<UserProfile?> = repository.profileLiveData
 
     fun getUserProfile(token: String) {
-        viewModelScope.launch {
-            _profileLiveData.value = repository.getUserProfile(token)
-        }
+            repository.getUserProfile(token)
     }
+
+//    fun getUserProfile() {
+//        profileLiveData = repository.getUserProfile()
+//    }
 }

@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ServiceGenerator {
     companion object {
         var PLAYPOD_BASE_URL = "https://service-play.pod.ir/"
-        var POD_Account_BASE_URL = "http://accounts.pod.ir"
+        var POD_Account_BASE_URL = "https://accounts.pod.ir"
         var POD_SANDBOX_BASE_URL = "http://sandbox.pod.ir:8080"
 
 

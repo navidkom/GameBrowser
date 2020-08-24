@@ -12,4 +12,6 @@ interface PodRemoteDataSource {
     ): GetProfileResponseModel?
 
     suspend fun getUserToken(token: String): TokenResponseModel?
+    suspend fun updateToken(token: String): TokenResponseModel?
+    suspend fun follow(token: String?)
 }

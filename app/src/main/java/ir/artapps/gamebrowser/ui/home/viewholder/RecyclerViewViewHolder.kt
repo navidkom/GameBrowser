@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.entities.Game
+import ir.artapps.gamebrowser.ui.home.FavoriteRecyclerViewAdapter
 import ir.artapps.gamebrowser.ui.home.HomeRecyclerViewAdapter
 
 class RecyclerViewViewHolder(val v: View) : BaseViewHolder(v),
@@ -18,9 +19,12 @@ class RecyclerViewViewHolder(val v: View) : BaseViewHolder(v),
     var listener: HomeRecyclerViewAdapter.OnItemClickListener? = null
     override fun onBind(model: Game, i: Int) {
         title.text = model.name
-        rating.rating = model.rate?.rate!!
+        model.rate?.rate?.let {
+            rating.rating = it
+        }
         imageView.setImageBitmap(null)
-        Glide.with(v).load(model.preview).into(imageView)
+        Glide.with(v).load(model.metadata?.thumbnail).into(imageView)
+
     }
 
     override fun setClickListener(listener: HomeRecyclerViewAdapter.OnItemClickListener) {

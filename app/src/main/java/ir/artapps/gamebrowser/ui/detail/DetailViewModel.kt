@@ -21,16 +21,18 @@ import org.json.JSONObject
 class DetailViewModel(private val repository: GamesRepository, private val service: Service,  val podRepository: PodRepository) :
     ViewModel() {
 
+    var game: Game? = null
+
     private val _gameLiveData = MutableLiveData<Game>()
     val gameLiveData: LiveData<Game> = _gameLiveData
 
     private val _errorLiveData: MutableLiveData<String> = MutableLiveData()
     val errorLiveData: LiveData<String> = _errorLiveData
 
-    fun getDetail(id: Int) {
+    fun getDetail(id: Long) {
         viewModelScope.launch {
             try {
-                _gameLiveData.value = repository.getGame(id.toString())
+                _gameLiveData.value = repository.getGame(game?.entityId.toString())
             } catch (e: Exception) {
                 _errorLiveData.value = "AN ERROR OCCURRED"
             }
@@ -40,40 +42,82 @@ class DetailViewModel(private val repository: GamesRepository, private val servi
     fun getGamePlayURL(item: Game) : LiveData<String> {
 
         val ld = MutableLiveData<String> ()
-
-        if(item.isLocal ){
-            ld.postValue(item.downloadLink)
-        }
-        else if(item.entityId != null) {
-            val loginData = JSONObject().apply {
-                put("id", 394218)
-                put("token", "ddefe52b44a84324897255b2670d2d91")
-                put("tokenIssuer", 0)
-                put("name", "navidkom")
+        item.metadata?.let {
+            if (!it.isPlayPod) {
+                ld.postValue(item.metadata?.url)
             }
+            else  {
+                val loginData = JSONObject().apply {
+                    put("id", 394218)
+                    put("token", "ddefe52b44a84324897255b2670d2d91")
+                    put("tokenIssuer", 0)
+                    put("name", "navidkom")
+                }
 
-            val reqData = JSONObject()
-            val gamesId = JSONArray()
+                val reqData = JSONObject()
+                val gamesId = JSONArray()
 
-            gamesId.put(item.entityId!!)
-            reqData.put("gamesId", gamesId)
-            service.getGamesInfo(
-                reqData,
-                object : RequestCallback() {
-                    override fun onResult(result: JSONObject) {
-                        println("getEnrolledLeagues method : $result")
+                gamesId.put(item.entityId!!)
+                reqData.put("gamesId", gamesId)
+                service.getGamesInfo(
+                    reqData,
+                    object : RequestCallback() {
+                        override fun onResult(result: JSONObject) {
+                            println("getEnrolledLeagues method : $result")
 
-                        val downloadLink =
-                            ConfigData.gwbu + "/" + ((result.get("result") as JSONObject).getJSONArray(
-                                "games"
-                            )[0] as JSONObject).getString("physicalUrl") + "?gameData=" + Uri.encode(
-                                loginData.toString()
-                            )
-                        ld.postValue(downloadLink)
-                    }
-                })
+                            val downloadLink =
+                                ConfigData.gwbu + "/" + ((result.get("result") as JSONObject).getJSONArray(
+                                    "games"
+                                )[0] as JSONObject).getString("physicalUrl") + "?gameData=" + Uri.encode(
+                                    loginData.toString()
+                                )
+                            ld.postValue(downloadLink)
+                        }
+                    })
+            }
         }
         return ld
 
+    }
+
+    fun like() {
+        viewModelScope.launch {
+            repository.like(game?.id.toString(), false)
+            try {
+                _gameLiveData.value = repository.getGame(game?.entityId.toString())
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    fun dislike() {
+        viewModelScope.launch {
+            repository.dislike(game?.id.toString(), true)
+            try {
+                _gameLiveData.value = repository.getGame(game?.entityId.toString())
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    fun favorite(favorite:Boolean) {
+        viewModelScope.launch {
+            repository.favorite(game?.id.toString(), favorite)
+            try {
+                _gameLiveData.value = repository.getGame(game?.entityId.toString())
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+
+    fun rate(rate:Float) {
+        viewModelScope.launch {
+            repository.rate(game?.id.toString(), rate)
+            try {
+                _gameLiveData.value = repository.getGame(game?.entityId.toString())
+            } catch (e: Exception) {
+            }
+        }
     }
 }

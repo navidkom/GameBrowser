@@ -1,8 +1,9 @@
 package ir.artapps.gamebrowser.repo
 
 import androidx.lifecycle.LiveData
-import com.fanap.gameCenter.TIS.Base.RequestCallback
 import ir.artapps.gamebrowser.entities.Game
+import ir.artapps.gamebrowser.entities.Rate
+import ir.artapps.gamebrowser.entities.product.GeneralResponseModel
 
 /**
  *   Created by Navid Komijani
@@ -10,7 +11,16 @@ import ir.artapps.gamebrowser.entities.Game
  */
 
 interface GamesRepository {
-     fun getGamesLiveData(): LiveData<List<Game>>
-     suspend fun getGames(firstPage: Boolean, filter: String?): Int
-     suspend fun getGame(gameId: String): Game
+    fun getGamesLiveData(): LiveData<List<Game>>
+    suspend fun getGames(firstPage: Boolean, filter: String?, auth: Boolean? = null ): Int
+    suspend fun getGame(gameId: String): Game
+    suspend fun getFavorites(): List<Game>
+    suspend fun like(postId: String, dislike: Boolean): GeneralResponseModel<Boolean>
+    suspend fun dislike(
+        postId: String,
+        dislike: Boolean
+    ): GeneralResponseModel<Boolean>
+
+    suspend fun favorite(postId: String, favorite: Boolean): GeneralResponseModel<Boolean>
+    suspend fun rate(postId: String, rate: Float): GeneralResponseModel<Rate>
 }

@@ -9,8 +9,10 @@ import ir.artapps.gamebrowser.repo.PodRepository
 
 class SocialViewModel(private val chatRepository: ChatRepository, private val podRepository: PodRepository) : ViewModel(){
 
-    val profileLiveData = podRepository.profileLiveData
     val chatLiveData = chatRepository.getHistoryLiveData()
+    val chatStateLiveData = chatRepository.getChatStateLiveData()
+    val profileLiveData = podRepository.profileLiveData
+
 
     fun sendMessage(message: String){
         chatRepository.sendMessage(message)

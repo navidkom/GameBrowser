@@ -1,6 +1,9 @@
 package ir.artapps.gamebrowser.repo
 
+import android.app.Activity
+import android.app.NotificationManager
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.fanap.podchat.chat.Chat
@@ -19,12 +22,19 @@ import com.fanap.podchat.chat.user.user_roles.model.ResultCurrentUserRoles
 import com.fanap.podchat.mainmodel.MessageVO
 import com.fanap.podchat.mainmodel.ResultDeleteMessage
 import com.fanap.podchat.model.*
+import com.fanap.podchat.notification.CustomNotificationConfig
 import com.fanap.podchat.requestobject.*
+import ir.artapps.gamebrowser.R
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.*
 
 
-class ChatRepositoryImpl(context: Context, podRepository: PodRepository) : ChatAdapter(), ChatRepository {
+class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : ChatAdapter(),
+    ChatRepository {
 
     val chat = Chat.init(context)
+    var chatState: String? = "CLOSED"
 
     val serverAddress = "wss://chat-sandbox.pod.ir/ws"
     val appId = "POD-Chat"
@@ -34,29 +44,63 @@ class ChatRepositoryImpl(context: Context, podRepository: PodRepository) : ChatA
     val fileServer = "https://sandbox.pod.ir:8443"
 
     val chatLiveData = MutableLiveData<List<MessageVO>>()
+    val chatStateLiveData = MutableLiveData<String>()
+
 
     init {
-        podRepository.profileLiveData.observeForever {
-            val requestConnect = RequestConnect.Builder(
-                serverAddress,
-                appId,
-                severName,
-                podRepository.token ,
-                ssoHost,
-                platformHost,
-                fileServer
-            )
-                .build()
-            chat.connect(requestConnect)
-            chat.rawLog(true)
-            chat.isLoggable(true)
-        }
 
+        chat.rawLog(true)
+        chat.isLoggable(true)
         chat.addListener(this)
+        schedule()
+    }
+
+    override fun setNotification(activity: Activity) {
+        val notificationConfig: CustomNotificationConfig =
+            CustomNotificationConfig.Builder(activity)
+                .setChannelName("CHANNEL_NAME")
+                .setChannelId("CHANNEL_ID")
+                .setChannelDescription("Fanap soft podchat notification channel")
+                .setIcon(R.drawable.kidzylogo)
+                .setNotificationImportance(NotificationManager.IMPORTANCE_DEFAULT)
+                .build()
+
+        chat.setupNotification(notificationConfig)
+    }
+
+
+    override fun shouldShowNotification(bool: Boolean) {
+        chat.shouldShowNotification(bool)
+    }
+
+    private fun schedule() {
+        Timer().scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                Log.d("CHAT_SDK", "navid timer " + chatState)
+                if (podRepository.token != null && (chatState == "CLOSED")) {
+                    chat.closeChat()
+                    val requestConnect = RequestConnect.Builder(
+                        serverAddress,
+                        appId,
+                        severName,
+                        podRepository.token,
+                        ssoHost,
+                        platformHost,
+                        fileServer
+                    ).build()
+
+                    chat.connect(requestConnect)
+                }
+            }
+        }, 0, 5000)
     }
 
     override fun getHistoryLiveData(): LiveData<List<MessageVO>> {
         return chatLiveData
+    }
+
+    override fun getChatStateLiveData(): LiveData<String> {
+        return chatStateLiveData
     }
 
     override fun sendMessage(message: String) {
@@ -146,6 +190,8 @@ class ChatRepositoryImpl(context: Context, podRepository: PodRepository) : ChatA
         super.onGetHistory(content, history)
 
         chatLiveData.postValue(history?.result?.history)
+        val muteThread: RequestMuteThread = RequestMuteThread.Builder(8716).build()
+        chat.unMuteThread(muteThread, null)
     }
 
     override fun onPinThread(response: ChatResponse<ResultPinThread>?) {
@@ -223,6 +269,8 @@ class ChatRepositoryImpl(context: Context, podRepository: PodRepository) : ChatA
 
     override fun onUserInfo(content: String?, outPutUserInfo: ChatResponse<ResultUserInfo>?) {
         super.onUserInfo(content, outPutUserInfo)
+
+        Log.d("CHAT_SDK", "navid " + outPutUserInfo.toString())
     }
 
     override fun onCreateThread(response: ChatResponse<ResultThread>?) {
@@ -348,6 +396,9 @@ class ChatRepositoryImpl(context: Context, podRepository: PodRepository) : ChatA
     override fun onChatState(state: String?) {
         super.onChatState(state)
 
+        chatStateLiveData.postValue(state)
+        chatState = state
+        Log.d("CHAT_SDK", "navid " + state)
         when (state) {
             "CHAT_READY" -> {
                 val count = 50L
@@ -413,10 +464,32 @@ class ChatRepositoryImpl(context: Context, podRepository: PodRepository) : ChatA
         val requestGetHistory = RequestGetHistory.Builder(8716)
             .build();
         chat.getHistory(requestGetHistory, null)
+
     }
 
     override fun onError(content: String?, error: ErrorOutPut?) {
         super.onError(content, error)
+
+        error?.errorCode?.let {
+            if (it == 21.toLong()) {
+                GlobalScope.launch {
+                    podRepository.updateToken()
+                    chat.closeChat()
+
+                    val requestConnect = RequestConnect.Builder(
+                        serverAddress,
+                        appId,
+                        severName,
+                        podRepository.token,
+                        ssoHost,
+                        platformHost,
+                        fileServer
+                    ).build()
+
+                    chat.connect(requestConnect)
+                }
+            }
+        }
     }
 
     override fun OnSignalMessageReceive(output: OutputSignalMessage?) {
