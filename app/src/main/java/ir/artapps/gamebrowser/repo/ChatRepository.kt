@@ -8,6 +8,5 @@ interface ChatRepository {
     fun getHistoryLiveData(): LiveData<List<MessageVO>>
     fun getChatStateLiveData(): LiveData<String>
     fun sendMessage(message: String)
-    fun setNotification(activity: Activity)
     fun shouldShowNotification(bool: Boolean)
 }

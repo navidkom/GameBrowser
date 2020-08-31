@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 /**
  * Created by navid
  */
-class MainViewModel(val repository: PodRepository,val chatRepository: ChatRepository, private val service: Service) :
+class MainViewModel(val repository: PodRepository,val chatRepository: ChatRepository) :
     ViewModel() {
     var profileLiveData = repository.profileLiveData
 

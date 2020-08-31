@@ -109,6 +109,23 @@ public class UserProfile implements Parcelable {
     @Expose
     public Boolean follower;
 
+    @SerializedName("kidzyName")
+    @Expose
+    public String kidzyName;
+
+    @SerializedName("age")
+    @Expose
+    public Integer age ;
+
+    @SerializedName("sex")
+    @Expose
+    public String sex;
+
+    @SerializedName("avatar")
+    @Expose
+    public Integer avatar ;
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -149,6 +166,10 @@ public class UserProfile implements Parcelable {
         dest.writeParcelable(this.financialLevelSrv, flags);
         dest.writeString(this.readOnlyFields);
         dest.writeValue(this.follower);
+        dest.writeValue(this.kidzyName);
+        dest.writeValue(this.age);
+        dest.writeValue(this.sex);
+        dest.writeValue(this.avatar);
     }
 
     public UserProfile() {
@@ -188,6 +209,10 @@ public class UserProfile implements Parcelable {
         this.financialLevelSrv = in.readParcelable(FinancialLevelSrv.class.getClassLoader());
         this.readOnlyFields = in.readString();
         this.follower = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.kidzyName = (String) in.readValue(String.class.getClassLoader());
+        this.age = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.sex = (String) in.readValue(String.class.getClassLoader());
+        this.avatar = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<UserProfile> CREATOR = new Parcelable.Creator<UserProfile>() {

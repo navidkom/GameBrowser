@@ -48,25 +48,24 @@ class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : C
 
 
     init {
-
         chat.rawLog(true)
         chat.isLoggable(true)
         chat.addListener(this)
         schedule()
     }
 
-    override fun setNotification(activity: Activity) {
-        val notificationConfig: CustomNotificationConfig =
-            CustomNotificationConfig.Builder(activity)
-                .setChannelName("CHANNEL_NAME")
-                .setChannelId("CHANNEL_ID")
-                .setChannelDescription("Fanap soft podchat notification channel")
-                .setIcon(R.drawable.kidzylogo)
-                .setNotificationImportance(NotificationManager.IMPORTANCE_DEFAULT)
-                .build()
-
-        chat.setupNotification(notificationConfig)
-    }
+//    override fun setNotification(activity: Activity) {
+//        val notificationConfig: CustomNotificationConfig =
+//            CustomNotificationConfig.Builder(activity)
+//                .setChannelName("CHANNEL_NAME")
+//                .setChannelId("CHANNEL_ID")
+//                .setChannelDescription("Fanap soft podchat notification channel")
+//                .setIcon(R.drawable.kidzylogo)
+//                .setNotificationImportance(NotificationManager.IMPORTANCE_DEFAULT)
+//                .build()
+//
+//        chat.setupNotification(notificationConfig)
+//    }
 
 
     override fun shouldShowNotification(bool: Boolean) {

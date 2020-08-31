@@ -6,6 +6,15 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorPrimaryDark"
+        app:layout_collapseMode="pin"
+        app:subtitleTextColor="@color/white"
+        app:titleTextColor="@color/white" />
+
     <LinearLayout
         android:id="@+id/signinParent"
         android:layout_width="wrap_content"
@@ -33,6 +42,7 @@
             android:text="ورود به حساب کاربری" />
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/profileParent"
         android:layout_width="match_parent"
@@ -41,54 +51,47 @@
         android:visibility="gone"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/profileViewContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"/>
-
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120sp"
-            android:src="@drawable/profile"/>
-
-        <TextView
-            android:id="@+id/loginText"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:layout_margin="12dp"
-            android:textSize="16sp" />
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/kidzyNameEdt"
+                android:layout_width="wrap_content"
+                android:ems="12"
+                android:layout_height="wrap_content"
+                android:hint="نام مستعار"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ageEdt"
+                android:layout_width="wrap_content"
+                android:ems="12"
+                android:layout_height="wrap_content"
+                android:hint="سن"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sexEdt"
+                android:layout_width="wrap_content"
+                android:ems="12"
+                android:layout_height="wrap_content"
+                android:hint="جنسیت"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/profileBtn"
+            android:id="@+id/submitBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="12"
             android:backgroundTint="@color/colorPrimary"
-            android:text="ویرایش پروفایل" />
-
-        <Button
-            android:id="@+id/favoriteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ems="12"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="مشاهده علاقه‌مندی ها" />
-
-        <Button
-            android:id="@+id/signout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ems="12"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="خروج از حساب کاربری" />
+            android:text="ثبت تغییرات" />
 
     </LinearLayout>
 

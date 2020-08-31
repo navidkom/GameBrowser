@@ -89,8 +89,8 @@ class DetailFragment : BaseDialogFragment() {
         }
 
         play_btn.setOnClickListener {
-            if (viewModel.podRepository.profile == null && viewModel.game?.metadata!!.isPlayPod) {
-                loginDialog()
+            if (viewModel.podRepository.playPodProfile == null && viewModel.game?.metadata!!.isPlayPod) {
+                loginPlayPodDialog()
             } else {
                 viewModel.getGamePlayURL(viewModel.game!!).observe(viewLifecycleOwner, Observer {
                     if (it.isNullOrEmpty()) {
@@ -178,12 +178,11 @@ class DetailFragment : BaseDialogFragment() {
                 }
             }
 
-            entityId?.let { it ->
-                setDetailTextView("entityId:", it)
-            }
+//            entityId?.let { it ->
+//                setDetailTextView("entityId:", it)
+//            }
 
-
-            setDetailTextView("id:", id)
+//            setDetailTextView("id:", id)
 
             likeTextView.text = numOfLikes.toString()
             dislikeTextView.text = numOfDisLikes.toString()
@@ -284,6 +283,26 @@ class DetailFragment : BaseDialogFragment() {
             dialog.show()
             true
         } else false
+    }
+
+    private fun loginPlayPodDialog() {
+        val dialog = AlertDialog.Builder(requireContext()).create()
+        dialog.setTitle("ورود به حساب پلی پاد")
+        dialog.setMessage("برای انجام این بازی نیاز است وارد حساب پلی پاد  شوید")
+
+        dialog.setButton(
+            AlertDialog.BUTTON_POSITIVE, "باشه"
+        ) { _, _ ->
+            SigninFragment.newInstance(1).show(childFragmentManager, "")
+        }
+
+        dialog.setButton(
+            AlertDialog.BUTTON_NEGATIVE, "بیخیال"
+        ) { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
 

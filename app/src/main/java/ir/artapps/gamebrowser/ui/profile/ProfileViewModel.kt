@@ -10,13 +10,17 @@ import ir.artapps.gamebrowser.repo.PodRepository
 /**
  * Created by navid
  */
-class ProfileViewModel(val repository: PodRepository, private val service: Service) :
+class ProfileViewModel(val repository: PodRepository) :
     ViewModel() {
 
     var profileLiveData = repository.profileLiveData
 
     fun getUserProfile() {
         repository.getUserProfile()
+    }
+
+    fun updateMeta(name: String, age:Int?, sex: String, avatar: Int ){
+        repository.updateMeta(name, age, sex, avatar)
     }
 
     fun signOut() {

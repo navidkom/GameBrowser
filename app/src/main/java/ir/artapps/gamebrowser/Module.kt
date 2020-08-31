@@ -36,19 +36,19 @@ class Module {
         single<GamesRemoteDataSource> { GamesRemoteDataSourceImpl() }
         single<PodRemoteDataSource> { PodRemoteDataSourceImpl() }
 
-        single<Service> { Service.getInstance(JSONObject().put("context", androidApplication())) }
+//        single<Service> { Service.getInstance(JSONObject().put("context", androidApplication())) }
 
         single<PodRepository> { PodRepositoryImpl(androidApplication(), get()) }
         single<GamesRepository> { GamesRepositoryImpl(androidApplication(), get(), get(), get()) }
         single<ChatRepository> { ChatRepositoryImpl(androidApplication(), get()) }
 
 
-        viewModel { FavoriteViewModel(get(), get()) }
-        viewModel { HomeViewModel(get(), get()) }
-        viewModel { DetailViewModel(get(), get(), get()) }
-        viewModel { ProfileViewModel(get(), get()) }
-        viewModel { SignInViewModel(get(), get()) }
+        viewModel { FavoriteViewModel(get()) }
+        viewModel { HomeViewModel(get()) }
+        viewModel { DetailViewModel(get(), get()) }
+        viewModel { ProfileViewModel(get()) }
+        viewModel { SignInViewModel(get()) }
         viewModel { SocialViewModel(get(), get()) }
-        viewModel { MainViewModel(get(), get(), get()) }
+        viewModel { MainViewModel(get(), get()) }
     }
 }

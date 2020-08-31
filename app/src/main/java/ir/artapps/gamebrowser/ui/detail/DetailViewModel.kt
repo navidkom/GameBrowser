@@ -1,24 +1,25 @@
 package ir.artapps.gamebrowser.ui.detail
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fanap.gameCenter.TIS.Base.RequestCallback
 import com.fanap.gameCenter.TIS.Service
-import com.fanap.gameCenter.TIS.Share.ConfigData
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.repo.GamesRepository
 import ir.artapps.gamebrowser.repo.PodRepository
 import kotlinx.coroutines.launch
-import org.json.JSONArray
 import org.json.JSONObject
 
 /**
  * Created by navid
  */
-class DetailViewModel(private val repository: GamesRepository, private val service: Service,  val podRepository: PodRepository) :
+class DetailViewModel(
+    private val repository: GamesRepository,
+    val podRepository: PodRepository
+) :
     ViewModel() {
 
     var game: Game? = null
@@ -39,45 +40,52 @@ class DetailViewModel(private val repository: GamesRepository, private val servi
         }
     }
 
-    fun getGamePlayURL(item: Game) : LiveData<String> {
+    fun getGamePlayURL(item: Game): LiveData<String> {
 
-        val ld = MutableLiveData<String> ()
+
+//        item.metadata?.isPlayPod = true
+//        item.metadata?.url =
+//            "https://playpod.ir/src/Static/Games/GameNo7557-41ovtmi2.nkk/index.html"
+
+        val ld = MutableLiveData<String>()
         item.metadata?.let {
             if (!it.isPlayPod) {
                 ld.postValue(item.metadata?.url)
-            }
-            else  {
+            } else {
                 val loginData = JSONObject().apply {
-                    put("id", 394218)
-                    put("token", "ddefe52b44a84324897255b2670d2d91")
+                    put("id", podRepository.playPodProfile?.userID)
+                    put("token", podRepository.playPodProfile?.token)
                     put("tokenIssuer", 0)
-                    put("name", "navidkom")
+                    put("name", podRepository.playPodProfile?.name)
                 }
 
-                val reqData = JSONObject()
-                val gamesId = JSONArray()
+                val result = item.metadata?.url + "?gameData=" + Uri.encode(loginData.toString())
+                Log.d("game URL:" , result)
+                ld.postValue(result)
 
-                gamesId.put(item.entityId!!)
-                reqData.put("gamesId", gamesId)
-                service.getGamesInfo(
-                    reqData,
-                    object : RequestCallback() {
-                        override fun onResult(result: JSONObject) {
-                            println("getEnrolledLeagues method : $result")
-
-                            val downloadLink =
-                                ConfigData.gwbu + "/" + ((result.get("result") as JSONObject).getJSONArray(
-                                    "games"
-                                )[0] as JSONObject).getString("physicalUrl") + "?gameData=" + Uri.encode(
-                                    loginData.toString()
-                                )
-                            ld.postValue(downloadLink)
-                        }
-                    })
+//                val reqData = JSONObject()
+//                val gamesId = JSONArray()
+//
+//                gamesId.put(item.entityId!!)
+//                reqData.put("gamesId", gamesId)
+//                service.getGamesInfo(
+//                    reqData,
+//                    object : RequestCallback() {
+//                        override fun onResult(result: JSONObject) {
+//                            println("getEnrolledLeagues method : $result")
+//
+//                            val downloadLink =
+//                                ConfigData.gwbu + "/" + ((result.get("result") as JSONObject).getJSONArray(
+//                                    "games"
+//                                )[0] as JSONObject).getString("physicalUrl") + "?gameData=" + Uri.encode(
+//                                    loginData.toString()
+//                                )
+//                            ld.postValue(downloadLink)
+//                        }
+//                    })
             }
         }
         return ld
-
     }
 
     fun like() {
@@ -100,7 +108,7 @@ class DetailViewModel(private val repository: GamesRepository, private val servi
         }
     }
 
-    fun favorite(favorite:Boolean) {
+    fun favorite(favorite: Boolean) {
         viewModelScope.launch {
             repository.favorite(game?.id.toString(), favorite)
             try {
@@ -111,7 +119,7 @@ class DetailViewModel(private val repository: GamesRepository, private val servi
     }
 
 
-    fun rate(rate:Float) {
+    fun rate(rate: Float) {
         viewModelScope.launch {
             repository.rate(game?.id.toString(), rate)
             try {

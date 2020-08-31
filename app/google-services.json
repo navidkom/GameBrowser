@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1051760746297",
+    "firebase_url": "https://property1-89ba7.firebaseio.com",
+    "project_id": "property1-89ba7",
+    "storage_bucket": "property1-89ba7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051760746297:android:7d4d54ff600c12670892e8",
+        "android_client_info": {
+          "package_name": "ir.artapps.gamebrowser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051760746297-39o11gnqgl9p292er9bdfg2uhmevmh9i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ5tGdqSV4ChK9i3TFQwykhHK_8-uS1sE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051760746297-39o11gnqgl9p292er9bdfg2uhmevmh9i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

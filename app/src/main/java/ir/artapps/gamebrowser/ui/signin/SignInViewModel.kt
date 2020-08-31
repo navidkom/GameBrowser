@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 /**
  * Created by navid
  */
-class SignInViewModel(private val repository: PodRepository, private val service: Service) :
+class SignInViewModel( val repository: PodRepository) :
     ViewModel() {
 
     var profileLiveData : LiveData<UserProfile?> = repository.profileLiveData

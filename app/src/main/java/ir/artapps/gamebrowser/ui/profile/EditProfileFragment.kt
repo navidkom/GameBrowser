@@ -7,36 +7,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import ir.artapps.gamebrowser.App
 import ir.artapps.gamebrowser.R
-import ir.artapps.gamebrowser.entities.EventBus
-import ir.artapps.gamebrowser.entities.pod.ClientMetadata
-import ir.artapps.gamebrowser.repo.PodRepository
-import ir.artapps.gamebrowser.ui.home.FavoriteFragment
-import ir.artapps.gamebrowser.ui.signin.SignInActivity
-import ir.artapps.gamebrowser.ui.signin.SigninFragment
-import kotlinx.android.synthetic.main.profile_fragment.*
+import ir.artapps.gamebrowser.base.BaseDialogFragment
+import kotlinx.android.synthetic.main.detail_fragment.*
+import kotlinx.android.synthetic.main.edit_profile_fragment.*
+import kotlinx.android.synthetic.main.edit_profile_fragment.toolbar
 import org.json.JSONObject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.lang.Exception
 import java.util.*
 
-class ProfileFragment : Fragment() {
+class EditProfileFragment : BaseDialogFragment() {
 
     private val viewModel: ProfileViewModel by sharedViewModel()
 
     companion object {
-        fun newInstance() = ProfileFragment()
+        fun newInstance() = EditProfileFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.profile_fragment, container, false)
+        val view = inflater.inflate(R.layout.edit_profile_fragment, container, false)
         setHasOptionsMenu(true)
         return view
     }
@@ -46,20 +45,23 @@ class ProfileFragment : Fragment() {
 
         viewModel.getUserProfile()
 
-        signin.setOnClickListener {
-            SigninFragment.newInstance().show(childFragmentManager, "")
+        toolbar?.apply {
+            title = "ویرایش پروفایل"
+            context?.let {
+                setTitleTextColor(ContextCompat.getColor(it, R.color.white))
+            }
+            setNavigationIcon(R.drawable.ic_nav_back)
+            setNavigationOnClickListener { dismiss() }
         }
 
-        signout.setOnClickListener {
-            viewModel.signOut()
-        }
+        submitBtn.setOnClickListener {
+            val age = try {
+                ageEdt.text.toString().toInt()
+            } catch (e: Exception) {
+                null
+            }
 
-        favoriteBtn.setOnClickListener {
-            FavoriteFragment.newInstance().show(childFragmentManager, "")
-        }
-
-        profileBtn.setOnClickListener {
-            EditProfileFragment.newInstance().show(childFragmentManager, "")
+            viewModel.updateMeta(kidzyNameEdt.text.toString(), age, sexEdt.text.toString(), 0  )
         }
 
         viewModel.profileLiveData.observe(viewLifecycleOwner, Observer { response ->
@@ -72,8 +74,17 @@ class ProfileFragment : Fragment() {
             signinParent.visibility = View.GONE
             profileParent.visibility = View.VISIBLE
 
+            response.kidzyName?.let {
+                kidzyNameEdt.setText( it )
+            }
 
-            loginText.setText(String.format( Locale("fa"),"%s\n%s", response.kidzyName, " به کیدزی خوش آمدی"))
+            response.age?.let {
+                ageEdt.setText( it.toString() )
+            }
+
+            response.sex?.let {
+                sexEdt.setText( it )
+            }
         })
     }
 }

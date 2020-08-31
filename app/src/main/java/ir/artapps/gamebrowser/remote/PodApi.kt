@@ -1,5 +1,6 @@
 package ir.artapps.gamebrowser.remote
 import ir.artapps.gamebrowser.entities.Rate
+import ir.artapps.gamebrowser.entities.pod.GetMetaResponseModel
 import ir.artapps.gamebrowser.entities.pod.GetProfileResponseModel
 import ir.artapps.gamebrowser.entities.pod.TokenResponseModel
 import ir.artapps.gamebrowser.entities.product.FavoriteResponse
@@ -31,6 +32,23 @@ interface PodApi {
         @Query("client_id") clientId: String?,
         @Query("client_secret") clientSecret: String?
     ): TokenResponseModel
+
+    @GET("/users/{user_id}")
+    suspend fun getUserMeta(
+        @Path("user_id") userId: String,
+        @Header("Content-Type") contentType: String?,
+        @Header("Authorization") auth: String?,
+        @Query("identityType") clientId: String?
+    ): GetMetaResponseModel
+
+    @POST("/users/{user_id}")
+    suspend fun updateUserMeta(
+        @Path("user_id") userId: String,
+        @Header("Content-Type") contentType: String?,
+        @Header("Authorization") auth: String?,
+        @Query("identityType") clientId: String?,
+        @Query("client_metadata") metaData: String?
+    )
 
     @POST("/nzh/getUserProfile")
     suspend fun getUserProfile(

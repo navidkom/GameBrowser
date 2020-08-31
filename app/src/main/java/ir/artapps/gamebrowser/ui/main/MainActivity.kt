@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             my_toolbar.signIn = true
-            my_toolbar.name = response.name
+            my_toolbar.name = response.kidzyName
         })
     }
 }

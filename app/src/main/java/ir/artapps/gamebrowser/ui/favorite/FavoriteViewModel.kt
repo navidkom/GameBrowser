@@ -11,7 +11,7 @@ import ir.artapps.gamebrowser.repo.GamesRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FavoriteViewModel(private val gamesRepository: GamesRepository, private val service: Service) : ViewModel() {
+class FavoriteViewModel(private val gamesRepository: GamesRepository) : ViewModel() {
 
     private val _gamesLiveData: MutableLiveData<List<Game>> = MutableLiveData()
     val gamesLiveData: LiveData<List<Game>> = _gamesLiveData

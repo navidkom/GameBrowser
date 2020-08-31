@@ -45,7 +45,9 @@
                     android:id="@+id/videoView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="32dp"/>
+                    android:layout_gravity="center"
+                    android:layout_margin="30dp"
+                    android:foregroundGravity="center"/>
 
                 <ImageView
                     android:id="@+id/photoImageView"

@@ -1,5 +1,6 @@
 package ir.artapps.gamebrowser.remote
 
+import ir.artapps.gamebrowser.entities.pod.GetMetaResponseModel
 import ir.artapps.gamebrowser.entities.pod.GetProfileResponseModel
 import ir.artapps.gamebrowser.entities.pod.TokenResponseModel
 import java.lang.Exception
@@ -16,6 +17,7 @@ class PodRemoteDataSourceImpl: PodRemoteDataSource {
     val CLIENT_ID = "18060069b4bf248759168bc24000d57c7"
     val CLIENT_SECRET = "b3884890"
     val TOKEN_ISSUER = "1"
+    val BASE64TOKEN = "Basic MTgwNjAwNjliNGJmMjQ4NzU5MTY4YmMyNDAwMGQ1N2M3OmIzODg0ODkw"
     val BUSINESS_ID = "18463"
 
     val service by lazy {
@@ -66,6 +68,34 @@ class PodRemoteDataSourceImpl: PodRemoteDataSource {
         } catch (e:Exception) {
             e.printStackTrace()
             null
+        }
+    }
+
+    override suspend fun getUserMeta(userId: String): GetMetaResponseModel? {
+        return try {
+            service.getUserMeta(
+                userId,
+                CONTENT_TYPE,
+                BASE64TOKEN,
+                "id"
+            )
+        } catch (e:Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    override suspend fun setUserMeta(userId: String,  meta: String) {
+        try {
+            service.updateUserMeta(
+                userId,
+                CONTENT_TYPE,
+                BASE64TOKEN,
+                "id",
+                meta
+            )
+        } catch (e:Exception) {
+            e.printStackTrace()
         }
     }
 

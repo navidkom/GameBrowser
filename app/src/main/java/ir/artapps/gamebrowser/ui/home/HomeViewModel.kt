@@ -11,7 +11,7 @@ import ir.artapps.gamebrowser.repo.GamesRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val gamesRepository: GamesRepository, private val service: Service) : ViewModel() {
+class HomeViewModel(private val gamesRepository: GamesRepository) : ViewModel() {
 
     val gamesLiveData: LiveData<List<Game>> = gamesRepository.getGamesLiveData()
     private val _errorLiveData: MutableLiveData<String> = MutableLiveData()
