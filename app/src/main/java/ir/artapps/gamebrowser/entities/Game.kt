@@ -13,7 +13,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Game(
-
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     @Transient
@@ -55,7 +54,9 @@ data class Game(
 
     var description: String? = null,
 
-    var userPostInfo: UserPostInfo? = null
+    var userPostInfo: UserPostInfo? = null,
+
+    var color: Int? = null
 
 ) : Parcelable{
     companion object {

@@ -4,88 +4,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/view_default_padding"
-    android:layout_marginRight="@dimen/view_default_padding"
-    android:layout_marginTop="@dimen/view_default_padding"
-    android:layout_marginBottom="@dimen/view_default_padding"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="4dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginBottom="18dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1.1:1"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="9.3:12"
         app:layout_constraintStart_toStartOf="parent"
+        android:padding="-12dp"
+        android:layout_margin="-12dp"
+        android:scaleX="1.1"
+        android:scaleY="1.1"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:layout_margin="4dp"
+            android:src="@drawable/dshape" />
+
+        <ir.artapps.gamebrowser.ui.customview.SquareImageView
             android:id="@+id/recycler_item_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_margin="2dp"
+            android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/recycler_item_number_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/view_default_padding_x2"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/recycler_item_title_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fadingEdge="horizontal"
-            android:gravity="center"
-            android:lines="2"
-            android:padding="@dimen/view_default_padding"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_item_rating_bar" />
-
-        <RatingBar
-            android:id="@+id/recycler_item_rating_bar"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="3"
-            android:stepSize="0.1"
-            android:theme="@style/RatingBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_item_image_view" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:src="@drawable/frame"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintDimensionRatio="1:1"
-        />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/recycler_item_frame_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:tint="@color/blue_gray_300"
+            android:src="@drawable/shape_frame" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

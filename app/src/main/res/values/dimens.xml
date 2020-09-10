@@ -7,4 +7,7 @@
     <dimen name="view_default_padding_x2">8dp</dimen>
     <dimen name="view_default_padding_x3">12dp</dimen>
     <dimen name="view_default_padding_x4">16dp</dimen>
+
+    <dimen name="viewpager_next_item_visible">48dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin">12dp</dimen>
 </resources>

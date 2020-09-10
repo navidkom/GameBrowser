@@ -18,7 +18,9 @@ class SignInViewModel( val repository: PodRepository) :
     var profileLiveData : LiveData<UserProfile?> = repository.profileLiveData
 
     fun getUserProfile(token: String) {
+        viewModelScope.launch {
             repository.getUserProfile(token)
+        }
     }
 
 //    fun getUserProfile() {

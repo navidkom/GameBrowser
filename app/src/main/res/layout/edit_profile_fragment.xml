@@ -51,6 +51,11 @@
         android:visibility="gone"
         android:orientation="vertical">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -68,22 +73,30 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ageEdt"
                 android:layout_width="wrap_content"
+                android:inputType="number"
                 android:ems="12"
                 android:layout_height="wrap_content"
                 android:hint="سن"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <RadioGroup
+            android:id="@+id/rg"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sexEdt"
+            <RadioButton
+                android:id="@+id/rbBoy"
+                android:text="پسر"
                 android:layout_width="wrap_content"
-                android:ems="12"
-                android:layout_height="wrap_content"
-                android:hint="جنسیت"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+                android:layout_margin="12dp"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/rbGirl"
+                android:text="دختر"
+                android:layout_margin="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
         <Button
             android:id="@+id/submitBtn"
             android:layout_width="wrap_content"

@@ -1,7 +1,5 @@
 package ir.artapps.gamebrowser.repo
 
-import android.app.Activity
-import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -22,9 +20,10 @@ import com.fanap.podchat.chat.user.user_roles.model.ResultCurrentUserRoles
 import com.fanap.podchat.mainmodel.MessageVO
 import com.fanap.podchat.mainmodel.ResultDeleteMessage
 import com.fanap.podchat.model.*
-import com.fanap.podchat.notification.CustomNotificationConfig
-import com.fanap.podchat.requestobject.*
-import ir.artapps.gamebrowser.R
+import com.fanap.podchat.requestobject.RequestConnect
+import com.fanap.podchat.requestobject.RequestGetContact
+import com.fanap.podchat.requestobject.RequestGetHistory
+import com.fanap.podchat.requestobject.RequestMessage
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
@@ -33,6 +32,7 @@ import java.util.*
 class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : ChatAdapter(),
     ChatRepository {
 
+    private var messageList = mutableListOf<MessageVO>()
     val chat = Chat.init(context)
     var chatState: String? = "CLOSED"
 
@@ -43,9 +43,10 @@ class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : C
     val platformHost = "https://sandbox.pod.ir:8043/srv/basic-platform/"
     val fileServer = "https://sandbox.pod.ir:8443"
 
-    val chatLiveData = MutableLiveData<List<MessageVO>>()
-    val chatStateLiveData = MutableLiveData<String>()
 
+    private val chatLiveData = MutableLiveData<List<MessageVO>>()
+
+    private val chatStateLiveData = MutableLiveData<String>()
 
     init {
         chat.rawLog(true)
@@ -188,9 +189,11 @@ class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : C
     override fun onGetHistory(content: String?, history: ChatResponse<ResultHistory>?) {
         super.onGetHistory(content, history)
 
-        chatLiveData.postValue(history?.result?.history)
-        val muteThread: RequestMuteThread = RequestMuteThread.Builder(8716).build()
-        chat.unMuteThread(muteThread, null)
+        messageList.clear()
+        history?.result?.history?.let {
+            messageList.addAll(it)
+            chatLiveData.postValue(it)
+        }
     }
 
     override fun onPinThread(response: ChatResponse<ResultPinThread>?) {
@@ -340,9 +343,10 @@ class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : C
     override fun onNewMessage(content: String?, outPutNewMessage: ChatResponse<ResultNewMessage>?) {
         super.onNewMessage(content, outPutNewMessage)
 
-        val requestGetHistory = RequestGetHistory.Builder(8716)
-            .build();
-        chat.getHistory(requestGetHistory, null)
+        outPutNewMessage?.result?.messageVO?.let {
+            messageList.add(0, it)
+            chatLiveData.postValue(messageList)
+        }
     }
 
     override fun onLogEvent(log: String?) {
@@ -446,11 +450,10 @@ class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : C
         val request = RequestJoinPublicThread.Builder("kidzy").build()
         chat.joinPublicThread(request)
 
+//        val requestThread = RequestThread.Builder()
+//            .build();
 
-        val requestThread = RequestThread.Builder()
-            .build();
-
-        chat.getThreads(requestThread, null)
+//        chat.getThreads(requestThread, null)
 
 //        val requestJoinPublicThread =  RequestJoinPublicThread.Builder("kidzy")
 //            .build();
@@ -459,11 +462,10 @@ class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : C
 //        val requestCreatePublicThread = RequestCreatePublicThread.Builder(2, listOf(Invitee(18136, 2)), "kidzy").build()
 //        chat.createThread(requestCreatePublicThread)
 
-
         val requestGetHistory = RequestGetHistory.Builder(8716)
             .build();
+        requestGetHistory.count = 20
         chat.getHistory(requestGetHistory, null)
-
     }
 
     override fun onError(content: String?, error: ErrorOutPut?) {
@@ -493,6 +495,5 @@ class ChatRepositoryImpl(context: Context, val podRepository: PodRepository) : C
 
     override fun OnSignalMessageReceive(output: OutputSignalMessage?) {
         super.OnSignalMessageReceive(output)
-
     }
 }

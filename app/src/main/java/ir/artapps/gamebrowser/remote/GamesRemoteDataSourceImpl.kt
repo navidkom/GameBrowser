@@ -27,7 +27,8 @@ class GamesRemoteDataSourceImpl : GamesRemoteDataSource {
         size: Int,
         offset: Int
     ): GeneralResponseModel<Products> {
-        return service.searchProduct(token, TOKEN_ISSUER,"application/json", BUSINESS_ID, offset, size, productId)
+        val res = service.searchProduct(token, TOKEN_ISSUER,"application/json", BUSINESS_ID, offset, size, productId)
+        return res
     }
 
     override suspend fun getFavorites(

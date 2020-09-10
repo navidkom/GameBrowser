@@ -19,6 +19,8 @@ class MainViewModel(val repository: PodRepository,val chatRepository: ChatReposi
     var profileLiveData = repository.profileLiveData
 
     fun getUserProfile() {
-        repository.getUserProfile()
+        viewModelScope.launch {
+            repository.getUserProfile()
+        }
     }
 }

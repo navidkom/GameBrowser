@@ -1,5 +1,6 @@
 package ir.artapps.gamebrowser.ui.detail
 
+import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData

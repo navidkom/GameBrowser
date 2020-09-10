@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Background"
     android:orientation="vertical"
-    app:menu="@menu/main_menu"
-    android:background="@drawable/back4"
+    android:fitsSystemWindows="true"
     tools:context=".ui.main.MainActivity">
 
-    <ir.artapps.gamebrowser.ui.widgets.CustomToolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryDark"
-        android:elevation="4dp" />
+<!--    <ir.artapps.gamebrowser.ui.widgets.CustomToolbar-->
+<!--        android:id="@+id/my_toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize"-->
+<!--        android:elevation="4dp" />-->
 
     <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/container"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
         android:id="@+id/bottom_nav"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:menu="@menu/bottom_navigation_menu"/>
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:background="@color/DarkBackground"
+        app:itemIconSize="77dp"
+        app:itemTextColor="@color/figmaBlue"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_navigation_menu" />
 
 </LinearLayout>

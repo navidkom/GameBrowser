@@ -15,8 +15,8 @@
             android:height="76dip" />
         <gradient
             android:angle="0"
-            android:endColor="#00ffffff"
-            android:startColor="@color/colorPrimaryDark"
+            android:endColor="@color/figmaPink"
+            android:startColor="@color/figmaYellow"
             android:type="sweep"
             android:useLevel="false" />
     </shape>

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.entities.Rate
 import ir.artapps.gamebrowser.entities.product.GameMetaData
@@ -27,7 +28,7 @@ class GamesRepositoryImpl(
     private val podRepository: PodRepository
 ) : GamesRepository {
 
-    val PAGE_SIZE = 20
+    val PAGE_SIZE = 30
 
     override suspend fun like(
         postId: String,
@@ -176,6 +177,14 @@ fun ProductGame.convertToGame(): Game {
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
-
+        this.entityId?.let {tmp ->
+            it.color = when (tmp % 4) {
+                0 -> R.color.color1
+                1 -> R.color.color2
+                2 -> R.color.color3
+                3 -> R.color.color4
+                else -> R.color.color1
+            }
+        }
     }
 }

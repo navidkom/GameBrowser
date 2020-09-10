@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#bf360c</color>
-    <color name="colorPrimaryDark">#870000</color>
+    <color name="colorPrimary">@color/Background</color>
+    <color name="colorPrimaryDark">@color/DarkBackground</color>
     <color name="colorPrimaryVeryDark">#540000</color>
     <color name="colorPrimaryLight">#f9683a</color>
     <color name="colorAccent">#ffffff</color>
+
+
+    <color name="Background">#FFFFFF</color>
+    <color name="DarkBackground">#F2F2F2</color>
+
+    <color name="figmaPink">#F04098</color>
+    <color name="figmaYellow">#FAB915</color>
+    <color name="figmaBlue">#70CBD0</color>
+    <color name="figmaGreen">#B0D235</color>
+
+    <color name="color1">@color/figmaPink</color>
+    <color name="color2">@color/figmaYellow</color>
+    <color name="color3">@color/figmaBlue</color>
+    <color name="color4">@color/figmaGreen</color>
+
+
+
+
 
     <color name="colorVeryLightBlue">#e6e6ff</color>
     <color name="colorLightWhite">#FFFFFF</color>

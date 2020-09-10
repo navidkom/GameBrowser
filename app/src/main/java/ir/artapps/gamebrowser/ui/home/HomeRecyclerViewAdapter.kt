@@ -24,6 +24,7 @@ class HomeRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     private val VIEW_TYPE_GAME = 0
     private val VIEW_TYPE_LOADING = 1
+
     var items: List<Game> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -74,6 +75,6 @@ class HomeRecyclerViewAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     }
 
     interface OnItemClickListener {
-        fun onItemClick(view: View?, position: Int)
+        fun onRecyclerItemClick(view: View?, position: Int)
     }
 }
