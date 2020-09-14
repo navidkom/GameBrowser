@@ -1,22 +1,18 @@
 package ir.artapps.gamebrowser.ui.main
 
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import ir.artapps.gamebrowser.R
+import ir.artapps.gamebrowser.base.BaseActivity
 import ir.artapps.gamebrowser.ui.home.HomeFragment
 import ir.artapps.gamebrowser.ui.profile.ProfileFragment
 import ir.artapps.gamebrowser.ui.social.ChatFragment
 import kotlinx.android.synthetic.main.main_activity.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     lateinit var homeFragment: Fragment
     lateinit var socialFragment: Fragment
@@ -28,17 +24,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-
         homeFragment = HomeFragment.newInstance()
         socialFragment = ChatFragment.newInstance()
         profileFragment = ProfileFragment.newInstance()
 
-
         viewModel.getUserProfile()
-
         bottom_nav.itemIconTintList = null;
         bottom_nav.setOnNavigationItemSelectedListener {
+
+
             val fragment: Fragment = when (it.itemId) {
                 R.id.navigation_home -> homeFragment
                 R.id.navigation_sms -> socialFragment

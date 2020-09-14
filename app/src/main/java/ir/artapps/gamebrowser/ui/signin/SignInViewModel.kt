@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class SignInViewModel( val repository: PodRepository) :
     ViewModel() {
 
-    var profileLiveData : LiveData<UserProfile?> = repository.profileLiveData
+    var profileLiveData = repository.profileLiveData
 
     fun getUserProfile(token: String) {
         viewModelScope.launch {

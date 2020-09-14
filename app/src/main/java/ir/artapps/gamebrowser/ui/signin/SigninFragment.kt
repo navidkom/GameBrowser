@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import ir.artapps.gamebrowser.R
@@ -59,6 +60,7 @@ class SigninFragment : BaseDialogFragment() {
         }
 
         toolbar.title = "ورود به کیدزی"
+        toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white))
 
         if(type == 1) {
             toolbar.title = "ورود به پلی پاد"

@@ -2,6 +2,7 @@ package ir.artapps.gamebrowser.ui.detail
 
 import android.content.Intent
 import android.graphics.PixelFormat
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,21 +22,12 @@ import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.ui.WebViewActivity
+import ir.artapps.gamebrowser.ui.customview.TagCustomView
 import ir.artapps.gamebrowser.ui.signin.SigninFragment
-import kotlinx.android.synthetic.main.detail_fragment.*
 import kotlinx.android.synthetic.main.detail_fragment1.*
-import kotlinx.android.synthetic.main.detail_fragment1.dislikeImageView
-import kotlinx.android.synthetic.main.detail_fragment1.dislikeTextView
-import kotlinx.android.synthetic.main.detail_fragment1.favoriteImageView
-import kotlinx.android.synthetic.main.detail_fragment1.inputRatingBar
-import kotlinx.android.synthetic.main.detail_fragment1.likeImageView
-import kotlinx.android.synthetic.main.detail_fragment1.likeTextView
-import kotlinx.android.synthetic.main.detail_fragment1.photoImageView
-import kotlinx.android.synthetic.main.detail_fragment1.photoImageViewBack
-import kotlinx.android.synthetic.main.detail_fragment1.play_btn
-import kotlinx.android.synthetic.main.detail_fragment1.ratingText
-import kotlinx.android.synthetic.main.detail_fragment1.videoView
+import kotlinx.android.synthetic.main.tag_custom_view.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
 
 /**
@@ -69,14 +61,9 @@ class DetailFragment : BaseDialogFragment() {
             }
         }
 
-//        toolbar?.apply {
-//            title = viewModel.game?.name
-//            context?.let {
-//                setTitleTextColor(ContextCompat.getColor(it, R.color.white))
-//            }
-//            setNavigationIcon(R.drawable.ic_nav_back)
-//            setNavigationOnClickListener { dismiss() }
-//        }
+        back.setOnClickListener {
+            dismiss()
+        }
 
         gameTitle.setText(viewModel.game?.name)
 
@@ -112,10 +99,10 @@ class DetailFragment : BaseDialogFragment() {
             })
         }
 
-        play_btn.setOnClickListener {
+        playBtnCardView.setOnClickListener {
 
-            firebaseAnalytics.logEvent("play_game_click"){
-                param(FirebaseAnalytics.Param.ITEM_ID, viewModel.game?.entityId.toString() )
+            firebaseAnalytics.logEvent("play_game_click") {
+                param(FirebaseAnalytics.Param.ITEM_ID, viewModel.game?.entityId.toString())
                 param(FirebaseAnalytics.Param.ITEM_NAME, viewModel.game?.name + "")
             }
 
@@ -161,49 +148,79 @@ class DetailFragment : BaseDialogFragment() {
         game?.apply {
 
             rate?.rate?.let {
-                ratingText.text = String.format("%.1f", it);
+                ratingTextView.text = String.format("%.1f\nامتیاز", it);
             }
 
             rate?.myRate?.let {
                 inputRatingBar.rating = it
             }
 
-            description?.let {
-                summaryTextView.visibility = View.VISIBLE
-                summaryTextView.text = String.format("%s\n%s", getString(R.string.description), it)
+            if (description.isNullOrEmpty()) {
+                summaryParent.visibility = View.GONE
+            } else {
+                summaryParent.visibility = View.VISIBLE
+                summaryTextView.text = description
             }
 
-            metadata?.instruction?.let {
-                gameplayTextView.visibility = View.VISIBLE
-                gameplayTextView.text = String.format("%s\n%s", getString(R.string.gameplay), it)
+
+            if (metadata?.instruction.isNullOrEmpty()) {
+                gameplayParent.visibility = View.GONE
+            } else {
+                gameplayParent.visibility = View.VISIBLE
+                gameplayTextView.text = metadata?.instruction
             }
 
-            metadata?.parentalInfo?.let {
-                parentalInfoTextView.visibility = View.VISIBLE
-                parentalInfoTextView.text =
-                    String.format("%s\n%s", getString(R.string.parentalInfo), it)
+            if (metadata?.parentalInfo.isNullOrEmpty()) {
+                parentalInfoParent.visibility = View.GONE
+            } else {
+                parentalInfoParent.visibility = View.VISIBLE
+                parentalInfoTextView.text = metadata?.parentalInfo
             }
 
 //            detailTextView.text = ""
             metadata?.ageRange?.let {
-                setDetailTextView(getString(R.string.age_range), " $it سال به بالا")
+                ageRangeTextView.text = String.format(Locale("ar"), "+%d\nسال", it)
             }
 
-            metadata?.genres?.let { it ->
-                setDetailTextView(getString(R.string.game_genre), it.contentToString())
+            metadata?.genres?.get(0)?.let { it ->
+                genereTextView.text = it
             }
 
-            metadata?.types?.let { it ->
-                setDetailTextView(getString(R.string.game_type), it.contentToString())
+            metadata?.types?.get(0)?.let { it ->
+                typeTextView.text = it
             }
 
             metadata?.video?.let {
                 playVideo(it)
             }
 
+            tagsParent.removeAllViews()
             tags?.let { it ->
                 if (it.isNotEmpty()) {
-                    setDetailTextView(getString(R.string.game_tags), it.contentToString())
+                    it.forEach {
+
+                        val tv = TagCustomView(requireContext()).apply {
+                            textView.text = it
+                            colorDark?.let {
+                                textView.setTextColor(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        it
+                                    )
+                                )
+                            }
+                            colorTransparent?.let {
+                                cardView.setCardBackgroundColor(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        it
+                                    )
+                                )
+                            }
+                        }
+
+                        tagsParent.addView(tv)
+                    }
                 }
             }
 
@@ -213,13 +230,14 @@ class DetailFragment : BaseDialogFragment() {
 
 //            setDetailTextView("id:", id)
 
-            likeTextView.text = numOfLikes.toString()
-            dislikeTextView.text = numOfDisLikes.toString()
+            likeTextView.text =  String.format("%d", numOfLikes)
+            dislikeTextView.text =  String.format("%d", numOfDisLikes)
+
 
             if (userPostInfo?.liked != null && !userPostInfo?.liked!!) {
                 likeImageView.alpha = 0.5f
                 dislikeImageView.alpha = 1f
-            } else  {
+            } else {
                 likeImageView.alpha = 1f
                 dislikeImageView.alpha = 0.5f
             }
@@ -236,58 +254,69 @@ class DetailFragment : BaseDialogFragment() {
                 }
             }
 
-            color?.let {
-                favoriteImageView.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
-                    android.graphics.PorterDuff.Mode.SRC_IN
-                )
-                play_btn.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
-                    android.graphics.PorterDuff.Mode.SRC_IN
-                )
-                likeImageView.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
+            colorDark?.let {
+                val tmpColor =  ContextCompat.getColor(requireContext(), it)
+                tagIcon.setColorFilter(
+                    tmpColor,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
 
-                likeTextView.setTextColor(ContextCompat.getColor(requireContext(), it))
-                dislikeTextView.setTextColor(ContextCompat.getColor(requireContext(), it))
-                gameTitle.setTextColor(ContextCompat.getColor(requireContext(), it))
+                summaryTitleTextView.setTextColor(tmpColor)
+                summaryUnderline.setBackgroundColor(tmpColor)
+                gameplayTitle.setTextColor(tmpColor)
+                gameplayUnderLine.setBackgroundColor(tmpColor)
+                parentalInfoTitle.setTextColor(tmpColor)
+                parentalInfoUnderLine.setBackgroundColor(tmpColor)
+                ratingTextView.setTextColor(tmpColor)
+            }
+
+            color?.let {
+                val tmpColor =  ContextCompat.getColor(requireContext(), it)
+                favoriteImageView.setColorFilter(
+                    tmpColor,
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                playBtnCardView.setCardBackgroundColor(
+                    tmpColor
+                )
+                likeImageView.setColorFilter(
+                    tmpColor,
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+
+                likeTextView.setTextColor(tmpColor)
+                dislikeTextView.setTextColor(tmpColor)
+                gameTitle.setTextColor(tmpColor)
 
 
                 dislikeImageView.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
+                    tmpColor,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
 
                 avatarFrame.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
+                    tmpColor,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
                 imageFrame1.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
+                    tmpColor,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
                 imageFrame2.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
+                    tmpColor,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
                 imageFrame3.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
+                    tmpColor,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
                 imageFrame4.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
+                    tmpColor,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
 
-//                ratingBar.setBackgroundColor(
-//                    ContextCompat.getColor(requireContext(), it)
-//                )
-//                ratingBar.solidColor = ContextCompat.getColor(requireContext(), it)
-
-                ratingBar.progressDrawable.setColorFilter(
-                    ContextCompat.getColor(requireContext(), it),
+                inputRatingBar.progressDrawable.setColorFilter(
+                    tmpColor,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
             }
@@ -352,8 +381,8 @@ class DetailFragment : BaseDialogFragment() {
         dialog.setMessage("برای انجام این عملیات نیاز است وارد حساب کاربری خود شوید")
 
 
-        firebaseAnalytics.logEvent("social_login"){
-            param(FirebaseAnalytics.Param.ITEM_ID, viewModel.game?.entityId.toString() )
+        firebaseAnalytics.logEvent("social_login") {
+            param(FirebaseAnalytics.Param.ITEM_ID, viewModel.game?.entityId.toString())
             param(FirebaseAnalytics.Param.ITEM_NAME, viewModel.game?.name + "")
         }
 
@@ -362,8 +391,8 @@ class DetailFragment : BaseDialogFragment() {
         ) { _, _ ->
             SigninFragment.newInstance().show(childFragmentManager, "")
 
-            firebaseAnalytics.logEvent("social_login_accepted"){
-                param(FirebaseAnalytics.Param.ITEM_ID, viewModel.game?.entityId.toString() )
+            firebaseAnalytics.logEvent("social_login_accepted") {
+                param(FirebaseAnalytics.Param.ITEM_ID, viewModel.game?.entityId.toString())
                 param(FirebaseAnalytics.Param.ITEM_NAME, viewModel.game?.name + "")
             }
         }
@@ -373,8 +402,8 @@ class DetailFragment : BaseDialogFragment() {
         ) { dialog, _ ->
             dialog.dismiss()
 
-            firebaseAnalytics.logEvent("social_login_rejected"){
-                param(FirebaseAnalytics.Param.ITEM_ID, viewModel.game?.entityId.toString() )
+            firebaseAnalytics.logEvent("social_login_rejected") {
+                param(FirebaseAnalytics.Param.ITEM_ID, viewModel.game?.entityId.toString())
                 param(FirebaseAnalytics.Param.ITEM_NAME, viewModel.game?.name + "")
             }
         }
@@ -406,14 +435,4 @@ class DetailFragment : BaseDialogFragment() {
     }
 }
 
-fun <T> List<T>?.contentToString(): String {
-    var value = ""
-    this?.forEachIndexed { index, s ->
-        value = if (index == 0) {
-            s.toString()
-        } else {
-            "$value ، ${s.toString()}"
-        }
-    }
-    return value
-}
+

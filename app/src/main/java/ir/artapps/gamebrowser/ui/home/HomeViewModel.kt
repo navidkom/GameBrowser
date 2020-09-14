@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fanap.gameCenter.TIS.Service
+import ir.artapps.gamebrowser.SingleLiveEvent
 import ir.artapps.gamebrowser.entities.Game
 import ir.artapps.gamebrowser.entities.product.ProductGame
 import ir.artapps.gamebrowser.repo.GamesRepository
@@ -13,9 +14,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val gamesRepository: GamesRepository) : ViewModel() {
 
-    val gamesLiveData: LiveData<List<Game>> = gamesRepository.getGamesLiveData()
-    private val _errorLiveData: MutableLiveData<String> = MutableLiveData()
-    val errorLiveData: LiveData<String> = _errorLiveData
+    val gamesLiveData  = gamesRepository.getGamesLiveData()
+    val errorLiveData: SingleLiveEvent<String> = SingleLiveEvent()
 
     var loading = false
     var lastPage = false
@@ -37,7 +37,7 @@ class HomeViewModel(private val gamesRepository: GamesRepository) : ViewModel() 
             // error cases
             if (responseCode != 200 && responseCode != 1) {
                 delay(3000)
-                _errorLiveData.postValue(
+                errorLiveData.postValue(
                     when (responseCode) {
                         0 -> "AN ERROR OCCURRED: Network Error"
                         2 -> if(firstPage) "LIST IS EMPTY" else "NOTHING ADDED"

@@ -1,10 +1,8 @@
 package ir.artapps.gamebrowser.ui.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.fanap.gameCenter.TIS.Service
+import ir.artapps.gamebrowser.SingleLiveEvent
 import ir.artapps.gamebrowser.entities.pod.UserProfile
 import ir.artapps.gamebrowser.repo.PodRepository
 import kotlinx.coroutines.launch
@@ -15,7 +13,12 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(val repository: PodRepository) :
     ViewModel() {
 
+    var tempAge = 0
+    var tempSex = ""
+    var tempAvatar = 0
+
     var profileLiveData = repository.profileLiveData
+    val updateProfileLiveData = SingleLiveEvent<Boolean>()
 
     fun getUserProfile() {
         viewModelScope.launch {
@@ -25,7 +28,8 @@ class ProfileViewModel(val repository: PodRepository) :
 
     fun updateMeta(name: String, age:Int?, sex: String, avatar: Int ){
         viewModelScope.launch {
-            repository.updateMeta(name, age, sex, avatar)
+            val response = repository.updateMeta(name, age, sex, avatar)
+            updateProfileLiveData.postValue(response)
         }
     }
 

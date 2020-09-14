@@ -23,7 +23,8 @@ import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class HomeFragment : BaseDialogFragment(), HomeRecyclerViewAdapter.OnItemClickListener, HomeViewPagerAdapter.OnItemClickListener {
+class HomeFragment : BaseDialogFragment(), HomeRecyclerViewAdapter.OnItemClickListener,
+    HomeViewPagerAdapter.OnItemClickListener {
 
     private lateinit var mAdapter: HomeRecyclerViewAdapter
     private lateinit var mPagerAdapter: HomeViewPagerAdapter
@@ -54,15 +55,20 @@ class HomeFragment : BaseDialogFragment(), HomeRecyclerViewAdapter.OnItemClickLi
         mPagerAdapter.itemClickListener = this
 
         refreshLayout.isRefreshing = true
-        
+
         viewModel.apply {
             getGames(true)
             // observe updates of games
             gamesLiveData.observe(viewLifecycleOwner,
                 Observer {
-                    popularTxt.visibility = View.VISIBLE
-                    mAdapter.setGames(it.subList(3, it.size))
-                    mPagerAdapter.setGames(it.subList(0, 3))
+                    if(it.size > 3 ){
+                        popularTxt.visibility = View.VISIBLE
+                        mAdapter.setGames(it.subList(3, it.size))
+                        mPagerAdapter.setGames(it.subList(0, 3))
+                    } else {
+                        mPagerAdapter.setGames(it.subList(0, it.size))
+                    }
+
                     refreshLayout.isRefreshing = false
                     mAdapter.loading = false
                     loading = false
@@ -80,7 +86,6 @@ class HomeFragment : BaseDialogFragment(), HomeRecyclerViewAdapter.OnItemClickLi
         viewPager.apply {
 
             adapter = mPagerAdapter
-
             offscreenPageLimit = 1
 
 // Add a PageTransformer that translates the next and previous items horizontally
@@ -101,14 +106,14 @@ class HomeFragment : BaseDialogFragment(), HomeRecyclerViewAdapter.OnItemClickLi
 // The ItemDecoration gives the current (centered) item horizontal margin so that
 // it doesn't occupy the whole screen width. Without it the items overlap
             val itemDecoration = HorizontalMarginItemDecoration(
-                context,
+                requireContext(),
                 R.dimen.viewpager_current_item_horizontal_margin
             )
             addItemDecoration(itemDecoration)
         }
 
         recyclerView?.apply {
-            val linearLayoutManager = GridLayoutManager(context, 3)
+            val linearLayoutManager = GridLayoutManager(requireContext(), 3)
 
             layoutManager = linearLayoutManager
             adapter = mAdapter
@@ -135,11 +140,16 @@ class HomeFragment : BaseDialogFragment(), HomeRecyclerViewAdapter.OnItemClickLi
         refreshLayout.setOnRefreshListener {
             viewModel.getGames(true)
         }
+
+        viewPager.postDelayed({
+            if (isAdded) {
+                viewPager.setCurrentItem(1, true)
+            }
+        }, 1000)
     }
 
     class HorizontalMarginItemDecoration(context: Context, @DimenRes horizontalMarginInDp: Int) :
         RecyclerView.ItemDecoration() {
-
         private val horizontalMarginInPx: Int =
             context.resources.getDimension(horizontalMarginInDp).toInt()
 
@@ -149,7 +159,6 @@ class HomeFragment : BaseDialogFragment(), HomeRecyclerViewAdapter.OnItemClickLi
             outRect.right = horizontalMarginInPx
             outRect.left = horizontalMarginInPx
         }
-
     }
 
 

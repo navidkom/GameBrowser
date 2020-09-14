@@ -185,6 +185,22 @@ fun ProductGame.convertToGame(): Game {
                 3 -> R.color.color4
                 else -> R.color.color1
             }
+
+            it.colorDark = when (tmp % 4) {
+                0 -> R.color.color1Dark
+                1 -> R.color.color2Dark
+                2 -> R.color.color3Dark
+                3 -> R.color.color4Dark
+                else -> R.color.color1Dark
+            }
+
+            it.colorTransparent = when (tmp % 4) {
+                0 -> R.color.color1Transparent
+                1 -> R.color.color2Transparent
+                2 -> R.color.color3Transparent
+                3 -> R.color.color4Transparent
+                else -> R.color.color1Transparent
+            }
         }
     }
 }

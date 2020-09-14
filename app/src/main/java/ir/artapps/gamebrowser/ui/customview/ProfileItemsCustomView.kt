@@ -1,4 +1,4 @@
-package ir.artapps.bazarreview.ui.customview
+package ir.artapps.gamebrowser.ui.customview
 
 import android.content.Context
 import android.graphics.drawable.Drawable

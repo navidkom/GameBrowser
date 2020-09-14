@@ -11,15 +11,18 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fanap.podchat.chat.Chat
-import com.fanap.podchat.mainmodel.MessageVO
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import ir.artapps.gamebrowser.R
 import ir.artapps.gamebrowser.base.BaseDialogFragment
 import ir.artapps.gamebrowser.entities.chat.Message
+import ir.artapps.gamebrowser.ui.signin.SigninFragment
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.profile_item_custom_view.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.net.Socket
 import java.util.*
 
 class ChatFragment : BaseDialogFragment(),
@@ -29,12 +32,12 @@ class ChatFragment : BaseDialogFragment(),
 
     private var recyclerView: RecyclerView? = null
     private var editText: AppCompatEditText? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     var adapter = ChatAdapter(ArrayList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -50,10 +53,17 @@ class ChatFragment : BaseDialogFragment(),
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+
+        firebaseAnalytics = Firebase.analytics
         if (getView() == null) {
             return
         }
         val arguments = arguments
+
+        signInBtn.setOnClickListener {
+            SigninFragment.newInstance().show(childFragmentManager, "")
+            firebaseAnalytics.logEvent("login_chat"){}
+        }
 
         recyclerView = view.findViewById(R.id.chat_recycler_view)
         editText = view.findViewById(R.id.message_edit_text)
@@ -112,14 +122,10 @@ class ChatFragment : BaseDialogFragment(),
             viewLifecycleOwner,
             androidx.lifecycle.Observer { response ->
                 if (response == null) {
-                    signinParent.visibility = View.VISIBLE
-                    chatParent.visibility = View.GONE
+                    emptyView.visibility = View.VISIBLE
                     return@Observer
                 }
-
-                signinParent.visibility = View.GONE
-                chatParent.visibility = View.VISIBLE
-
+                emptyView.visibility = View.GONE
             })
     }
 

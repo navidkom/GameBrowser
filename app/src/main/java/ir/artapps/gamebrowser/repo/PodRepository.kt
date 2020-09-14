@@ -18,7 +18,7 @@ interface PodRepository {
     suspend fun getUserProfile(token: String)
     suspend fun getUserProfile()
     suspend fun signOut()
-    suspend fun updateMeta(name: String, age: Int?, sex: String, avatar: Int)
+    suspend fun updateMeta(name: String, age: Int?, sex: String, avatar: Int): Boolean
 
     //    var profileLiveData: MutableLiveData<UserProfile?>
 //    var signedInLiveData: SingleLiveEvent<Nothing>

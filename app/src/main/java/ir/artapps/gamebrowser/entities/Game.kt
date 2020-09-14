@@ -56,7 +56,11 @@ data class Game(
 
     var userPostInfo: UserPostInfo? = null,
 
-    var color: Int? = null
+    var color: Int? = null,
+
+    var colorTransparent: Int? = null,
+
+    var colorDark: Int? = null
 
 ) : Parcelable{
     companion object {

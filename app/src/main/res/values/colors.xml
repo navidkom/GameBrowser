@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/Background</color>
-    <color name="colorPrimaryDark">@color/DarkBackground</color>
+    <color name="colorPrimary">@color/figmaBlue</color>
+    <color name="colorPrimaryDark">@color/figmaBlueDark</color>
     <color name="colorPrimaryVeryDark">#540000</color>
     <color name="colorPrimaryLight">#f9683a</color>
     <color name="colorAccent">#ffffff</color>
@@ -15,10 +15,31 @@
     <color name="figmaBlue">#70CBD0</color>
     <color name="figmaGreen">#B0D235</color>
 
+    <color name="figmaPinkTransparent">#F79FCB</color>
+    <color name="figmaYellowTransparent">#FFDC9F</color>
+    <color name="figmaBlueTransparent">#B7E5E7</color>
+    <color name="figmaGreenTransparent">#D7E89A</color>
+
+    <color name="figmaPinkDark">#9F1057</color>
+    <color name="figmaYellowDark">#FF7600</color>
+    <color name="figmaBlueDark">#2C8388</color>
+    <color name="figmaGreenDark">#FF7300</color>
+
     <color name="color1">@color/figmaPink</color>
     <color name="color2">@color/figmaYellow</color>
     <color name="color3">@color/figmaBlue</color>
     <color name="color4">@color/figmaGreen</color>
+
+    <color name="color1Transparent">@color/figmaPinkTransparent</color>
+    <color name="color2Transparent">@color/figmaYellowTransparent</color>
+    <color name="color3Transparent">@color/figmaBlueTransparent</color>
+    <color name="color4Transparent">@color/figmaGreenTransparent</color>
+
+    <color name="color1Dark">@color/figmaPinkDark</color>
+    <color name="color2Dark">@color/figmaYellowDark</color>
+    <color name="color3Dark">@color/figmaBlueDark</color>
+    <color name="color4Dark">@color/figmaGreenDark</color>
+
 
 
 

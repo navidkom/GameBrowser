@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,11 +18,10 @@ import kotlinx.android.synthetic.main.edit_profile_fragment.toolbar
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.lang.Exception
 
-class EditProfileFragment : BaseDialogFragment(), AvatarAdapter.OnItemClickListener {
+class EditProfileFragment : DialogFragment(), AvatarAdapter.OnItemClickListener {
 
     private val viewModel: ProfileViewModel by sharedViewModel()
-    private var avatar: Int = 0
-
+    lateinit var listener : AvatarSelection
     companion object {
         fun newInstance() = EditProfileFragment()
     }
@@ -38,8 +38,6 @@ class EditProfileFragment : BaseDialogFragment(), AvatarAdapter.OnItemClickListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getUserProfile()
-
         val adapter = AvatarAdapter().apply {
             list = listOf( ContextCompat.getDrawable(requireContext(), R.drawable.avatar1), ContextCompat.getDrawable(requireContext(), R.drawable.avatar2), ContextCompat.getDrawable(requireContext(), R.drawable.avatar3),
                 ContextCompat.getDrawable(requireContext(), R.drawable.avatar4), ContextCompat.getDrawable(requireContext(), R.drawable.avatar5), ContextCompat.getDrawable(requireContext(), R.drawable.avatar6) ,
@@ -48,65 +46,34 @@ class EditProfileFragment : BaseDialogFragment(), AvatarAdapter.OnItemClickListe
                 ContextCompat.getDrawable(requireContext(), R.drawable.avatar13), ContextCompat.getDrawable(requireContext(), R.drawable.avatar14), ContextCompat.getDrawable(requireContext(), R.drawable.avatar15) ,
                 ContextCompat.getDrawable(requireContext(), R.drawable.avatar16), ContextCompat.getDrawable(requireContext(), R.drawable.avatar17), ContextCompat.getDrawable(requireContext(), R.drawable.avatar18) ,
                 ContextCompat.getDrawable(requireContext(), R.drawable.avatar19), ContextCompat.getDrawable(requireContext(), R.drawable.avatar20), ContextCompat.getDrawable(requireContext(), R.drawable.avatar21) ) as List<Drawable>
-
             mlistener = this@EditProfileFragment
         }
         recyclerView.layoutManager = LinearLayoutManager(requireContext(),RecyclerView.HORIZONTAL, false )
-        adapter.selectedItem = viewModel.profileLiveData.value?.avatar
+        adapter.selectedItem = viewModel.tempAvatar
         recyclerView.adapter = adapter
 
-        viewModel.profileLiveData.value?.avatar?.let { recyclerView.scrollToPosition(it - 1) }
+        viewModel.tempAvatar.let { recyclerView.scrollToPosition(it - 1) }
 
         toolbar?.apply {
-            title = "ویرایش پروفایل"
+            title = "انتخاب آواتار"
             context?.let {
                 setTitleTextColor(ContextCompat.getColor(it, R.color.white))
             }
-            setNavigationIcon(R.drawable.ic_nav_back)
+            setNavigationIcon(R.drawable.ic_cross)
+
             setNavigationOnClickListener { dismiss() }
         }
-
-        submitBtn.setOnClickListener {
-            val age = try {
-                ageEdt.text.toString().toInt()
-            } catch (e: Exception) {
-                null
-            }
-
-            val sex = if(rbBoy.isChecked) "boy" else "girl"
-            viewModel.updateMeta(kidzyNameEdt.text.toString(), age, sex, avatar  )
-        }
-
-
-        viewModel.profileLiveData.observe(viewLifecycleOwner, Observer { response ->
-            if (response == null) {
-                signinParent.visibility = View.VISIBLE
-                profileParent.visibility = View.GONE
-                return@Observer
-            }
-
-            avatar = response.avatar
-
-            signinParent.visibility = View.GONE
-            profileParent.visibility = View.VISIBLE
-
-            response.kidzyName?.let {
-                kidzyNameEdt.setText( it )
-            }
-
-            response.age?.let {
-                ageEdt.setText( it.toString() )
-            }
-
-            if(response.sex.toString() == "girl"){
-                rbGirl.isChecked = true
-            } else if (response.sex.toString() == "boy") {
-                rbBoy.isChecked = true
-            }
-        })
     }
 
     override fun onItemClick(view: View?, position: Int) {
-        avatar = position + 1
+        viewModel.tempAvatar = position + 1
+        if(::listener.isInitialized){
+            listener.avatarSelectesd(viewModel.tempAvatar)
+        }
+        dismiss()
+    }
+
+    interface AvatarSelection{
+        fun avatarSelectesd(index: Int)
     }
 }

@@ -10,6 +10,7 @@ import ir.artapps.gamebrowser.remote.PodRemoteDataSource
 import ir.artapps.gamebrowser.ui.util.preferences.SharedPref
 import ir.artapps.gamebrowser.ui.util.preferences.SharedPrefKeys
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 /**
@@ -65,16 +66,16 @@ class PodRepositoryImpl(
             token = SharedPref.DEFAULT.getString(SharedPrefKeys.TOKEN, "")
             refreshToken = SharedPref.DEFAULT.getString(SharedPrefKeys.REFRESH_TOKEN, "")
             withContext(Dispatchers.IO) {
+                delay(3000)
                 updateToken()
             }
+
             profile = SharedPref.DEFAULT.getParcelable(
                 SharedPrefKeys.PROFILE,
                 null,
                 UserProfile::class.java
             )
-
             profileLiveData.postValue(profile)
-//            return profile
         } else {
             profileLiveData.postValue(null)
         }
@@ -97,7 +98,6 @@ class PodRepositoryImpl(
             profileLiveData.postValue(result)
             remote.follow(token!!)
         }
-
     }
 
     private suspend fun getMeta() {
@@ -116,7 +116,7 @@ class PodRepositoryImpl(
 
     }
 
-    override suspend fun updateMeta(name: String, age: Int?, sex: String, avatar: Int) {
+    override suspend fun updateMeta(name: String, age: Int?, sex: String, avatar: Int): Boolean {
         val model = ClientMetadata().apply {
             kidzyName = name
             this.age = age
@@ -131,11 +131,15 @@ class PodRepositoryImpl(
                     Gson().toJson(model, ClientMetadata::class.java)
                 )
             }
-        } catch (e: Exception) { }
-        getMeta()
-        SharedPref.DEFAULT.storeParcelable(SharedPrefKeys.PROFILE, profile)
-        profileLiveData.postValue(profile)
 
+            getMeta()
+            SharedPref.DEFAULT.storeParcelable(SharedPrefKeys.PROFILE, profile)
+            profileLiveData.postValue(profile)
+
+            return true
+        } catch (e: Exception) {
+            return false
+        }
     }
 
     override suspend fun signOut() {

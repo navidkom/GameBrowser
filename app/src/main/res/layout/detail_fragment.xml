@@ -59,7 +59,7 @@
                     app:layout_collapseMode="parallax" />
 
                 <Button
-                    android:id="@+id/play_btn"
+                    android:id="@+id/playBtnCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|bottom"

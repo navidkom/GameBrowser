@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
+    android:layoutDirection="rtl"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -15,97 +16,11 @@
         app:subtitleTextColor="@color/white"
         app:titleTextColor="@color/white" />
 
-    <LinearLayout
-        android:id="@+id/signinParent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:layout_margin="12dp"
-            android:textSize="16sp"
-            android:text="کیدزی ای عزیز!\n برای مشاهده اطلاعات پروفایل نیاز است ابتدا وارد حساب کاربری خود شوید." />
-
-        <Button
-            android:id="@+id/signin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="ورود به حساب کاربری" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/profileParent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/kidzyNameEdt"
-                android:layout_width="wrap_content"
-                android:ems="12"
-                android:layout_height="wrap_content"
-                android:hint="نام مستعار"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ageEdt"
-                android:layout_width="wrap_content"
-                android:inputType="number"
-                android:ems="12"
-                android:layout_height="wrap_content"
-                android:hint="سن"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <RadioGroup
-            android:id="@+id/rg"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <RadioButton
-                android:id="@+id/rbBoy"
-                android:text="پسر"
-                android:layout_width="wrap_content"
-                android:layout_margin="12dp"
-                android:layout_height="wrap_content"/>
-            <RadioButton
-                android:id="@+id/rbGirl"
-                android:text="دختر"
-                android:layout_margin="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RadioGroup>
-        <Button
-            android:id="@+id/submitBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ems="12"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="ثبت تغییرات" />
-
-    </LinearLayout>
 
 </LinearLayout>

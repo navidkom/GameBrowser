@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,7 @@ class FavoriteFragment : BaseDialogFragment(), FavoriteRecyclerViewAdapter.OnIte
 
 
         toolbar.title = "علاقه‌مندی ها"
+        toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         if (activity is MainActivity) {
             toolbar.setNavigationIcon(R.drawable.ic_nav_back)
             toolbar.setNavigationOnClickListener {
@@ -69,7 +71,7 @@ class FavoriteFragment : BaseDialogFragment(), FavoriteRecyclerViewAdapter.OnIte
         }
 
         recyclerView?.apply {
-            val linearLayoutManager = GridLayoutManager(context, 2)
+            val linearLayoutManager = GridLayoutManager(context, 3)
             linearLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     return 1

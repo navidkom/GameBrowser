@@ -7,6 +7,18 @@
     android:focusable="true"
     android:layoutDirection="rtl">
 
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_nav_back"
+        android:translationZ="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
     <FrameLayout
         android:id="@+id/bannerParent"
         android:layout_width="match_parent"
@@ -43,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
         android:elevation="4dp"
         android:focusable="true"
@@ -111,49 +123,76 @@
 
         <TextView
             android:id="@+id/gameTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="Hexa Merge"
             android:textSize="20sp"
+            android:gravity="start"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/inputRatingBar"
-            app:layout_constraintStart_toEndOf="@id/avatarParent" />
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.6"
+            app:layout_constraintStart_toEndOf="@id/avatarParent"
+            app:layout_constraintEnd_toStartOf="@id/likeParent"/>
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/inputRatingBar"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="28dp"
-            android:isIndicator="false"
+            android:layout_marginTop="8dp"
             android:clickable="true"
             android:focusable="true"
+            android:isIndicator="false"
             android:numStars="5"
             android:rating="0"
             android:stepSize="0.1"
             android:translationZ="3dp"
-            style="?android:attr/ratingBarStyleSmall"
-            android:theme="@style/RatingBar"
-            app:layout_constraintBottom_toBottomOf="@id/avatarParent"
+            app:layout_constraintTop_toBottomOf="@id/gameTitle"
             app:layout_constraintStart_toEndOf="@id/avatarParent" />
 
-        <ImageButton
-            android:id="@+id/play_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|bottom"
-            android:layout_marginStart="56dp"
-            android:layout_marginBottom="64dp"
-            android:background="@drawable/ic_play_pink"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <FrameLayout
+            android:layout_width="90dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardCornerRadius="19dp"
+                app:cardBackgroundColor="#424243"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/playBtnCardView"
+                    android:layout_width="match_parent"
+                    app:cardCornerRadius="20dp"
+                    android:layout_margin="1dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="86dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="start|bottom"
+                        android:background="@drawable/ic_play_pink" />
+
+                </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/likeParent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="4dp"
             android:gravity="bottom"
             android:orientation="horizontal"
             android:padding="4dp"
@@ -182,7 +221,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:gravity="bottom"
+            android:layout_marginEnd="4dp"
+            android:gravity="top"
             android:orientation="horizontal"
             android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -207,15 +247,26 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <Space
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/bannerParent" />
+
+    <Space
+        android:id="@+id/spacer1"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:translationY="-20dp"
+        android:layout_marginBottom="-25dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bannerParent">
+        app:layout_constraintBottom_toBottomOf="@id/spacer1"
+        app:layout_constraintTop_toTopOf="@+id/spacer">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -264,11 +315,11 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/ageRangeTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:lineSpacingMultiplier="1.2"
                             android:text="+۳\nسال"
                             android:textColor="@color/white"
                             android:textSize="20sp"
@@ -315,14 +366,17 @@
                             android:src="@drawable/ic_fekri" />
 
                         <TextView
+                            android:id="@+id/genereTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
                             android:gravity="center"
                             android:lineSpacingMultiplier="1.2"
                             android:text="فکری"
+                            android:singleLine="true"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -366,14 +420,17 @@
                             android:src="@drawable/ic_recordi" />
 
                         <TextView
+                            android:id="@+id/typeTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
                             android:gravity="center"
                             android:lineSpacingMultiplier="1.2"
                             android:text="رکوردی"
+                            android:singleLine="true"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </FrameLayout>
@@ -406,63 +463,171 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="16dp"
-                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/ratingText"
+                            android:id="@+id/ratingTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:alpha="0.5"
-                            android:gravity="bottom|center_horizontal"
-                            android:lineSpacingMultiplier="1.2"
-                            android:text="۴.۵"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.5"
+                            android:layout_weight="1"
                             android:gravity="center"
-                            android:text="امتیاز"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
+                            android:text="۰\nامتیاز"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </FrameLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/summaryTextView"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scoreParent" />
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/tagIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_tag" />
 
-            <TextView
-                android:id="@+id/gameplayTextView"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/tagsParent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scoreParent" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="25dp"
+                android:scrollbarStyle="outsideOverlay">
 
-            <TextView
-                android:id="@+id/parentalInfoTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scoreParent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/summaryParent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp">
+
+                        <TextView
+                            android:id="@+id/summaryTitleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="توضیحات"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/summaryUnderline"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@color/black"
+                            app:layout_constraintEnd_toEndOf="@id/summaryTitleTextView"
+                            app:layout_constraintStart_toStartOf="@id/summaryTitleTextView"
+                            app:layout_constraintTop_toBottomOf="@id/summaryTitleTextView" />
+
+                        <TextView
+                            android:id="@+id/summaryTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/summaryUnderline" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/gameplayParent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp">
+
+                        <TextView
+                            android:id="@+id/gameplayTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="نحوه انجام بازی"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/gameplayUnderLine"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@color/black"
+                            app:layout_constraintEnd_toEndOf="@id/gameplayTitle"
+                            app:layout_constraintStart_toStartOf="@id/gameplayTitle"
+                            app:layout_constraintTop_toBottomOf="@id/gameplayTitle" />
+
+                        <TextView
+                            android:id="@+id/gameplayTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/summaryUnderline" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/parentalInfoParent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp">
+
+                        <TextView
+                            android:id="@+id/parentalInfoTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="اطلاعات والدین"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/parentalInfoUnderLine"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@color/black"
+                            app:layout_constraintEnd_toEndOf="@id/parentalInfoTitle"
+                            app:layout_constraintStart_toStartOf="@id/parentalInfoTitle"
+                            app:layout_constraintTop_toBottomOf="@id/parentalInfoTitle" />
+
+                        <TextView
+                            android:id="@+id/parentalInfoTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/parentalInfoUnderLine" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
